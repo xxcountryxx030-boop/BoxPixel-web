@@ -7,6 +7,8 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
   <style>
     * {
       margin: 0;
@@ -49,15 +51,12 @@
       text-align: left;
       border-radius: 12px;
       cursor: pointer;
-      transition: 0.25s;
       width: 100%;
-      font-size: 14px;
+      transition: 0.2s;
     }
 
     .menu button:hover {
       background: rgba(59,130,246,0.15);
-      color: white;
-      transform: translateX(5px);
     }
 
     .menu button.active {
@@ -76,7 +75,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .btn {
@@ -92,44 +91,25 @@
       background: #2563eb;
     }
 
-    /* HERO */
-    .hero-title {
-      font-size: 60px;
-      font-weight: 800;
-      background: linear-gradient(90deg, #60a5fa, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-sub {
-      margin-top: 10px;
-      color: #cbd5e1;
-    }
-
-    .section {
-      margin-top: 30px;
-    }
-
     .card {
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.05);
-      padding: 18px;
-      border-radius: 15px;
-      margin-bottom: 12px;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 10px;
     }
 
     /* CHAT */
     .chat-box {
-      height: 300px;
+      height: 350px;
       overflow-y: auto;
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.25);
       padding: 10px;
       border-radius: 12px;
       margin-bottom: 10px;
     }
 
     .msg {
-      margin: 5px 0;
+      margin: 6px 0;
       font-size: 14px;
     }
 
@@ -145,6 +125,7 @@
       border: none;
       outline: none;
     }
+
   </style>
 </head>
 
@@ -156,10 +137,7 @@
 
     <div class="menu">
       <button class="active" onclick="setPage('home', this)">🏠 Inicio</button>
-      <button onclick="setPage('panel', this)">📊 Panel</button>
       <button onclick="setPage('comunidad', this)">💬 Comunidad</button>
-      <button onclick="setPage('ai', this)">🤖 BoxPixel AI</button>
-      <button onclick="setPage('ajustes', this)">⚙️ Ajustes</button>
     </div>
   </div>
 
@@ -168,7 +146,7 @@
 
     <div class="topbar">
       <h2 id="title">Inicio</h2>
-      <button class="btn">Acción</button>
+      <button class="btn" onclick="loadMessages()">Actualizar</button>
     </div>
 
     <div id="content"></div>
@@ -176,6 +154,12 @@
   </div>
 
   <script>
+    // 🔥 CONECTA SUPABASE (CAMBIA ESTO)
+    const supabaseClient = supabase.createClient(
+      "TU_SUPABASE_URL",
+      "TU_SUPABASE_ANON_KEY"
+    );
+
     function setPage(page, btn) {
 
       document.querySelectorAll(".menu button")
@@ -188,23 +172,10 @@
       if (page === "home") {
         title.innerText = "Inicio";
         content.innerHTML = `
-          <div class="hero-title">BoxPixelWeb</div>
-          <div class="hero-sub">Web moderna con chat y AI 🚀</div>
-
-          <div class="section">
-            <div class="card">⚡ Rápido</div>
-            <div class="card">🎨 Moderno</div>
-            <div class="card">📱 Responsive</div>
+          <div class="card">
+            <h2>🚀 BoxPixelWeb</h2>
+            <p>Chat moderno con Supabase funcionando</p>
           </div>
-        `;
-      }
-
-      if (page === "panel") {
-        title.innerText = "Panel";
-        content.innerHTML = `
-          <div class="card">👥 Usuarios: 15</div>
-          <div class="card">💬 Mensajes: 92</div>
-          <div class="card">🟢 Estado: Online</div>
         `;
       }
 
@@ -213,11 +184,9 @@
 
         content.innerHTML = `
           <div class="card">
-            <h3>💬 Chat Comunidad</h3>
+            <h3>💬 Chat en tiempo real</h3>
 
-            <div class="chat-box" id="chat">
-              <div class="msg">👤 Sistema: Bienvenido al chat</div>
-            </div>
+            <div class="chat-box" id="chat"></div>
 
             <div class="input-box">
               <input id="msg" placeholder="Escribe un mensaje..."/>
@@ -225,67 +194,56 @@
             </div>
           </div>
         `;
-      }
 
-      if (page === "ai") {
-        title.innerText = "BoxPixel AI";
-
-        content.innerHTML = `
-          <div class="card">
-            <h3>🤖 BoxPixel AI</h3>
-            <p>Pregúntame algo (simulado)</p>
-
-            <div class="chat-box" id="aiChat">
-              <div class="msg">🤖 AI: Hola, soy BoxPixel AI</div>
-            </div>
-
-            <div class="input-box">
-              <input id="aiMsg" placeholder="Pregunta algo..."/>
-              <button class="btn" onclick="aiReply()">Enviar</button>
-            </div>
-          </div>
-        `;
-      }
-
-      if (page === "ajustes") {
-        title.innerText = "Ajustes";
-        content.innerHTML = `
-          <div class="card">🌙 Tema: Oscuro</div>
-          <div class="card">🔔 Notificaciones: ON</div>
-        `;
+        loadMessages();
       }
     }
 
-    function sendMsg() {
+    async function sendMsg() {
       const input = document.getElementById("msg");
-      const chat = document.getElementById("chat");
+      if (!input.value.trim()) return;
 
-      if (!input.value) return;
+      await supabaseClient.from("messages").insert([
+        {
+          username: "Dylan",
+          message: input.value
+        }
+      ]);
 
-      chat.innerHTML += `<div class="msg">🧑 Tú: ${input.value}</div>`;
       input.value = "";
+      loadMessages();
+    }
+
+    async function loadMessages() {
+      const { data } = await supabaseClient
+        .from("messages")
+        .select("*")
+        .order("id", { ascending: true });
+
+      const chat = document.getElementById("chat");
+      if (!chat) return;
+
+      chat.innerHTML = "";
+
+      data.forEach(m => {
+        chat.innerHTML += `<div class="msg">🧑 ${m.username}: ${m.message}</div>`;
+      });
 
       chat.scrollTop = chat.scrollHeight;
     }
 
-    function aiReply() {
-      const input = document.getElementById("aiMsg");
-      const chat = document.getElementById("aiChat");
+    // tiempo real
+    supabaseClient
+      .channel('messages')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'messages'
+      }, () => {
+        loadMessages();
+      })
+      .subscribe();
 
-      if (!input.value) return;
-
-      chat.innerHTML += `<div class="msg">🧑 Tú: ${input.value}</div>`;
-
-      setTimeout(() => {
-        chat.innerHTML += `<div class="msg">🤖 AI: Estoy procesando "${input.value}"...</div>`;
-        chat.scrollTop = chat.scrollHeight;
-      }, 600);
-
-      input.value = "";
-    }
-
-    // iniciar en home
-    document.querySelector(".menu button").click();
   </script>
 
 </body>

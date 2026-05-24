@@ -1,250 +1,288 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BoxPixelWeb</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BoxPixelWeb</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
 
-    body {
-      display: flex;
-      height: 100vh;
-      background: radial-gradient(circle at top, #1e293b, #0f172a);
-      color: white;
-      overflow: hidden;
-    }
+body{
+display:flex;
+height:100vh;
+background:radial-gradient(circle at top,#1e293b,#0f172a);
+color:white;
+overflow:hidden;
+}
 
-    /* SIDEBAR */
-    .sidebar {
-      width: 260px;
-      background: rgba(17, 24, 39, 0.7);
-      backdrop-filter: blur(12px);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid rgba(255,255,255,0.05);
-    }
+/* SIDEBAR */
+.sidebar{
+width:260px;
+background:rgba(17,24,39,.7);
+backdrop-filter:blur(12px);
+padding:20px;
+display:flex;
+flex-direction:column;
+border-right:1px solid rgba(255,255,255,.05);
+}
 
-    .logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: #60a5fa;
-      margin-bottom: 25px;
-    }
+.logo{
+font-size:20px;
+font-weight:700;
+color:#60a5fa;
+margin-bottom:20px;
+}
 
-    .menu button {
-      background: transparent;
-      border: none;
-      color: #cbd5e1;
-      padding: 12px;
-      text-align: left;
-      border-radius: 12px;
-      cursor: pointer;
-      width: 100%;
-      transition: 0.2s;
-    }
+.menu button{
+background:transparent;
+border:none;
+color:#cbd5e1;
+padding:12px;
+text-align:left;
+border-radius:12px;
+cursor:pointer;
+transition:.2s;
+width:100%;
+}
 
-    .menu button:hover {
-      background: rgba(59,130,246,0.15);
-    }
+.menu button:hover{background:rgba(59,130,246,.15)}
+.menu button.active{background:linear-gradient(90deg,#3b82f6,#6366f1);color:white}
 
-    .menu button.active {
-      background: linear-gradient(90deg, #3b82f6, #6366f1);
-      color: white;
-    }
+/* MAIN */
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
 
-    /* MAIN */
-    .main {
-      flex: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+.btn{
+padding:10px 14px;
+border:none;
+border-radius:12px;
+background:#3b82f6;
+color:white;
+cursor:pointer;
+}
 
-    .btn {
-      padding: 10px 14px;
-      border: none;
-      border-radius: 12px;
-      background: #3b82f6;
-      color: white;
-      cursor: pointer;
-    }
+.btn:hover{background:#2563eb}
 
-    .btn:hover {
-      background: #2563eb;
-    }
+/* HOME */
+.hero{
+text-align:center;
+margin-top:120px;
+}
 
-    .card {
-      background: rgba(255,255,255,0.04);
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-    }
+.hero h1{
+font-size:60px;
+font-weight:800;
+background:linear-gradient(90deg,#60a5fa,#a78bfa);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
 
-    /* CHAT */
-    .chat-box {
-      height: 350px;
-      overflow-y: auto;
-      background: rgba(0,0,0,0.25);
-      padding: 10px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-    }
+.hero p{
+color:#cbd5e1;
+margin-top:10px;
+}
 
-    .msg {
-      margin: 6px 0;
-      font-size: 14px;
-    }
+.section{margin-top:40px}
 
-    .input-box {
-      display: flex;
-      gap: 10px;
-    }
+.card{
+background:rgba(255,255,255,.04);
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+}
 
-    input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-    }
+/* CHAT */
+.chat-box{
+height:320px;
+overflow-y:auto;
+background:rgba(0,0,0,.25);
+padding:10px;
+border-radius:12px;
+margin-bottom:10px;
+}
 
-  </style>
+.msg{margin:5px 0;font-size:14px}
+
+.input-box{display:flex;gap:10px}
+
+input{
+flex:1;
+padding:10px;
+border-radius:10px;
+border:none;
+outline:none;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="logo">⚡ BoxPixelWeb</div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+<div class="logo">⚡ BoxPixelWeb</div>
 
-    <div class="menu">
-      <button class="active" onclick="setPage('home', this)">🏠 Inicio</button>
-      <button onclick="setPage('comunidad', this)">💬 Comunidad</button>
-    </div>
-  </div>
+<div class="menu">
+<button class="active" onclick="setPage('home',this)">🏠 Inicio</button>
+<button onclick="setPage('panel',this)">📊 Panel</button>
+<button onclick="setPage('comunidad',this)">💬 Comunidad</button>
+<button onclick="setPage('ai',this)">🤖 BoxPixel AI</button>
+<button onclick="setPage('ajustes',this)">⚙️ Ajustes</button>
+</div>
+</div>
 
-  <!-- MAIN -->
-  <div class="main">
+<!-- MAIN -->
+<div class="main">
 
-    <div class="topbar">
-      <h2 id="title">Inicio</h2>
-      <button class="btn" onclick="loadMessages()">Actualizar</button>
-    </div>
+<div class="topbar">
+<h2 id="title">Inicio</h2>
+<button class="btn" onclick="loadMessages()">Actualizar</button>
+</div>
 
-    <div id="content"></div>
+<div id="content"></div>
 
-  </div>
+</div>
 
-  <script>
-    // 🔥 CONECTA SUPABASE (CAMBIA ESTO)
-    const supabaseClient = supabase.createClient(
-      "TU_SUPABASE_URL",
-      "TU_SUPABASE_ANON_KEY"
-    );
+<script>
 
-    function setPage(page, btn) {
+/* 🔥 SUPABASE (CAMBIA ESTO) */
+const supabaseClient = supabase.createClient(
+"TU_SUPABASE_URL",
+"TU_SUPABASE_ANON_KEY"
+);
 
-      document.querySelectorAll(".menu button")
-        .forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+/* NAV */
+function setPage(page,btn){
 
-      const title = document.getElementById("title");
-      const content = document.getElementById("content");
+document.querySelectorAll(".menu button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
 
-      if (page === "home") {
-        title.innerText = "Inicio";
-        content.innerHTML = `
-          <div class="card">
-            <h2>🚀 BoxPixelWeb</h2>
-            <p>Chat moderno con Supabase funcionando</p>
-          </div>
-        `;
-      }
+const title=document.getElementById("title");
+const content=document.getElementById("content");
 
-      if (page === "comunidad") {
-        title.innerText = "Comunidad";
+/* HOME */
+if(page==="home"){
+title.innerText="Inicio";
+content.innerHTML=`
+<div class="hero">
+<h1>BoxPixelWeb</h1>
+<p>Web moderna con chat + AI + Supabase 🚀</p>
+</div>
 
-        content.innerHTML = `
-          <div class="card">
-            <h3>💬 Chat en tiempo real</h3>
+<div class="section">
+<div class="card">⚡ Rápido</div>
+<div class="card">🎨 Diseño moderno</div>
+<div class="card">📱 Responsive</div>
+</div>
+`;
+}
 
-            <div class="chat-box" id="chat"></div>
+/* PANEL */
+if(page==="panel"){
+title.innerText="Panel";
+content.innerHTML=`
+<div class="card">👥 Usuarios: 18</div>
+<div class="card">💬 Mensajes: activos</div>
+<div class="card">🟢 Estado: Online</div>
+`;
+}
 
-            <div class="input-box">
-              <input id="msg" placeholder="Escribe un mensaje..."/>
-              <button class="btn" onclick="sendMsg()">Enviar</button>
-            </div>
-          </div>
-        `;
+/* COMUNIDAD (CHAT) */
+if(page==="comunidad"){
+title.innerText="Comunidad";
 
-        loadMessages();
-      }
-    }
+content.innerHTML=`
+<div class="card">
+<h3>💬 Chat en tiempo real</h3>
 
-    async function sendMsg() {
-      const input = document.getElementById("msg");
-      if (!input.value.trim()) return;
+<div class="chat-box" id="chat"></div>
 
-      await supabaseClient.from("messages").insert([
-        {
-          username: "Dylan",
-          message: input.value
-        }
-      ]);
+<div class="input-box">
+<input id="msg" placeholder="Escribe un mensaje..."/>
+<button class="btn" onclick="sendMsg()">Enviar</button>
+</div>
+</div>
+`;
 
-      input.value = "";
-      loadMessages();
-    }
+loadMessages();
+}
 
-    async function loadMessages() {
-      const { data } = await supabaseClient
-        .from("messages")
-        .select("*")
-        .order("id", { ascending: true });
+/* AI */
+if(page==="ai"){
+title.innerText="BoxPixel AI";
+content.innerHTML=`
+<div class="card">
+<h3>🤖 BoxPixel AI</h3>
+<p>Simulado por ahora 😏</p>
+</div>
+`;
+}
 
-      const chat = document.getElementById("chat");
-      if (!chat) return;
+/* AJUSTES */
+if(page==="ajustes"){
+title.innerText="Ajustes";
+content.innerHTML=`
+<div class="card">🌙 Tema oscuro</div>
+<div class="card">🔔 Notificaciones ON</div>
+`;
+}
 
-      chat.innerHTML = "";
+}
 
-      data.forEach(m => {
-        chat.innerHTML += `<div class="msg">🧑 ${m.username}: ${m.message}</div>`;
-      });
+/* SEND MSG */
+async function sendMsg(){
+const input=document.getElementById("msg");
+if(!input.value.trim())return;
 
-      chat.scrollTop = chat.scrollHeight;
-    }
+await supabaseClient.from("messages").insert([
+{username:"Dylan",message:input.value}
+]);
 
-    // tiempo real
-    supabaseClient
-      .channel('messages')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'messages'
-      }, () => {
-        loadMessages();
-      })
-      .subscribe();
+input.value="";
+loadMessages();
+}
 
-  </script>
+/* LOAD MSG */
+async function loadMessages(){
+const {data}=await supabaseClient
+.from("messages")
+.select("*")
+.order("id",{ascending:true});
+
+const chat=document.getElementById("chat");
+if(!chat)return;
+
+chat.innerHTML="";
+data.forEach(m=>{
+chat.innerHTML+=`<div class="msg">🧑 ${m.username}: ${m.message}</div>`;
+});
+}
+
+/* REALTIME */
+supabaseClient
+.channel('messages')
+.on('postgres_changes',{
+event:'*',
+schema:'public',
+table:'messages'
+},()=>loadMessages())
+.subscribe();
+
+</script>
 
 </body>
 </html>

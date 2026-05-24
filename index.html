@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+# BoxPixelsWeb — UI Upgrade 🚀
 
-<title>BoxPixelsWeb</title>
+## Reemplazá TODO tu `<style>` por este:
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-
+```css
 *{
     margin:0;
     padding:0;
@@ -19,8 +10,12 @@
     font-family:'Orbitron',sans-serif;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-    background:#050816;
+    background:#030712;
     color:white;
     overflow-x:hidden;
 }
@@ -29,23 +24,41 @@ body{
 
 .background{
     position:fixed;
-    width:100%;
-    height:100%;
+    inset:0;
+
     background:
-    radial-gradient(circle at top,#2563eb 0%,#050816 60%);
-    z-index:-2;
+    radial-gradient(circle at top,#2563eb 0%,#030712 60%);
+
+    z-index:-3;
 }
 
 .grid{
     position:fixed;
-    width:100%;
-    height:100%;
+    inset:0;
 
     background-image:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
 
-    background-size:40px 40px;
+    background-size:35px 35px;
+
+    z-index:-2;
+}
+
+.glow{
+    position:fixed;
+
+    width:500px;
+    height:500px;
+
+    background:#2563eb;
+
+    filter:blur(160px);
+
+    opacity:0.2;
+
+    top:-120px;
+    right:-120px;
 
     z-index:-1;
 }
@@ -54,17 +67,18 @@ body{
 
 nav{
     width:100%;
-    padding:20px;
+
+    padding:18px 30px;
 
     display:flex;
     justify-content:space-between;
     align-items:center;
 
-    background:rgba(0,0,0,0.4);
+    background:rgba(0,0,0,0.35);
 
-    backdrop-filter:blur(10px);
+    backdrop-filter:blur(14px);
 
-    border-bottom:1px solid #3b82f6;
+    border-bottom:1px solid rgba(59,130,246,0.2);
 
     position:sticky;
     top:0;
@@ -73,30 +87,43 @@ nav{
 }
 
 .logo{
-    font-size:28px;
+    font-size:30px;
+    font-weight:bold;
+
+    color:#60a5fa;
+
+    text-shadow:0 0 20px #2563eb;
+}
+
+.menu-btn{
+    font-size:34px;
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.menu-btn:hover{
+    transform:scale(1.1);
     color:#60a5fa;
 }
 
 /* MENU */
-
-.menu-btn{
-    font-size:32px;
-    cursor:pointer;
-}
 
 .side-menu{
 
     position:fixed;
 
     top:0;
-    right:-320px;
+    right:-340px;
 
-    width:300px;
-    height:100%;
+    width:320px;
+    height:100vh;
 
-    background:#0f172a;
+    background:rgba(15,23,42,0.95);
 
-    border-left:1px solid #3b82f6;
+    backdrop-filter:blur(18px);
+
+    border-left:1px solid rgba(59,130,246,0.3);
 
     padding:30px;
 
@@ -108,6 +135,7 @@ nav{
     flex-direction:column;
     gap:20px;
 
+    box-shadow:-10px 0 40px rgba(0,0,0,0.5);
 }
 
 .side-menu.active{
@@ -115,17 +143,21 @@ nav{
 }
 
 .close-btn{
-
-    font-size:28px;
-
+    font-size:30px;
     cursor:pointer;
 
     align-self:flex-end;
 
+    transition:0.3s;
+}
+
+.close-btn:hover{
+    color:#60a5fa;
 }
 
 .side-menu h2{
     color:#60a5fa;
+    margin-bottom:10px;
 }
 
 .side-menu a{
@@ -134,24 +166,27 @@ nav{
 
     text-decoration:none;
 
-    background:#111827;
+    background:rgba(255,255,255,0.05);
 
-    padding:15px;
+    padding:16px;
 
-    border-radius:12px;
+    border-radius:16px;
 
     transition:0.3s;
+
+    border:1px solid rgba(255,255,255,0.06);
 
 }
 
 .side-menu a:hover{
     background:#2563eb;
+    transform:translateX(-5px);
 }
 
-/* HOME */
+/* HERO */
 
 .hero{
-    min-height:90vh;
+    min-height:92vh;
 
     display:flex;
     justify-content:center;
@@ -161,17 +196,47 @@ nav{
 
     text-align:center;
 
-    padding:20px;
+    padding:30px;
 }
 
 .hero h1{
-    font-size:70px;
+    font-size:95px;
+
     color:#60a5fa;
+
+    text-shadow:
+    0 0 20px #2563eb,
+    0 0 50px #2563eb;
 }
 
 .hero p{
     margin-top:20px;
+
+    max-width:700px;
+
     color:#cbd5e1;
+
+    font-size:19px;
+
+    line-height:1.7;
+}
+
+.hero-card{
+
+    margin-top:40px;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(59,130,246,0.2);
+
+    padding:30px;
+
+    border-radius:28px;
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:0 0 40px rgba(37,99,235,0.15);
+
 }
 
 /* BOTONES */
@@ -182,521 +247,259 @@ nav{
     display:flex;
     gap:20px;
     flex-wrap:wrap;
+
+    justify-content:center;
 }
 
 .btn{
-    padding:14px 30px;
+
+    padding:15px 34px;
 
     border:none;
-    border-radius:14px;
+    border-radius:18px;
 
-    background:#2563eb;
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
 
     color:white;
 
     cursor:pointer;
 
     font-size:16px;
+
+    transition:0.3s;
+
+    box-shadow:0 0 25px rgba(37,99,235,0.4);
+
+}
+
+.btn:hover{
+    transform:translateY(-4px) scale(1.03);
+
+    box-shadow:0 0 35px rgba(37,99,235,0.6);
 }
 
 /* COMUNIDAD */
 
 .section{
-    padding:80px 20px;
+    padding:90px 20px;
 }
 
 .section-title{
     text-align:center;
-    font-size:40px;
+
+    font-size:48px;
+
     margin-bottom:50px;
+
     color:#60a5fa;
+
+    text-shadow:0 0 20px #2563eb;
 }
 
 .chat-box{
-    max-width:800px;
+
+    max-width:900px;
 
     margin:auto;
 
     background:rgba(255,255,255,0.05);
 
-    border:1px solid rgba(59,130,246,0.3);
+    border:1px solid rgba(59,130,246,0.25);
 
-    border-radius:20px;
+    border-radius:28px;
 
-    padding:20px;
+    padding:25px;
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:0 0 40px rgba(0,0,0,0.3);
 }
 
 .messages{
-    height:350px;
+    height:420px;
+
     overflow-y:auto;
-    margin-bottom:15px;
+
+    margin-bottom:20px;
+
+    padding-right:10px;
+}
+
+.messages::-webkit-scrollbar{
+    width:8px;
+}
+
+.messages::-webkit-scrollbar-thumb{
+    background:#2563eb;
+    border-radius:20px;
 }
 
 .message{
-    background:#111827;
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:10px;
+
+    background:rgba(17,24,39,0.9);
+
+    padding:14px;
+
+    border-radius:18px;
+
+    margin-bottom:14px;
+
+    border:1px solid rgba(255,255,255,0.05);
+
+    animation:fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0px);
+    }
+
 }
 
 .chat-input{
     display:flex;
-    gap:10px;
+    gap:12px;
 }
 
 .chat-input input{
+
     flex:1;
 
-    padding:14px;
+    padding:16px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:16px;
 
     background:#0f172a;
 
     color:white;
 
     outline:none;
+
+    font-size:15px;
+
+    border:1px solid rgba(255,255,255,0.08);
+
 }
 
 .status{
-    margin-top:15px;
+    margin-top:18px;
+
     text-align:center;
+
     color:#60a5fa;
 }
 
+/* FOOTER */
+
 footer{
     text-align:center;
-    padding:30px;
+
+    padding:40px;
+
     color:#94a3b8;
+
+    border-top:1px solid rgba(255,255,255,0.05);
 }
 
-</style>
-</head>
+/* RESPONSIVE */
 
-<body>
+@media(max-width:700px){
 
-<div class="background"></div>
+    .hero h1{
+        font-size:55px;
+    }
+
+    .section-title{
+        font-size:36px;
+    }
+
+    .chat-input{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+```
+
+---
+
+## Agregá ESTO debajo de:
+
+```html
 <div class="grid"></div>
+```
 
-<!-- MENU -->
+Poné:
 
-<div class="side-menu" id="sideMenu">
+```html
+<div class="glow"></div>
+```
 
-    <div
-    class="close-btn"
-    onclick="closeMenu()">
-    ✕
-    </div>
+---
 
-    <h2>BoxPixelsWeb</h2>
+## Y reemplazá tu HERO por este:
 
-    <a href="#"
-    onclick="goHome()">
-    🏠 Home
-    </a>
-
-    <a href="#"
-    onclick="openCommunity()">
-    💬 Comunidad
-    </a>
-
-</div>
-
-<!-- NAVBAR -->
-
-<nav>
-
-    <div class="logo">
-        BoxPixelsWeb
-    </div>
-
-    <div
-    class="menu-btn"
-    onclick="toggleMenu()">
-    ☰
-    </div>
-
-</nav>
-
-<!-- HOME -->
-
+```html
 <section
 class="hero"
 id="homeSection">
 
-    <h1>BoxPixelsWeb</h1>
+    <div class="hero-card">
 
-    <p>
-        Plataforma gamer futurista.
-    </p>
+        <h1>BoxPixelsWeb</h1>
 
-    <div class="buttons">
+        <p>
+            Plataforma gamer futurista con comunidad online,
+            chat en tiempo real y diseño estilo launcher.
+        </p>
 
-        <button
-        class="btn"
-        onclick="loginWithGoogle()">
-        Iniciar con Google
-        </button>
-
-        <button
-        class="btn"
-        onclick="openCommunity()">
-        Comunidad
-        </button>
-
-    </div>
-
-</section>
-
-<!-- COMUNIDAD -->
-
-<section
-class="section"
-id="communitySection"
-style="display:none;">
-
-    <h2 class="section-title">
-        Comunidad
-    </h2>
-
-    <div class="chat-box">
-
-        <div
-        class="messages"
-        id="messages">
-        </div>
-
-        <div class="chat-input">
-
-            <input
-            type="text"
-            id="messageInput"
-            placeholder="Escribe un mensaje..."
-            >
+        <div class="buttons">
 
             <button
             class="btn"
-            onclick="sendMessage()">
-            Enviar
+            onclick="loginWithGoogle()">
+            Iniciar con Google
+            </button>
+
+            <button
+            class="btn"
+            onclick="openCommunity()">
+            Explorar Comunidad
             </button>
 
         </div>
 
-        <div
-        class="status"
-        id="status">
-        🔒 Debes iniciar sesión
-        </div>
-
     </div>
 
 </section>
+```
 
-<footer>
-BoxPixelsWeb © 2026
-</footer>
+---
 
-<script>
+# Resultado 🚀
 
-/* MENU */
+✅ UI mucho más moderna
 
-function toggleMenu(){
+✅ Glassmorphism gamer
 
-    document
-    .getElementById("sideMenu")
-    .classList.toggle("active");
+✅ Glow futurista
 
-}
+✅ Animaciones suaves
 
-function closeMenu(){
+✅ Chat mejorado
 
-    document
-    .getElementById("sideMenu")
-    .classList.remove("active");
+✅ Estilo tipo launcher/Discord
 
-}
-
-/* PAGINAS */
-
-function goHome(){
-
-    document
-    .getElementById("homeSection")
-    .style.display = "flex";
-
-    document
-    .getElementById("communitySection")
-    .style.display = "none";
-
-    closeMenu();
-
-}
-
-function openCommunity(){
-
-    document
-    .getElementById("homeSection")
-    .style.display = "none";
-
-    document
-    .getElementById("communitySection")
-    .style.display = "block";
-
-    closeMenu();
-
-}
-
-/* SUPABASE */
-
-const SUPABASE_URL =
-"https://gwibpxgibmraqebetvss.supabase.co";
-
-const SUPABASE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3aWJweGdpYm1yYXFlYmV0dnNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMzY1MTgsImV4cCI6MjA5MjkxMjUxOH0.OTCuIj2NpqkSw8bylyd4gajcNx7Fr7T2m8kf4xMriUA";
-
-const { createClient } = supabase;
-
-const client =
-createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-/* USER */
-
-let currentUser = null;
-
-/* LOGIN GOOGLE */
-
-async function loginWithGoogle(){
-
-    await client.auth.signInWithOAuth({
-
-        provider:"google",
-
-        options:{
-            redirectTo: window.location.href
-        }
-
-    });
-
-}
-
-/* VERIFICAR LOGIN */
-
-async function checkUser(){
-
-    const {
-        data:{ user }
-    } = await client.auth.getUser();
-
-    if(user){
-
-        currentUser = user;
-
-        statusDiv.innerHTML =
-        "🟢 " + user.email;
-
-    }else{
-
-        statusDiv.innerHTML =
-        "🔒 Debes iniciar sesión";
-
-    }
-
-}
-
-/* ELEMENTOS */
-
-const messagesDiv =
-document.getElementById("messages");
-
-const statusDiv =
-document.getElementById("status");
-
-/* DUPLICADOS */
-
-const loadedMessages =
-new Set();
-
-/* CREAR MENSAJE */
-
-function createMessage(id,user,text){
-
-    if(loadedMessages.has(id)) return;
-
-    loadedMessages.add(id);
-
-    const div =
-    document.createElement("div");
-
-    div.className =
-    "message";
-
-    div.innerHTML =
-    `<b>${user}:</b> ${text}`;
-
-    messagesDiv.appendChild(div);
-
-    messagesDiv.scrollTop =
-    messagesDiv.scrollHeight;
-
-}
-
-/* CARGAR MENSAJES */
-
-async function loadMessages(){
-
-    const { data,error } =
-    await client
-    .from("messages")
-    .select("*")
-    .order(
-        "created_at",
-        { ascending:true }
-    );
-
-    if(error){
-
-        console.error(error);
-
-        return;
-
-    }
-
-    data.forEach(msg => {
-
-        createMessage(
-            msg.id,
-            msg.username,
-            msg.text
-        );
-
-    });
-
-}
-
-/* ENVIAR */
-
-async function sendMessage(){
-
-    if(!currentUser){
-
-        alert(
-        "Debes iniciar sesión con Google"
-        );
-
-        return;
-
-    }
-
-    const input =
-    document.getElementById(
-        "messageInput"
-    );
-
-    const text =
-    input.value.trim();
-
-    if(text === "") return;
-
-    const username =
-    currentUser.user_metadata.full_name
-    || currentUser.email;
-
-    const { data,error } =
-    await client
-    .from("messages")
-    .insert([
-        {
-            username: username,
-            text: text
-        }
-    ])
-    .select();
-
-    if(error){
-
-        console.error(error);
-
-        statusDiv.innerHTML =
-        "❌ Error enviando";
-
-        return;
-
-    }
-
-    if(data){
-
-        data.forEach(msg => {
-
-            createMessage(
-                msg.id,
-                msg.username,
-                msg.text
-            );
-
-        });
-
-    }
-
-    input.value = "";
-
-}
-
-/* ENTER */
-
-document
-.getElementById("messageInput")
-.addEventListener(
-    "keypress",
-    e => {
-
-        if(e.key === "Enter"){
-
-            sendMessage();
-
-        }
-
-    }
-);
-
-/* REALTIME */
-
-client
-.channel("chat-room")
-
-.on(
-    "postgres_changes",
-    {
-        event:"INSERT",
-        schema:"public",
-        table:"messages"
-    },
-
-    payload => {
-
-        createMessage(
-            payload.new.id,
-            payload.new.username,
-            payload.new.text
-        );
-
-    }
-
-)
-
-.subscribe();
-
-/* INICIAR */
-
-checkUser();
-
-loadMessages();
-
-</script>
-
-</body>
-</html>
+✅ Responsive para celular

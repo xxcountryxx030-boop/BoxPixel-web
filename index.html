@@ -17,27 +17,28 @@
 
     body {
       display: flex;
-      background: #0f172a;
-      color: white;
       height: 100vh;
+      background: radial-gradient(circle at top, #1e293b, #0f172a);
+      color: white;
       overflow: hidden;
     }
 
     /* SIDEBAR */
     .sidebar {
-      width: 250px;
-      background: #111827;
+      width: 260px;
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(12px);
       padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      border-right: 1px solid rgba(255,255,255,0.05);
     }
 
     .logo {
       font-size: 20px;
       font-weight: 700;
-      margin-bottom: 20px;
       color: #60a5fa;
+      margin-bottom: 25px;
     }
 
     .menu button {
@@ -46,16 +47,22 @@
       color: #cbd5e1;
       padding: 12px;
       text-align: left;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.25s;
       width: 100%;
+      font-size: 14px;
     }
 
     .menu button:hover {
-      background: #1f2937;
+      background: rgba(59,130,246,0.15);
       color: white;
       transform: translateX(5px);
+    }
+
+    .menu button.active {
+      background: linear-gradient(90deg, #3b82f6, #6366f1);
+      color: white;
     }
 
     /* MAIN */
@@ -69,59 +76,93 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+    }
+
+    .topbar h2 {
+      font-size: 22px;
+    }
+
+    .btn {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 12px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #2563eb;
+      transform: scale(1.05);
+    }
+
+    /* HOME HERO */
+    .hero {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 25px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      animation: fade 0.4s ease;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      margin-top: 8px;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
     }
 
     .card {
-      background: #1e293b;
-      padding: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 18px;
       border-radius: 15px;
-      margin-bottom: 20px;
-      animation: fade 0.4s ease-in;
+      transition: 0.3s;
+      backdrop-filter: blur(10px);
     }
 
+    .card:hover {
+      transform: translateY(-6px);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    /* FADE */
     @keyframes fade {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
+    /* CONTENT */
+    .content {
+      animation: fade 0.3s ease;
     }
 
-    .box {
-      background: #111827;
-      padding: 15px;
-      border-radius: 12px;
-      transition: 0.3s;
-    }
-
-    .box:hover {
-      transform: scale(1.05);
-      background: #1f2937;
-    }
-
-    /* BOTÓN */
-    .btn {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 10px;
-      background: #3b82f6;
-      color: white;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background: #2563eb;
-    }
-
-    @media (max-width: 700px) {
-      .sidebar {
-        width: 180px;
-      }
-    }
   </style>
 </head>
 
@@ -132,10 +173,10 @@
     <div class="logo">⚡ BoxPixelWeb</div>
 
     <div class="menu">
-      <button onclick="show('home')">🏠 Inicio</button>
-      <button onclick="show('panel')">📊 Panel</button>
-      <button onclick="show('comunidad')">💬 Comunidad</button>
-      <button onclick="show('ajustes')">⚙️ Ajustes</button>
+      <button class="active" onclick="show('home', this)">🏠 Inicio</button>
+      <button onclick="show('panel', this)">📊 Panel</button>
+      <button onclick="show('comunidad', this)">💬 Comunidad</button>
+      <button onclick="show('ajustes', this)">⚙️ Ajustes</button>
     </div>
   </div>
 
@@ -143,22 +184,38 @@
   <div class="main">
 
     <div class="topbar">
-      <h2 id="title">🏠 Inicio</h2>
-      <button class="btn" onclick="alert('Hola Dylan 👋')">Acción</button>
+      <h2 id="title">Inicio</h2>
+      <button class="btn">Acción</button>
     </div>
 
-    <!-- CONTENIDO -->
-    <div id="content">
+    <div id="content" class="content">
 
-      <div class="card">
-        <h3>Bienvenido a BoxPixelWeb 🚀</h3>
-        <p>Tu dashboard moderno con menú lateral y diseño pro.</p>
+      <!-- HOME MEJORADO -->
+      <div class="hero">
+        <h1>Bienvenido a BoxPixelWeb 🚀</h1>
+        <p>Tu panel moderno con diseño tipo app profesional.</p>
       </div>
 
       <div class="grid">
-        <div class="box">⚡ Rápido</div>
-        <div class="box">🎨 Moderno</div>
-        <div class="box">📱 Responsive</div>
+        <div class="card">
+          <h3>⚡ Velocidad</h3>
+          <p>Interfaz optimizada y fluida</p>
+        </div>
+
+        <div class="card">
+          <h3>🎨 Diseño</h3>
+          <p>UI moderna tipo dashboard SaaS</p>
+        </div>
+
+        <div class="card">
+          <h3>📱 Responsive</h3>
+          <p>Se adapta a cualquier pantalla</p>
+        </div>
+
+        <div class="card">
+          <h3>🔐 Futuro</h3>
+          <p>Login y chat pueden agregarse</p>
+        </div>
       </div>
 
     </div>
@@ -166,46 +223,56 @@
   </div>
 
   <script>
-    function show(page) {
+    function show(page, btn) {
+      document.querySelectorAll(".menu button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
       const title = document.getElementById("title");
       const content = document.getElementById("content");
 
       if (page === "home") {
-        title.innerText = "🏠 Inicio";
+        title.innerText = "Inicio";
         content.innerHTML = `
-          <div class="card">
-            <h3>Inicio 🚀</h3>
-            <p>Bienvenido a BoxPixelWeb</p>
+          <div class="hero">
+            <h1>Bienvenido a BoxPixelWeb 🚀</h1>
+            <p>Tu panel moderno con diseño tipo app profesional.</p>
+          </div>
+
+          <div class="grid">
+            <div class="card"><h3>⚡ Velocidad</h3><p>Interfaz optimizada y fluida</p></div>
+            <div class="card"><h3>🎨 Diseño</h3><p>UI moderna tipo dashboard SaaS</p></div>
+            <div class="card"><h3>📱 Responsive</h3><p>Se adapta a cualquier pantalla</p></div>
+            <div class="card"><h3>🔐 Futuro</h3><p>Login y chat pueden agregarse</p></div>
           </div>
         `;
       }
 
       if (page === "panel") {
-        title.innerText = "📊 Panel";
+        title.innerText = "Panel";
         content.innerHTML = `
           <div class="card">
-            <h3>Panel de control</h3>
-            <p>Estadísticas y herramientas futuras aquí.</p>
+            <h3>📊 Panel de control</h3>
+            <p>Aquí podríamos agregar estadísticas reales, usuarios, logs, etc.</p>
           </div>
         `;
       }
 
       if (page === "comunidad") {
-        title.innerText = "💬 Comunidad";
+        title.innerText = "Comunidad";
         content.innerHTML = `
           <div class="card">
-            <h3>Chat (demo)</h3>
-            <p>Aquí después podemos agregar chat real con Firebase o Supabase 😏</p>
+            <h3>💬 Chat futuro</h3>
+            <p>Aquí podemos integrar Firebase o Supabase para chat real 😏</p>
           </div>
         `;
       }
 
       if (page === "ajustes") {
-        title.innerText = "⚙️ Ajustes";
+        title.innerText = "Ajustes";
         content.innerHTML = `
           <div class="card">
-            <h3>Configuración</h3>
-            <p>Opciones de la web aquí.</p>
+            <h3>⚙️ Configuración</h3>
+            <p>Temas, cuenta, seguridad, etc.</p>
           </div>
         `;
       }

@@ -1,72 +1,114 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Música de Dilan</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f0f1a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.player {
+    width: 350px;
+    background: #1c1c2b;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #6c5ce7;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #a29bfe;
+}
+
+.song-list {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.song {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+}
+
+.song:hover {
+    background: #2d2d44;
+}
+</style>
+</head>
+
+<body>
+
+<div class="player">
+    <h1>🎵 Música de Dilan</h1>
+
+    <audio id="audio" controls style="width:100%;">
+        <source src="song1.mp3" type="audio/mp3">
+    </audio>
+
+    <div>
+        <button onclick="playAudio()">▶️ Play</button>
+        <button onclick="pauseAudio()">⏸️ Pause</button>
+        <button onclick="nextSong()">⏭️ Siguiente</button>
+    </div>
+
+    <div class="song-list">
+        <div class="song" onclick="loadSong('song1.mp3')">🎶 Canción 1 - Dilan</div>
+        <div class="song" onclick="loadSong('song2.mp3')">🎶 Canción 2 - Dilan</div>
+        <div class="song" onclick="loadSong('song3.mp3')">🎶 Canción 3 - Dilan</div>
+    </div>
+</div>
 
 <script>
-/* =========================================
-   🔥 SUPABASE CONNECTION (PEGA TUS KEYS AQUÍ)
-========================================= */
+let songs = ["song1.mp3", "song2.mp3", "song3.mp3"];
+let current = 0;
 
-const SUPABASE_URL = "https://supabase.com/dashboard/project/bwcwoigrodrdwfnbrqkt/sql/3e884502-3e38-41e6-a7b4-86723821e978";
-const SUPABASE_ANON_KEY = "sb_publishable_jiybkkEkfT0pE1oKEApyzw_ZRpPLGHk";
+let audio = document.getElementById("audio");
 
-/* 👉 CONEXIÓN A SUPABASE */
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
-/* =========================================
-   💬 CHAT FUNCTIONS
-========================================= */
-
-async function sendMsg() {
-  const input = document.getElementById("msg");
-
-  if (!input.value.trim()) return;
-
-  await supabaseClient.from("messages").insert([
-    {
-      username: "Dylan",
-      message: input.value
-    }
-  ]);
-
-  input.value = "";
-  loadMessages();
+function loadSong(song) {
+    audio.src = song;
+    audio.play();
 }
 
-async function loadMessages() {
-  const { data } = await supabaseClient
-    .from("messages")
-    .select("*")
-    .order("id", { ascending: true });
-
-  const chat = document.getElementById("chat");
-  if (!chat) return;
-
-  chat.innerHTML = "";
-
-  data.forEach(m => {
-    chat.innerHTML += `
-      <div class="msg">🧑 ${m.username}: ${m.message}</div>
-    `;
-  });
-
-  chat.scrollTop = chat.scrollHeight;
+function playAudio() {
+    audio.play();
 }
 
-/* =========================================
-   ⚡ TIEMPO REAL (AUTO UPDATE)
-========================================= */
+function pauseAudio() {
+    audio.pause();
+}
 
-supabaseClient
-  .channel('messages')
-  .on('postgres_changes', {
-    event: '*',
-    schema: 'public',
-    table: 'messages'
-  }, () => {
-    loadMessages();
-  })
-  .subscribe();
-
+function nextSong() {
+    current = (current + 1) % songs.length;
+    audio.src = songs[current];
+    audio.play();
+}
 </script>
+
+</body>
+</html>

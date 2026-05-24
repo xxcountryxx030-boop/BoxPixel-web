@@ -113,6 +113,10 @@ nav{
 }
 
 .user-badge{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
     padding:10px 16px;
 
     border-radius:14px;
@@ -157,7 +161,7 @@ nav{
     background:rgba(37,99,235,0.3);
 }
 
-/* MENU */
+/* MENU LATERAL */
 
 .side-menu{
     position:fixed;
@@ -215,6 +219,51 @@ nav{
 
 .side-menu a:hover{
     background:rgba(37,99,235,0.3);
+}
+
+/* USER MENU */
+
+#userMenu{
+    position:fixed;
+
+    top:80px;
+    right:100px;
+
+    background:#0f172a;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:10px;
+
+    display:none;
+
+    z-index:9999;
+
+    min-width:180px;
+}
+
+#userMenu button{
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#111827;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+#userMenu button:hover{
+    background:#2563eb;
 }
 
 /* HERO */
@@ -431,6 +480,10 @@ footer{
         width:100%;
     }
 
+    #userMenu{
+        right:20px;
+    }
+
 }
 
 </style>
@@ -442,7 +495,7 @@ footer{
 <div class="grid"></div>
 <div class="glow"></div>
 
-<!-- MENU -->
+<!-- MENU LATERAL -->
 
 <div class="side-menu" id="sideMenu">
 
@@ -464,11 +517,6 @@ footer{
     💬 Comunidad
     </a>
 
-    <a href="#"
-    onclick="logoutUser()">
-    🚪 Cerrar sesión
-    </a>
-
 </div>
 
 <!-- NAV -->
@@ -483,8 +531,24 @@ footer{
 
         <div
         class="user-badge"
-        id="userBadge">
-        🚀 Iniciar sesión
+        id="userBadge"
+        onclick="toggleUserMenu()">
+
+            <img
+            id="userPhoto"
+            src=""
+            style="
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            display:none;
+            object-fit:cover;
+            ">
+
+            <span id="userText">
+                🚀 Iniciar sesión
+            </span>
+
         </div>
 
         <div
@@ -496,6 +560,16 @@ footer{
     </div>
 
 </nav>
+
+<!-- USER MENU -->
+
+<div id="userMenu">
+
+    <button onclick="logoutUser()">
+    🚪 Cerrar sesión
+    </button>
+
+</div>
 
 <!-- HOME -->
 
@@ -621,7 +695,7 @@ from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAr0lh6ZdaKU5Y5RanrJ8S7SFNYER_RPi0",
+  apiKey: "TU_API_KEY",
 
   authDomain: "boxpixelsweb.firebaseapp.com",
 
@@ -666,6 +740,15 @@ document.getElementById("status");
 const userBadge =
 document.getElementById("userBadge");
 
+const userText =
+document.getElementById("userText");
+
+const userPhoto =
+document.getElementById("userPhoto");
+
+const userMenu =
+document.getElementById("userMenu");
+
 /* MENU */
 
 window.toggleMenu = function(){
@@ -683,6 +766,44 @@ window.closeMenu = function(){
     .classList.remove("active");
 
 }
+
+/* USER MENU */
+
+window.toggleUserMenu = function(){
+
+    if(currentUser){
+
+        if(userMenu.style.display === "block"){
+
+            userMenu.style.display = "none";
+
+        }else{
+
+            userMenu.style.display = "block";
+
+        }
+
+    }else{
+
+        googleLogin();
+
+    }
+
+}
+
+document.addEventListener("click", e => {
+
+    if(
+        !userBadge.contains(e.target)
+        &&
+        !userMenu.contains(e.target)
+    ){
+
+        userMenu.style.display = "none";
+
+    }
+
+});
 
 /* PAGINAS */
 
@@ -745,7 +866,7 @@ window.logoutUser = async function(){
 
 }
 
-/* AUTH STATE */
+/* AUTH */
 
 onAuthStateChanged(auth, user => {
 
@@ -756,10 +877,14 @@ onAuthStateChanged(auth, user => {
         statusDiv.innerHTML =
         "🟢 " + user.email;
 
-        userBadge.innerHTML =
-        "🟢 " + user.displayName;
+        userText.innerHTML =
+        user.displayName;
 
-        userBadge.onclick = null;
+        userPhoto.src =
+        user.photoURL;
+
+        userPhoto.style.display =
+        "block";
 
     }else{
 
@@ -768,16 +893,20 @@ onAuthStateChanged(auth, user => {
         statusDiv.innerHTML =
         "🔒 Debes iniciar sesión";
 
-        userBadge.innerHTML =
+        userText.innerHTML =
         "🚀 Iniciar sesión";
 
-        userBadge.onclick = googleLogin;
+        userPhoto.style.display =
+        "none";
+
+        userMenu.style.display =
+        "none";
 
     }
 
 });
 
-/* CREAR MENSAJE */
+/* MENSAJES */
 
 function createMessage(user,text){
 
@@ -797,7 +926,7 @@ function createMessage(user,text){
 
 }
 
-/* ENVIAR MENSAJE */
+/* ENVIAR */
 
 window.sendMessage = async function(){
 

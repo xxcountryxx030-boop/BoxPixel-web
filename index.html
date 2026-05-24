@@ -278,6 +278,12 @@ footer{
     margin-top:50px;
 }
 
+.status{
+    text-align:center;
+    margin-top:15px;
+    color:#60a5fa;
+}
+
 </style>
 </head>
 
@@ -306,8 +312,7 @@ footer{
     <h1>BoxPixelsWeb</h1>
 
     <p>
-        Plataforma futurista gamer con comunidad,
-        chat online y sistema en tiempo real.
+        Plataforma futurista gamer con chat global en tiempo real.
     </p>
 
     <div class="buttons">
@@ -320,46 +325,12 @@ footer{
 <section class="section">
 
     <h2 class="section-title">
-        Funciones
-    </h2>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>💬 Chat Global</h3>
-            <p>Mensajes en tiempo real usando Supabase.</p>
-        </div>
-
-        <div class="card">
-            <h3>⚡ Tiempo Real</h3>
-            <p>Actualización instantánea entre usuarios.</p>
-        </div>
-
-        <div class="card">
-            <h3>🌌 Diseño Gamer</h3>
-            <p>Interfaz neon futurista moderna.</p>
-        </div>
-
-        <div class="card">
-            <h3>🚀 Rápida</h3>
-            <p>Compatible con GitHub Pages y Vercel.</p>
-        </div>
-
-    </div>
-
-</section>
-
-<section class="section">
-
-    <h2 class="section-title">
         Comunidad
     </h2>
 
     <div class="chat-box">
 
-        <div class="messages" id="messages">
-
-        </div>
+        <div class="messages" id="messages"></div>
 
         <div class="chat-input">
 
@@ -378,6 +349,10 @@ footer{
 
         </div>
 
+        <div class="status" id="status">
+            Conectando...
+        </div>
+
     </div>
 
 </section>
@@ -388,39 +363,43 @@ footer{
 
 <script>
 
-/* =======================================
-   CONFIG SUPABASE
-======================================= */
+/* =========================================
+   SUPABASE
+========================================= */
 
 const SUPABASE_URL =
 "https://gwibpxgibmraqebetvss.supabase.co";
 
 const SUPABASE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3aWJweGdpYm1yYXFlYmV0dnNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMzY1MTgsImV4cCI6MjA5MjkxMjUxOH0.OTCuIj2NpqkSw8bylyd4gajcNx7Fr7T2m8kf4xMriUA";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3aWJweGdpYm1yYXFlYmV0dnNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMzY1MTgsImV4cCI6MjA5MjUxOH0.OTCuIj2NpqkSw8bylyd4gajcNx7Fr7T2m8kf4xMriUA";
 
-const supabase =
-window.supabase.createClient(
+const { createClient } = supabase;
+
+const client = createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
-/* =======================================
-   USERNAME RANDOM
-======================================= */
+/* =========================================
+   USERNAME
+========================================= */
 
 const username =
 "User" + Math.floor(Math.random() * 9999);
 
-/* =======================================
+/* =========================================
    ELEMENTOS
-======================================= */
+========================================= */
 
 const messagesDiv =
 document.getElementById("messages");
 
-/* =======================================
+const statusDiv =
+document.getElementById("status");
+
+/* =========================================
    AGREGAR MENSAJE
-======================================= */
+========================================= */
 
 function addMessage(username,text){
 
@@ -438,20 +417,25 @@ function addMessage(username,text){
     messagesDiv.scrollHeight;
 }
 
-/* =======================================
+/* =========================================
    CARGAR MENSAJES
-======================================= */
+========================================= */
 
 async function loadMessages(){
 
     const { data,error } =
-    await supabase
+    await client
     .from("messages")
     .select("*")
     .order("created_at",{ ascending:true });
 
     if(error){
+
         console.error(error);
+
+        statusDiv.innerHTML =
+        "❌ Error cargando mensajes";
+
         return;
     }
 
@@ -466,11 +450,14 @@ async function loadMessages(){
 
     });
 
+    statusDiv.innerHTML =
+    "🟢 Chat conectado";
+
 }
 
-/* =======================================
+/* =========================================
    ENVIAR MENSAJE
-======================================= */
+========================================= */
 
 async function sendMessage(){
 
@@ -483,7 +470,7 @@ async function sendMessage(){
     if(text === "") return;
 
     const { error } =
-    await supabase
+    await client
     .from("messages")
     .insert({
         username: username,
@@ -491,15 +478,21 @@ async function sendMessage(){
     });
 
     if(error){
+
         console.error(error);
+
+        statusDiv.innerHTML =
+        "❌ No se pudo enviar";
+
+        return;
     }
 
     input.value = "";
 }
 
-/* =======================================
-   ENTER PARA ENVIAR
-======================================= */
+/* =========================================
+   ENTER
+========================================= */
 
 document
 .getElementById("messageInput")
@@ -511,11 +504,11 @@ document
 
 });
 
-/* =======================================
+/* =========================================
    REALTIME
-======================================= */
+========================================= */
 
-supabase
+client
 .channel("chat-room")
 
 .on(
@@ -537,11 +530,22 @@ supabase
 
 )
 
-.subscribe();
+.subscribe((status) => {
 
-/* =======================================
+    console.log(status);
+
+    if(status === "SUBSCRIBED"){
+
+        statusDiv.innerHTML =
+        "🟢 Tiempo real conectado";
+
+    }
+
+});
+
+/* =========================================
    INICIAR
-======================================= */
+========================================= */
 
 loadMessages();
 

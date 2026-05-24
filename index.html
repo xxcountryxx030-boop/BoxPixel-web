@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>BoxPixelsWeb</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -16,18 +20,19 @@
 }
 
 body{
-    background:#0a0a0a;
+    background:#050816;
     color:white;
     overflow-x:hidden;
 }
 
 /* Fondo */
+
 .background{
     position:fixed;
     width:100%;
     height:100%;
     background:
-    radial-gradient(circle at top,#1e3a8a 0%,#0a0a0a 60%);
+    radial-gradient(circle at top,#2563eb 0%,#050816 60%);
     z-index:-2;
 }
 
@@ -35,32 +40,39 @@ body{
     position:fixed;
     width:100%;
     height:100%;
+
     background-image:
     linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+
     background-size:40px 40px;
+
     z-index:-1;
 }
 
 /* Navbar */
+
 nav{
     width:100%;
     padding:20px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:rgba(0,0,0,0.5);
+
+    background:rgba(0,0,0,0.4);
     backdrop-filter:blur(10px);
-    border-bottom:1px solid #2563eb;
+
+    border-bottom:1px solid #3b82f6;
+
     position:sticky;
     top:0;
 }
 
 .logo{
     font-size:28px;
-    font-weight:bold;
-    color:#3b82f6;
-    text-shadow:0 0 10px #3b82f6;
+    color:#60a5fa;
+    text-shadow:0 0 15px #3b82f6;
 }
 
 .nav-links{
@@ -75,49 +87,64 @@ nav{
 }
 
 .nav-links a:hover{
-    color:#3b82f6;
+    color:#60a5fa;
 }
 
 /* Hero */
+
 .hero{
     min-height:90vh;
+
     display:flex;
     justify-content:center;
     align-items:center;
-    text-align:center;
+
     flex-direction:column;
+
+    text-align:center;
+
     padding:20px;
 }
 
 .hero h1{
-    font-size:70px;
-    color:#3b82f6;
-    text-shadow:0 0 20px #3b82f6;
+    font-size:75px;
+    color:#60a5fa;
+
+    text-shadow:0 0 30px #2563eb;
 }
 
 .hero p{
     margin-top:20px;
-    font-size:18px;
-    color:#cbd5e1;
     max-width:700px;
+    color:#cbd5e1;
+    font-size:18px;
 }
+
+/* Botones */
 
 .buttons{
     margin-top:35px;
+
     display:flex;
     gap:20px;
     flex-wrap:wrap;
 }
 
 .btn{
-    padding:15px 35px;
+    padding:14px 30px;
+
     border:none;
-    border-radius:12px;
+    border-radius:14px;
+
     background:#2563eb;
+
     color:white;
-    font-size:16px;
     cursor:pointer;
+
+    font-size:16px;
+
     transition:0.3s;
+
     box-shadow:0 0 15px #2563eb;
 }
 
@@ -126,7 +153,8 @@ nav{
     background:#3b82f6;
 }
 
-/* Cards */
+/* Sections */
+
 .section{
     padding:80px 20px;
 }
@@ -135,26 +163,38 @@ nav{
     text-align:center;
     font-size:40px;
     margin-bottom:50px;
-    color:#3b82f6;
+
+    color:#60a5fa;
 }
+
+/* Cards */
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
     gap:25px;
 }
 
 .card{
     background:rgba(255,255,255,0.05);
-    border:1px solid rgba(59,130,246,0.4);
+
+    border:1px solid rgba(59,130,246,0.3);
+
     border-radius:20px;
+
     padding:30px;
+
     transition:0.3s;
+
     backdrop-filter:blur(10px);
 }
 
 .card:hover{
     transform:translateY(-10px);
+
     box-shadow:0 0 20px #2563eb;
 }
 
@@ -164,26 +204,43 @@ nav{
 }
 
 /* Chat */
+
 .chat-box{
-    max-width:700px;
+    max-width:800px;
+
     margin:auto;
+
     background:rgba(255,255,255,0.05);
-    padding:20px;
+
+    border:1px solid rgba(59,130,246,0.3);
+
     border-radius:20px;
-    border:1px solid rgba(59,130,246,0.4);
+
+    padding:20px;
+
+    backdrop-filter:blur(10px);
 }
 
 .messages{
-    height:250px;
+    height:350px;
+
     overflow-y:auto;
+
     margin-bottom:15px;
+
+    padding-right:10px;
 }
 
 .message{
-    background:#1e293b;
-    padding:10px;
-    border-radius:10px;
+    background:#111827;
+
+    padding:12px;
+
+    border-radius:12px;
+
     margin-bottom:10px;
+
+    word-wrap:break-word;
 }
 
 .chat-input{
@@ -193,21 +250,34 @@ nav{
 
 .chat-input input{
     flex:1;
-    padding:12px;
+
+    padding:14px;
+
     border:none;
-    border-radius:10px;
-    outline:none;
+
+    border-radius:12px;
+
     background:#0f172a;
+
     color:white;
+
+    outline:none;
 }
+
+/* Footer */
 
 footer{
     text-align:center;
+
     padding:30px;
+
     color:#94a3b8;
+
     border-top:1px solid rgba(255,255,255,0.1);
+
     margin-top:50px;
 }
+
 </style>
 </head>
 
@@ -217,7 +287,10 @@ footer{
 <div class="grid"></div>
 
 <nav>
-    <div class="logo">BoxPixelsWeb</div>
+
+    <div class="logo">
+        BoxPixelsWeb
+    </div>
 
     <div class="nav-links">
         <a href="#">Home</a>
@@ -225,65 +298,88 @@ footer{
         <a href="#">Noticias</a>
         <a href="#">Descargas</a>
     </div>
+
 </nav>
 
 <section class="hero">
+
     <h1>BoxPixelsWeb</h1>
 
     <p>
-        Plataforma gamer futurista con comunidad, descargas,
-        noticias y chat online.
+        Plataforma futurista gamer con comunidad,
+        chat online y sistema en tiempo real.
     </p>
 
     <div class="buttons">
         <button class="btn">Entrar</button>
-        <button class="btn">Descargar</button>
+        <button class="btn">Explorar</button>
     </div>
+
 </section>
 
 <section class="section">
-    <h2 class="section-title">Funciones</h2>
+
+    <h2 class="section-title">
+        Funciones
+    </h2>
 
     <div class="cards">
 
         <div class="card">
             <h3>💬 Chat Global</h3>
-            <p>Habla con otros usuarios en tiempo real.</p>
+            <p>Mensajes en tiempo real usando Supabase.</p>
         </div>
 
         <div class="card">
-            <h3>🎮 Juegos</h3>
-            <p>Explora contenido gamer y proyectos online.</p>
+            <h3>⚡ Tiempo Real</h3>
+            <p>Actualización instantánea entre usuarios.</p>
         </div>
 
         <div class="card">
-            <h3>⚡ Rápida</h3>
-            <p>Diseño optimizado y moderno.</p>
+            <h3>🌌 Diseño Gamer</h3>
+            <p>Interfaz neon futurista moderna.</p>
         </div>
 
         <div class="card">
-            <h3>🌌 Futurista</h3>
-            <p>Estilo neon gamer inspirado en interfaces sci-fi.</p>
+            <h3>🚀 Rápida</h3>
+            <p>Compatible con GitHub Pages y Vercel.</p>
         </div>
 
     </div>
+
 </section>
 
 <section class="section">
-    <h2 class="section-title">Comunidad</h2>
+
+    <h2 class="section-title">
+        Comunidad
+    </h2>
 
     <div class="chat-box">
 
         <div class="messages" id="messages">
-            <div class="message">👋 Bienvenido a BoxPixelsWeb</div>
+
         </div>
 
         <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Escribe un mensaje...">
-            <button class="btn" onclick="sendMessage()">Enviar</button>
+
+            <input
+            type="text"
+            id="messageInput"
+            placeholder="Escribe un mensaje..."
+            >
+
+            <button
+            class="btn"
+            onclick="sendMessage()"
+            >
+            Enviar
+            </button>
+
         </div>
 
     </div>
+
 </section>
 
 <footer>
@@ -291,23 +387,164 @@ footer{
 </footer>
 
 <script>
-function sendMessage(){
-    const input = document.getElementById("messageInput");
-    const messages = document.getElementById("messages");
 
-    if(input.value.trim() !== ""){
+/* =======================================
+   CONFIG SUPABASE
+======================================= */
 
-        const div = document.createElement("div");
-        div.className = "message";
-        div.innerHTML = "🧑 Usuario: " + input.value;
+const SUPABASE_URL =
+"https://gwibpxgibmraqebetvss.supabase.co";
 
-        messages.appendChild(div);
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3aWJweGdpYm1yYXFlYmV0dnNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMzY1MTgsImV4cCI6MjA5MjkxMjUxOH0.OTCuIj2NpqkSw8bylyd4gajcNx7Fr7T2m8kf4xMriUA";
 
-        input.value = "";
+const supabase =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-        messages.scrollTop = messages.scrollHeight;
-    }
+/* =======================================
+   USERNAME RANDOM
+======================================= */
+
+const username =
+"User" + Math.floor(Math.random() * 9999);
+
+/* =======================================
+   ELEMENTOS
+======================================= */
+
+const messagesDiv =
+document.getElementById("messages");
+
+/* =======================================
+   AGREGAR MENSAJE
+======================================= */
+
+function addMessage(username,text){
+
+    const div =
+    document.createElement("div");
+
+    div.className = "message";
+
+    div.innerHTML =
+    `<b>${username}:</b> ${text}`;
+
+    messagesDiv.appendChild(div);
+
+    messagesDiv.scrollTop =
+    messagesDiv.scrollHeight;
 }
+
+/* =======================================
+   CARGAR MENSAJES
+======================================= */
+
+async function loadMessages(){
+
+    const { data,error } =
+    await supabase
+    .from("messages")
+    .select("*")
+    .order("created_at",{ ascending:true });
+
+    if(error){
+        console.error(error);
+        return;
+    }
+
+    messagesDiv.innerHTML = "";
+
+    data.forEach(msg => {
+
+        addMessage(
+            msg.username,
+            msg.text
+        );
+
+    });
+
+}
+
+/* =======================================
+   ENVIAR MENSAJE
+======================================= */
+
+async function sendMessage(){
+
+    const input =
+    document.getElementById("messageInput");
+
+    const text =
+    input.value.trim();
+
+    if(text === "") return;
+
+    const { error } =
+    await supabase
+    .from("messages")
+    .insert({
+        username: username,
+        text: text
+    });
+
+    if(error){
+        console.error(error);
+    }
+
+    input.value = "";
+}
+
+/* =======================================
+   ENTER PARA ENVIAR
+======================================= */
+
+document
+.getElementById("messageInput")
+.addEventListener("keypress",e=>{
+
+    if(e.key === "Enter"){
+        sendMessage();
+    }
+
+});
+
+/* =======================================
+   REALTIME
+======================================= */
+
+supabase
+.channel("chat-room")
+
+.on(
+    "postgres_changes",
+    {
+        event:"INSERT",
+        schema:"public",
+        table:"messages"
+    },
+
+    payload => {
+
+        addMessage(
+            payload.new.username,
+            payload.new.text
+        );
+
+    }
+
+)
+
+.subscribe();
+
+/* =======================================
+   INICIAR
+======================================= */
+
+loadMessages();
+
 </script>
 
 </body>

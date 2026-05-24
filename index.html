@@ -1,216 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>BoxPixelWeb</title>
+  <meta charset="UTF-8">
+  <title>Página caída</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f0f12;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    .container {
+      max-width: 500px;
+      padding: 20px;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f0f1a;
-  color: white;
-  display: flex;
-}
+    .sad {
+      font-size: 80px;
+      margin-bottom: 10px;
+    }
 
-/* MAIN */
-.main {
-  flex: 1;
-  padding: 20px;
-}
+    h1 {
+      font-size: 32px;
+      margin: 10px 0;
+    }
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    p {
+      font-size: 18px;
+      color: #cfcfcf;
+      line-height: 1.5;
+    }
 
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #5b5bff;
-  color: white;
-}
-
-input {
-  padding: 10px;
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-}
-
-/* CHAT */
-.chat {
-  margin-top: 20px;
-  background: #1a1a2a;
-  padding: 10px;
-  border-radius: 10px;
-  height: 320px;
-  overflow-y: auto;
-}
-
-/* SIDEBAR */
-.sidebar {
-  width: 240px;
-  background: #1b1b2b;
-  padding: 20px;
-  height: 100vh;
-}
-
-.category {
-  padding: 10px;
-  margin: 10px 0;
-  background: #2a2a40;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.category:hover {
-  background: #3a3a60;
-}
-
-.hidden {
-  display: none;
-}
-</style>
+    .support {
+      margin-top: 20px;
+      padding: 12px;
+      background: #1c1c22;
+      border-radius: 10px;
+      display: inline-block;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <div class="sad">:(</div>
+    <h1>Página caída</h1>
+    <p>
+      Lo sentimos, el sitio no está disponible en este momento.<br>
+      Por favor contacta al soporte técnico para más información.
+    </p>
 
-<!-- MAIN -->
-<div class="main">
-
-  <div class="topbar">
-    <h1>🚀 BoxPixelWeb</h1>
-    <button onclick="login()">Iniciar sesión con Google</button>
+    <div class="support">
+      📩 soporte: soporte@tusitio.com
+    </div>
   </div>
-
-  <h2 id="sectionTitle">💬 Comunidad</h2>
-
-  <!-- HOME -->
-  <div id="home">
-    <p>Bienvenido a BoxPixelWeb 🔥</p>
-  </div>
-
-  <!-- PROYECTOS -->
-  <div id="projects" class="hidden">
-    <h3>🚀 Proyectos</h3>
-    <p>Aquí puedes subir ideas de proyectos (próximamente)</p>
-  </div>
-
-  <!-- CHAT -->
-  <div id="community">
-    <div class="chat" id="chat"></div>
-
-    <input id="msg" placeholder="Escribe un mensaje..." />
-    <button onclick="sendMessage()">Enviar</button>
-  </div>
-
-</div>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <h3>Categorías</h3>
-
-  <div class="category" onclick="show('home')">🏠 Home</div>
-  <div class="category" onclick="show('projects')">🚀 Proyectos</div>
-  <div class="category" onclick="show('community')">💬 Comunidad</div>
-</div>
-
-<script>
-/* =========================
-   🔥 SUPABASE CONFIG
-========================= */
-const supabaseUrl = "TU_SUPABASE_URL";
-const supabaseKey = "TU_SUPABASE_ANON_KEY";
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-/* =========================
-   🔐 LOGIN GOOGLE
-========================= */
-async function login() {
-  await supabase.auth.signInWithOAuth({
-    provider: "google"
-  });
-}
-
-/* =========================
-   💬 ENVIAR MENSAJE
-========================= */
-async function sendMessage() {
-  const msg = document.getElementById("msg").value;
-
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData.user;
-
-  if (!user) {
-    alert("Debes iniciar sesión");
-    return;
-  }
-
-  if (!msg) return;
-
-  await supabase.from("messages").insert([
-    {
-      user_name: user.user_metadata.full_name || "Usuario",
-      user_email: user.email,
-      content: msg
-    }
-  ]);
-
-  document.getElementById("msg").value = "";
-}
-
-/* =========================
-   📦 CARGAR MENSAJES
-========================= */
-async function loadMessages() {
-  const { data } = await supabase
-    .from("messages")
-    .select("*")
-    .order("created_at", { ascending: true });
-
-  const chat = document.getElementById("chat");
-  chat.innerHTML = "";
-
-  data.forEach(m => {
-    chat.innerHTML += `
-      <div><b>${m.user_name}:</b> ${m.content}</div>
-    `;
-  });
-}
-
-setInterval(loadMessages, 2000);
-loadMessages();
-
-/* =========================
-   📂 CAMBIO DE SECCIONES
-========================= */
-function show(section) {
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("projects").classList.add("hidden");
-  document.getElementById("community").classList.add("hidden");
-
-  document.getElementById(section).classList.remove("hidden");
-
-  const titles = {
-    home: "🏠 Home",
-    projects: "🚀 Proyectos",
-    community: "💬 Comunidad"
-  };
-
-  document.getElementById("sectionTitle").innerText = titles[section];
-}
-
-/* INIT */
-show("community");
-</script>
-
 </body>
 </html>

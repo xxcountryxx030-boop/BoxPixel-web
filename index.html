@@ -37,10 +37,8 @@ body{
 .background{
     position:fixed;
     inset:0;
-
     background:
     radial-gradient(circle at top,#2563eb 0%,#050816 60%);
-
     z-index:-3;
 }
 
@@ -79,30 +77,21 @@ body{
 
 nav{
     width:100%;
-
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     padding:18px 28px;
-
     position:sticky;
     top:0;
-
     z-index:999;
-
     background:rgba(5,8,22,0.7);
-
     backdrop-filter:blur(12px);
-
     border-bottom:1px solid var(--border);
 }
 
 .logo{
     font-family:'Orbitron',sans-serif;
-
     font-size:28px;
-
     color:#60a5fa;
 }
 
@@ -116,21 +105,13 @@ nav{
     display:flex;
     align-items:center;
     gap:10px;
-
     padding:10px 16px;
-
     border-radius:14px;
-
     background:rgba(255,255,255,0.05);
-
     border:1px solid var(--border);
-
     color:#94a3b8;
-
     font-size:14px;
-
     cursor:pointer;
-
     transition:0.3s;
 }
 
@@ -141,19 +122,13 @@ nav{
 .menu-btn{
     width:50px;
     height:50px;
-
     border-radius:14px;
-
     background:rgba(255,255,255,0.05);
-
     border:1px solid var(--border);
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     cursor:pointer;
-
     transition:0.3s;
 }
 
@@ -165,23 +140,15 @@ nav{
 
 .side-menu{
     position:fixed;
-
     top:0;
     right:-320px;
-
     width:300px;
     height:100vh;
-
     background:#0f172a;
-
     border-left:1px solid var(--border);
-
     padding:30px;
-
     transition:0.4s;
-
     z-index:9999;
-
     display:flex;
     flex-direction:column;
     gap:18px;
@@ -193,9 +160,7 @@ nav{
 
 .close-btn{
     align-self:flex-end;
-
     font-size:28px;
-
     cursor:pointer;
 }
 
@@ -205,15 +170,10 @@ nav{
 
 .side-menu a{
     text-decoration:none;
-
     color:white;
-
     background:rgba(255,255,255,0.04);
-
     padding:16px;
-
     border-radius:16px;
-
     transition:0.3s;
 }
 
@@ -225,42 +185,26 @@ nav{
 
 #userMenu{
     position:fixed;
-
     top:80px;
     right:100px;
-
     background:#0f172a;
-
     border:1px solid var(--border);
-
     border-radius:18px;
-
     padding:10px;
-
     display:none;
-
     z-index:9999;
-
     min-width:220px;
 }
 
 #userMenu button{
     width:100%;
-
     padding:12px;
-
     border:none;
-
     border-radius:12px;
-
     background:#111827;
-
     color:white;
-
     cursor:pointer;
-
     transition:0.3s;
-
     margin-top:5px;
 }
 
@@ -272,82 +216,59 @@ nav{
 
 .hero{
     min-height:90vh;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     text-align:center;
-
     padding:20px;
 }
 
 .hero-box{
     max-width:900px;
-
     padding:50px;
-
     border-radius:30px;
-
     background:rgba(255,255,255,0.05);
-
     border:1px solid var(--border);
-
     backdrop-filter:blur(18px);
 }
 
 .hero h1{
     font-size:78px;
-
     color:#60a5fa;
-
     font-family:'Orbitron',sans-serif;
 }
 
 .hero p{
     margin-top:20px;
-
     color:#cbd5e1;
-
     font-size:18px;
 }
 
 .sub{
     margin-top:10px;
-
     color:#94a3b8;
 }
 
 .buttons{
     margin-top:35px;
-
     display:flex;
     justify-content:center;
-
     gap:18px;
-
     flex-wrap:wrap;
 }
 
 .btn{
     padding:15px 28px;
-
     border:none;
-
     border-radius:16px;
-
     background:linear-gradient(
         135deg,
         #2563eb,
         #3b82f6
     );
-
     color:white;
-
     font-weight:700;
-
     cursor:pointer;
-
     transition:0.3s;
 }
 
@@ -363,64 +284,47 @@ nav{
 
 .features-title{
     text-align:center;
-
     font-size:48px;
-
     margin-bottom:45px;
-
     color:#60a5fa;
-
     font-family:'Orbitron',sans-serif;
 }
 
 .features-grid{
     max-width:1200px;
-
     margin:auto;
-
     display:grid;
-
     grid-template-columns:
     repeat(auto-fit,minmax(250px,1fr));
-
     gap:25px;
 }
 
 .feature-card{
     background:rgba(255,255,255,0.05);
-
     border:1px solid rgba(96,165,250,0.2);
-
     border-radius:28px;
-
     padding:30px;
-
     transition:0.3s;
-
     backdrop-filter:blur(12px);
 }
 
 .feature-card:hover{
     transform:translateY(-8px);
-
     background:rgba(37,99,235,0.12);
 }
 
 .feature-icon{
     font-size:42px;
-
     margin-bottom:18px;
 }
 
 .feature-card h3{
     margin-bottom:12px;
-
     color:#60a5fa;
 }
 
 .feature-card p{
     color:#cbd5e1;
-
     line-height:1.6;
 }
 
@@ -428,33 +332,24 @@ nav{
 
 .stats-section{
     padding:30px 20px 80px;
-
     display:flex;
     justify-content:center;
     gap:20px;
-
     flex-wrap:wrap;
 }
 
 .stats-card{
     width:240px;
-
     background:rgba(255,255,255,0.05);
-
     border:1px solid rgba(96,165,250,0.2);
-
     border-radius:24px;
-
     padding:30px;
-
     text-align:center;
 }
 
 .stats-card h2{
     color:#60a5fa;
-
     font-size:38px;
-
     margin-bottom:10px;
 }
 
@@ -462,52 +357,37 @@ nav{
 
 .news-section{
     padding:0 20px 100px;
-
     max-width:1100px;
-
     margin:auto;
 }
 
 .news-card{
     background:rgba(255,255,255,0.05);
-
     border:1px solid rgba(96,165,250,0.2);
-
     border-radius:24px;
-
     padding:30px;
-
     margin-top:25px;
-
     position:relative;
 }
 
 .news-card h3{
     margin-bottom:12px;
-
     color:#60a5fa;
 }
 
 .news-card p{
     color:#cbd5e1;
-
     line-height:1.6;
 }
 
 .news-badge{
     position:absolute;
-
     top:20px;
     right:20px;
-
     background:#2563eb;
-
     padding:6px 12px;
-
     border-radius:999px;
-
     font-size:12px;
-
     font-weight:700;
 }
 
@@ -519,46 +399,32 @@ nav{
 
 .section-title{
     text-align:center;
-
     font-size:48px;
-
     margin-bottom:45px;
-
     color:#60a5fa;
-
     font-family:'Orbitron',sans-serif;
 }
 
 .chat-box{
     max-width:950px;
-
     margin:auto;
-
     background:rgba(255,255,255,0.05);
-
     border-radius:28px;
-
     border:1px solid var(--border);
-
     overflow:hidden;
 }
 
 .chat-top{
     padding:20px;
-
     border-bottom:1px solid rgba(255,255,255,0.05);
-
     display:flex;
     justify-content:space-between;
 }
 
 .messages{
     height:420px;
-
     overflow-y:auto;
-
     padding:22px;
-
     display:flex;
     flex-direction:column;
     gap:12px;
@@ -566,11 +432,8 @@ nav{
 
 .message{
     background:#111827;
-
     padding:14px 18px;
-
     border-radius:18px;
-
     word-break:break-word;
 }
 
@@ -580,43 +443,30 @@ nav{
 
 .chat-input{
     display:flex;
-
     gap:12px;
-
     padding:20px;
-
     border-top:1px solid rgba(255,255,255,0.05);
 }
 
 .chat-input input{
     flex:1;
-
     padding:16px;
-
     border:none;
-
     border-radius:16px;
-
     background:#0b1120;
-
     color:white;
-
     outline:none;
 }
 
 .status{
     padding:18px;
-
     text-align:center;
-
     color:#60a5fa;
 }
 
 footer{
     padding:30px;
-
     text-align:center;
-
     color:#94a3b8;
 }
 
@@ -788,67 +638,35 @@ id="homeSection">
     <div class="features-grid">
 
         <div class="feature-card">
-
-            <div class="feature-icon">
-                💬
-            </div>
-
-            <h3>
-                Chat Global
-            </h3>
-
+            <div class="feature-icon">💬</div>
+            <h3>Chat Global</h3>
             <p>
                 Habla en tiempo real con toda la comunidad online.
             </p>
-
         </div>
 
         <div class="feature-card">
-
-            <div class="feature-icon">
-                🔐
-            </div>
-
-            <h3>
-                Google Login
-            </h3>
-
+            <div class="feature-icon">🔐</div>
+            <h3>Google Login</h3>
             <p>
                 Accede rápidamente usando tu cuenta de Google.
             </p>
-
         </div>
 
         <div class="feature-card">
-
-            <div class="feature-icon">
-                ⚡
-            </div>
-
-            <h3>
-                Tiempo Real
-            </h3>
-
+            <div class="feature-icon">⚡</div>
+            <h3>Tiempo Real</h3>
             <p>
                 Mensajes instantáneos usando Firebase Firestore.
             </p>
-
         </div>
 
         <div class="feature-card">
-
-            <div class="feature-icon">
-                🎮
-            </div>
-
-            <h3>
-                Gamer Style
-            </h3>
-
+            <div class="feature-icon">🎮</div>
+            <h3>Gamer Style</h3>
             <p>
                 Diseño futurista inspirado en Discord y Steam.
             </p>
-
         </div>
 
     </div>
@@ -860,39 +678,18 @@ id="homeSection">
 <section class="stats-section">
 
     <div class="stats-card">
-
-        <h2>
-            24/7
-        </h2>
-
-        <p>
-            Online
-        </p>
-
+        <h2>24/7</h2>
+        <p>Online</p>
     </div>
 
     <div class="stats-card">
-
-        <h2>
-            Firebase
-        </h2>
-
-        <p>
-            Database
-        </p>
-
+        <h2>Firebase</h2>
+        <p>Database</p>
     </div>
 
     <div class="stats-card">
-
-        <h2>
-            Realtime
-        </h2>
-
-        <p>
-            Chat
-        </p>
-
+        <h2>Realtime</h2>
+        <p>Chat</p>
     </div>
 
 </section>
@@ -939,65 +736,202 @@ id="homeSection">
 
 </section>
 
-<!-- COMUNIDAD -->
-
-<section
-class="section"
-id="communitySection"
-style="display:none;">
-
-    <h2 class="section-title">
-        Comunidad
-    </h2>
-
-    <div class="chat-box">
-
-        <div class="chat-top">
-
-            <div>
-                💬 Chat Global
-            </div>
-
-            <div>
-                ● Online
-            </div>
-
-        </div>
-
-        <div
-        class="messages"
-        id="messages">
-        </div>
-
-        <div class="chat-input">
-
-            <input
-            type="text"
-            id="messageInput"
-            placeholder="Escribe un mensaje..."
-            >
-
-            <button
-            class="btn"
-            onclick="sendMessage()">
-            Enviar
-            </button>
-
-        </div>
-
-        <div
-        class="status"
-        id="status">
-        🔒 Debes iniciar sesión
-        </div>
-
-    </div>
-
-</section>
-
 <footer>
 BoxPixelsWeb © 2026
 </footer>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+    getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+import {
+    getFirestore
+}
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCLhFtD8Y2Oj0h9J0kuOpn_l1mjfQ4H_OA",
+
+    authDomain: "hydra-software-b3408.firebaseapp.com",
+
+    projectId: "hydra-software-b3408",
+
+    storageBucket: "hydra-software-b3408.firebasestorage.app",
+
+    messagingSenderId: "321516798200",
+
+    appId: "1:321516798200:web:7b871b5285c0fe660c3b0d",
+
+    measurementId: "G-N894QT4Y62"
+
+};
+
+/* INIT */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+const provider =
+new GoogleAuthProvider();
+
+/* ELEMENTOS */
+
+const userText =
+document.getElementById("userText");
+
+const userPhoto =
+document.getElementById("userPhoto");
+
+const userMenu =
+document.getElementById("userMenu");
+
+const userBadge =
+document.getElementById("userBadge");
+
+const loginOptions =
+document.getElementById("loginOptions");
+
+const loggedOptions =
+document.getElementById("loggedOptions");
+
+/* MENU */
+
+window.toggleMenu = function(){
+
+    document
+    .getElementById("sideMenu")
+    .classList.toggle("active");
+
+}
+
+window.closeMenu = function(){
+
+    document
+    .getElementById("sideMenu")
+    .classList.remove("active");
+
+}
+
+/* ACCOUNT */
+
+window.toggleAccountMenu = function(){
+
+    if(userMenu.style.display === "block"){
+
+        userMenu.style.display = "none";
+
+    }else{
+
+        userMenu.style.display = "block";
+
+    }
+
+}
+
+/* LOGIN */
+
+window.googleLogin = async function(){
+
+    try{
+
+        await signInWithPopup(
+            auth,
+            provider
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+        "Error iniciando sesión"
+        );
+
+    }
+
+}
+
+/* LOGOUT */
+
+window.logoutUser = async function(){
+
+    await signOut(auth);
+
+}
+
+/* AUTH */
+
+onAuthStateChanged(auth, user => {
+
+    if(user){
+
+        userText.innerHTML =
+        user.displayName;
+
+        userPhoto.src =
+        user.photoURL;
+
+        userPhoto.style.display =
+        "block";
+
+        loginOptions.style.display =
+        "none";
+
+        loggedOptions.style.display =
+        "block";
+
+    }else{
+
+        userText.innerHTML =
+        "👤 Account";
+
+        userPhoto.style.display =
+        "none";
+
+        loginOptions.style.display =
+        "block";
+
+        loggedOptions.style.display =
+        "none";
+
+    }
+
+});
+
+document.addEventListener("click", e => {
+
+    if(
+        !userBadge.contains(e.target)
+        &&
+        !userMenu.contains(e.target)
+    ){
+
+        userMenu.style.display = "none";
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>

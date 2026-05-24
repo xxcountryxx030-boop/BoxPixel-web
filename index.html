@@ -8,8 +8,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
-<!-- SUPABASE -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -183,6 +181,7 @@ nav{
 
     display:flex;
     gap:20px;
+    flex-wrap:wrap;
 }
 
 .btn{
@@ -337,8 +336,14 @@ id="homeSection">
 
         <button
         class="btn"
+        onclick="loginWithGoogle()">
+        Iniciar con Google
+        </button>
+
+        <button
+        class="btn"
         onclick="openCommunity()">
-        Explorar
+        Comunidad
         </button>
 
     </div>
@@ -382,7 +387,7 @@ style="display:none;">
         <div
         class="status"
         id="status">
-        Conectando...
+        🔒 Debes iniciar sesión
         </div>
 
     </div>
@@ -461,9 +466,47 @@ createClient(
 
 /* USER */
 
-const username =
-"User" +
-Math.floor(Math.random()*9999);
+let currentUser = null;
+
+/* LOGIN GOOGLE */
+
+async function loginWithGoogle(){
+
+    await client.auth.signInWithOAuth({
+
+        provider:"google",
+
+        options:{
+            redirectTo: window.location.href
+        }
+
+    });
+
+}
+
+/* VERIFICAR LOGIN */
+
+async function checkUser(){
+
+    const {
+        data:{ user }
+    } = await client.auth.getUser();
+
+    if(user){
+
+        currentUser = user;
+
+        statusDiv.innerHTML =
+        "🟢 " + user.email;
+
+    }else{
+
+        statusDiv.innerHTML =
+        "🔒 Debes iniciar sesión";
+
+    }
+
+}
 
 /* ELEMENTOS */
 
@@ -519,9 +562,6 @@ async function loadMessages(){
 
         console.error(error);
 
-        statusDiv.innerHTML =
-        "❌ Error";
-
         return;
 
     }
@@ -536,14 +576,21 @@ async function loadMessages(){
 
     });
 
-    statusDiv.innerHTML =
-    "🟢 Conectado";
-
 }
 
 /* ENVIAR */
 
 async function sendMessage(){
+
+    if(!currentUser){
+
+        alert(
+        "Debes iniciar sesión con Google"
+        );
+
+        return;
+
+    }
 
     const input =
     document.getElementById(
@@ -554,6 +601,10 @@ async function sendMessage(){
     input.value.trim();
 
     if(text === "") return;
+
+    const username =
+    currentUser.user_metadata.full_name
+    || currentUser.email;
 
     const { data,error } =
     await client
@@ -640,6 +691,8 @@ client
 .subscribe();
 
 /* INICIAR */
+
+checkUser();
 
 loadMessages();
 

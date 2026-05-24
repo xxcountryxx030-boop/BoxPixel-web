@@ -1,527 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BoxPixelsWeb</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Orbitron',sans-serif;
-}
-
-body{
-    background:#050816;
-    color:white;
-    overflow-x:hidden;
-}
-
-/* FONDO */
-
-.background{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:
-    radial-gradient(circle at top,#2563eb 0%,#050816 60%);
-    z-index:-2;
-}
-
-.grid{
-    position:fixed;
-    width:100%;
-    height:100%;
-
-    background-image:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-
-    background-size:40px 40px;
-
-    z-index:-1;
-}
-
-/* NAVBAR */
-
-nav{
-    width:100%;
-    padding:20px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    background:rgba(0,0,0,0.4);
-
-    backdrop-filter:blur(10px);
-
-    border-bottom:1px solid #3b82f6;
-
-    position:sticky;
-    top:0;
-
-    z-index:1000;
-}
-
-.logo{
-    font-size:28px;
-    color:#60a5fa;
-    text-shadow:0 0 15px #3b82f6;
-}
-
-/* MENU */
-
-.menu-btn{
-    font-size:32px;
-    cursor:pointer;
-    color:white;
-    transition:0.3s;
-}
-
-.menu-btn:hover{
-    color:#60a5fa;
-}
-
-.side-menu{
-
-    position:fixed;
-
-    top:0;
-    right:-320px;
-
-    width:300px;
-    height:100%;
-
-    background:#0f172a;
-
-    border-left:1px solid #3b82f6;
-
-    padding:30px;
-
-    transition:0.4s;
-
-    z-index:9999;
-
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-
-}
-
-.side-menu.active{
-    right:0;
-}
-
-.close-btn{
-
-    font-size:28px;
-
-    cursor:pointer;
-
-    color:white;
-
-    align-self:flex-end;
-
-    transition:0.3s;
-
-}
-
-.close-btn:hover{
-    color:#60a5fa;
-}
-
-.side-menu h2{
-    color:#60a5fa;
-}
-
-.side-menu a{
-
-    color:white;
-
-    text-decoration:none;
-
-    background:#111827;
-
-    padding:15px;
-
-    border-radius:12px;
-
-    transition:0.3s;
-
-}
-
-.side-menu a:hover{
-    background:#2563eb;
-}
-
-/* HERO */
-
-.hero{
-    min-height:90vh;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    flex-direction:column;
-
-    text-align:center;
-
-    padding:20px;
-}
-
-.hero h1{
-    font-size:75px;
-    color:#60a5fa;
-
-    text-shadow:0 0 30px #2563eb;
-}
-
-.hero p{
-    margin-top:20px;
-
-    max-width:700px;
-
-    color:#cbd5e1;
-
-    font-size:18px;
-}
-
-/* BOTONES */
-
-.buttons{
-    margin-top:35px;
-
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    padding:14px 30px;
-
-    border:none;
-    border-radius:14px;
-
-    background:#2563eb;
-
-    color:white;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    transition:0.3s;
-
-    box-shadow:0 0 15px #2563eb;
-}
-
-.btn:hover{
-    transform:scale(1.05);
-    background:#3b82f6;
-}
-
-/* CHAT */
-
-.section{
-    padding:80px 20px;
-}
-
-.section-title{
-    text-align:center;
-
-    font-size:40px;
-
-    margin-bottom:50px;
-
-    color:#60a5fa;
-}
-
-.chat-box{
-    max-width:800px;
-
-    margin:auto;
-
-    background:rgba(255,255,255,0.05);
-
-    border:1px solid rgba(59,130,246,0.3);
-
-    border-radius:20px;
-
-    padding:20px;
-
-    backdrop-filter:blur(10px);
-}
-
-.messages{
-    height:350px;
-
-    overflow-y:auto;
-
-    margin-bottom:15px;
-
-    padding-right:10px;
-}
-
-.message{
-    background:#111827;
-
-    padding:12px;
-
-    border-radius:12px;
-
-    margin-bottom:10px;
-
-    word-wrap:break-word;
-}
-
-.chat-input{
-    display:flex;
-    gap:10px;
-}
-
-.chat-input input{
-    flex:1;
-
-    padding:14px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#0f172a;
-
-    color:white;
-
-    outline:none;
-}
-
-.status{
-    margin-top:15px;
-
-    text-align:center;
-
-    color:#60a5fa;
-}
-
-/* FOOTER */
-
-footer{
-    text-align:center;
-
-    padding:30px;
-
-    color:#94a3b8;
-
-    border-top:1px solid rgba(255,255,255,0.1);
-
-    margin-top:50px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="background"></div>
-<div class="grid"></div>
-
-<!-- MENU -->
-
-<div class="side-menu" id="sideMenu">
-
-    <div
-    class="close-btn"
-    onclick="closeMenu()">
-    ✕
-    </div>
-
-    <h2>BoxPixelsWeb</h2>
-
-    <a href="#"
-    onclick="goHome()">
-    🏠 Home
-    </a>
-
-    <a href="#"
-    onclick="openCommunity()">
-    💬 Comunidad
-    </a>
-
-    <a href="#">
-    📰 Noticias
-    </a>
-
-    <a href="#">
-    ⬇ Descargas
-    </a>
-
-</div>
-
-<!-- NAVBAR -->
-
-<nav>
-
-    <div class="logo">
-        BoxPixelsWeb
-    </div>
-
-    <div
-    class="menu-btn"
-    onclick="toggleMenu()">
-    ☰
-    </div>
-
-</nav>
-
-<!-- HOME -->
-
-<section
-class="hero"
-id="homeSection">
-
-    <h1>BoxPixelsWeb</h1>
-
-    <p>
-        Plataforma gamer futurista con chat online global en tiempo real.
-    </p>
-
-    <div class="buttons">
-
-        <button class="btn">
-        Entrar
-        </button>
-
-        <button
-        class="btn"
-        onclick="openCommunity()">
-        Explorar
-        </button>
-
-    </div>
-
-</section>
-
-<!-- COMUNIDAD -->
-
-<section
-class="section"
-id="communitySection"
-style="display:none;">
-
-    <h2 class="section-title">
-        Comunidad
-    </h2>
-
-    <div class="chat-box">
-
-        <div
-        class="messages"
-        id="messages">
-        </div>
-
-        <div class="chat-input">
-
-            <input
-            type="text"
-            id="messageInput"
-            placeholder="Escribe un mensaje..."
-            >
-
-            <button
-            class="btn"
-            onclick="sendMessage()">
-            Enviar
-            </button>
-
-        </div>
-
-        <div
-        class="status"
-        id="status">
-        Conectando...
-        </div>
-
-    </div>
-
-</section>
-
-<footer>
-    BoxPixelsWeb © 2026 | No Official
-</footer>
-
 <script>
 
-/* MENU */
-
-function toggleMenu(){
-
-    document
-    .getElementById("sideMenu")
-    .classList.toggle("active");
-
-}
-
-function closeMenu(){
-
-    document
-    .getElementById("sideMenu")
-    .classList.remove("active");
-
-}
-
-/* HOME */
-
-function goHome(){
-
-    document
-    .getElementById("homeSection")
-    .style.display = "flex";
-
-    document
-    .getElementById("communitySection")
-    .style.display = "none";
-
-    closeMenu();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-/* COMUNIDAD */
-
-function openCommunity(){
-
-    document
-    .getElementById("homeSection")
-    .style.display = "none";
-
-    document
-    .getElementById("communitySection")
-    .style.display = "block";
-
-    closeMenu();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-/* SUPABASE */
+/* =========================================
+   SUPABASE
+========================================= */
 
 const SUPABASE_URL =
 "https://gwibpxgibmraqebetvss.supabase.co";
@@ -537,13 +18,17 @@ createClient(
     SUPABASE_KEY
 );
 
-/* USERNAME */
+/* =========================================
+   USERNAME
+========================================= */
 
 const username =
 "User" +
-Math.floor(Math.random()*9999);
+Math.floor(Math.random() * 9999);
 
-/* ELEMENTOS */
+/* =========================================
+   ELEMENTOS
+========================================= */
 
 const messagesDiv =
 document.getElementById("messages");
@@ -551,9 +36,22 @@ document.getElementById("messages");
 const statusDiv =
 document.getElementById("status");
 
-/* AGREGAR MENSAJE */
+/* =========================================
+   MENSAJES MOSTRADOS
+========================================= */
 
-function addMessage(username,text){
+const shownMessages =
+new Set();
+
+/* =========================================
+   AGREGAR MENSAJE
+========================================= */
+
+function addMessage(id, username, text){
+
+    if(shownMessages.has(id)) return;
+
+    shownMessages.add(id);
 
     const div =
     document.createElement("div");
@@ -571,11 +69,16 @@ function addMessage(username,text){
 
 }
 
-/* CARGAR MENSAJES */
+/* =========================================
+   CARGAR MENSAJES
+========================================= */
 
 async function loadMessages(){
 
-    const { data,error } =
+    statusDiv.innerHTML =
+    "📥 Cargando chat...";
+
+    const { data, error } =
     await client
     .from("messages")
     .select("*")
@@ -589,7 +92,7 @@ async function loadMessages(){
         console.error(error);
 
         statusDiv.innerHTML =
-        "❌ Error cargando mensajes";
+        "❌ Error cargando";
 
         return;
 
@@ -597,9 +100,12 @@ async function loadMessages(){
 
     messagesDiv.innerHTML = "";
 
+    shownMessages.clear();
+
     data.forEach(msg => {
 
         addMessage(
+            msg.id,
             msg.username,
             msg.text
         );
@@ -611,7 +117,9 @@ async function loadMessages(){
 
 }
 
-/* ENVIAR MENSAJE */
+/* =========================================
+   ENVIAR MENSAJE
+========================================= */
 
 async function sendMessage(){
 
@@ -625,24 +133,36 @@ async function sendMessage(){
 
     if(!text) return;
 
-    addMessage(username,text);
+    statusDiv.innerHTML =
+    "📤 Enviando...";
 
-    const { error } =
+    const { data, error } =
     await client
     .from("messages")
     .insert({
         username: username,
         text: text
-    });
+    })
+    .select();
 
     if(error){
 
         console.error(error);
 
         statusDiv.innerHTML =
-        "❌ Error enviando";
+        "❌ " + error.message;
 
         return;
+
+    }
+
+    if(data && data.length > 0){
+
+        addMessage(
+            data[0].id,
+            data[0].username,
+            data[0].text
+        );
 
     }
 
@@ -653,13 +173,15 @@ async function sendMessage(){
 
 }
 
-/* ENTER */
+/* =========================================
+   ENTER
+========================================= */
 
 document
 .getElementById("messageInput")
 .addEventListener(
     "keypress",
-    e=>{
+    e => {
 
         if(e.key === "Enter"){
 
@@ -670,7 +192,9 @@ document
     }
 );
 
-/* REALTIME */
+/* =========================================
+   REALTIME
+========================================= */
 
 client
 .channel("chat-room")
@@ -685,21 +209,11 @@ client
 
     payload => {
 
-        const exists =
-        [...document.querySelectorAll(".message")]
-        .some(el =>
-            el.innerHTML ===
-            `<b>${payload.new.username}:</b> ${payload.new.text}`
+        addMessage(
+            payload.new.id,
+            payload.new.username,
+            payload.new.text
         );
-
-        if(!exists){
-
-            addMessage(
-                payload.new.username,
-                payload.new.text
-            );
-
-        }
 
     }
 
@@ -709,13 +223,19 @@ client
 
     console.log(status);
 
+    if(status === "SUBSCRIBED"){
+
+        statusDiv.innerHTML =
+        "🟢 Tiempo real conectado";
+
+    }
+
 });
 
-/* INICIAR */
+/* =========================================
+   INICIAR
+========================================= */
 
 loadMessages();
 
 </script>
-
-</body>
-</html>

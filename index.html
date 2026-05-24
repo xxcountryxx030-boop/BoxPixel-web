@@ -221,7 +221,7 @@ nav{
     background:rgba(37,99,235,0.3);
 }
 
-/* USER MENU */
+/* ACCOUNT MENU */
 
 #userMenu{
     position:fixed;
@@ -241,7 +241,7 @@ nav{
 
     z-index:9999;
 
-    min-width:180px;
+    min-width:220px;
 }
 
 #userMenu button{
@@ -260,6 +260,8 @@ nav{
     cursor:pointer;
 
     transition:0.3s;
+
+    margin-top:5px;
 }
 
 #userMenu button:hover{
@@ -532,7 +534,7 @@ footer{
         <div
         class="user-badge"
         id="userBadge"
-        onclick="toggleUserMenu()">
+        onclick="toggleAccountMenu()">
 
             <img
             id="userPhoto"
@@ -546,7 +548,7 @@ footer{
             ">
 
             <span id="userText">
-                🚀 Iniciar sesión
+                👤 Account
             </span>
 
         </div>
@@ -561,13 +563,27 @@ footer{
 
 </nav>
 
-<!-- USER MENU -->
+<!-- ACCOUNT MENU -->
 
 <div id="userMenu">
 
-    <button onclick="logoutUser()">
-    🚪 Cerrar sesión
-    </button>
+    <div id="loginOptions">
+
+        <button onclick="googleLogin()">
+        🔵 Iniciar con Google
+        </button>
+
+    </div>
+
+    <div
+    id="loggedOptions"
+    style="display:none;">
+
+        <button onclick="logoutUser()">
+        🚪 Cerrar sesión
+        </button>
+
+    </div>
 
 </div>
 
@@ -667,8 +683,6 @@ BoxPixelsWeb © 2026
 
 <script type="module">
 
-/* FIREBASE */
-
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
@@ -691,7 +705,7 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-/* CONFIG */
+/* FIREBASE */
 
 const firebaseConfig = {
 
@@ -711,8 +725,6 @@ const firebaseConfig = {
 
 };
 
-/* INIT */
-
 const app =
 initializeApp(firebaseConfig);
 
@@ -725,20 +737,15 @@ getFirestore(app);
 const provider =
 new GoogleAuthProvider();
 
-/* USER */
+/* VARIABLES */
 
 let currentUser = null;
-
-/* ELEMENTOS */
 
 const messagesDiv =
 document.getElementById("messages");
 
 const statusDiv =
 document.getElementById("status");
-
-const userBadge =
-document.getElementById("userBadge");
 
 const userText =
 document.getElementById("userText");
@@ -748,6 +755,15 @@ document.getElementById("userPhoto");
 
 const userMenu =
 document.getElementById("userMenu");
+
+const userBadge =
+document.getElementById("userBadge");
+
+const loginOptions =
+document.getElementById("loginOptions");
+
+const loggedOptions =
+document.getElementById("loggedOptions");
 
 /* MENU */
 
@@ -767,25 +783,17 @@ window.closeMenu = function(){
 
 }
 
-/* USER MENU */
+/* ACCOUNT MENU */
 
-window.toggleUserMenu = function(){
+window.toggleAccountMenu = function(){
 
-    if(currentUser){
+    if(userMenu.style.display === "block"){
 
-        if(userMenu.style.display === "block"){
-
-            userMenu.style.display = "none";
-
-        }else{
-
-            userMenu.style.display = "block";
-
-        }
+        userMenu.style.display = "none";
 
     }else{
 
-        googleLogin();
+        userMenu.style.display = "block";
 
     }
 
@@ -886,6 +894,12 @@ onAuthStateChanged(auth, user => {
         userPhoto.style.display =
         "block";
 
+        loginOptions.style.display =
+        "none";
+
+        loggedOptions.style.display =
+        "block";
+
     }else{
 
         currentUser = null;
@@ -894,19 +908,22 @@ onAuthStateChanged(auth, user => {
         "🔒 Debes iniciar sesión";
 
         userText.innerHTML =
-        "🚀 Iniciar sesión";
+        "👤 Account";
 
         userPhoto.style.display =
         "none";
 
-        userMenu.style.display =
+        loginOptions.style.display =
+        "block";
+
+        loggedOptions.style.display =
         "none";
 
     }
 
 });
 
-/* MENSAJES */
+/* CHAT */
 
 function createMessage(user,text){
 

@@ -69,7 +69,7 @@
     .main {
       flex: 1;
       padding: 30px;
-      overflow-y: auto;
+      overflow-y: auto;   /* 🔥 ahora SÍ se puede bajar */
     }
 
     .topbar {
@@ -77,10 +77,6 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 25px;
-    }
-
-    .topbar h2 {
-      font-size: 22px;
     }
 
     .btn {
@@ -98,34 +94,46 @@
       transform: scale(1.05);
     }
 
-    /* HOME HERO */
-    .hero {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.05);
-      padding: 25px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      animation: fade 0.4s ease;
+    /* HOME CENTRADO */
+    .hero-container {
+      height: 70vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
     }
 
-    .hero h1 {
-      font-size: 28px;
+    .hero-title {
+      font-size: 60px;
+      font-weight: 800;
       background: linear-gradient(90deg, #60a5fa, #a78bfa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      animation: fade 0.5s ease;
     }
 
-    .hero p {
+    .hero-sub {
+      margin-top: 10px;
       color: #cbd5e1;
-      margin-top: 8px;
+      font-size: 18px;
     }
 
-    /* GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
+    .scroll-hint {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #94a3b8;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* SECCIONES ABAJO (para poder scrollear) */
+    .section {
+      margin-top: 120px;
     }
 
     .card {
@@ -133,34 +141,19 @@
       border: 1px solid rgba(255,255,255,0.05);
       padding: 18px;
       border-radius: 15px;
-      transition: 0.3s;
+      margin-bottom: 15px;
       backdrop-filter: blur(10px);
+      transition: 0.3s;
     }
 
     .card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-5px);
       background: rgba(255,255,255,0.06);
     }
 
-    .card h3 {
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-
-    .card p {
-      font-size: 13px;
-      color: #cbd5e1;
-    }
-
-    /* FADE */
     @keyframes fade {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* CONTENT */
-    .content {
-      animation: fade 0.3s ease;
     }
 
   </style>
@@ -173,111 +166,60 @@
     <div class="logo">⚡ BoxPixelWeb</div>
 
     <div class="menu">
-      <button class="active" onclick="show('home', this)">🏠 Inicio</button>
-      <button onclick="show('panel', this)">📊 Panel</button>
-      <button onclick="show('comunidad', this)">💬 Comunidad</button>
-      <button onclick="show('ajustes', this)">⚙️ Ajustes</button>
+      <button class="active">🏠 Inicio</button>
+      <button>📊 Panel</button>
+      <button>💬 Comunidad</button>
+      <button>⚙️ Ajustes</button>
     </div>
   </div>
 
   <!-- MAIN -->
   <div class="main">
 
+    <!-- TOP -->
     <div class="topbar">
-      <h2 id="title">Inicio</h2>
+      <h2>Inicio</h2>
       <button class="btn">Acción</button>
     </div>
 
-    <div id="content" class="content">
+    <!-- HERO CENTRADO -->
+    <div class="hero-container">
+      <div>
+        <div class="hero-title">BoxPixelWeb</div>
+        <div class="hero-sub">Una web moderna, limpia y lista para crecer 🚀</div>
+        <div class="scroll-hint">⬇ Baja para ver más</div>
+      </div>
+    </div>
 
-      <!-- HOME MEJORADO -->
-      <div class="hero">
-        <h1>Bienvenido a BoxPixelWeb 🚀</h1>
-        <p>Tu panel moderno con diseño tipo app profesional.</p>
+    <!-- CONTENIDO ABAJO (para scroll) -->
+    <div class="section">
+
+      <div class="card">
+        <h3>⚡ Velocidad</h3>
+        <p>Interfaz rápida y optimizada</p>
       </div>
 
-      <div class="grid">
-        <div class="card">
-          <h3>⚡ Velocidad</h3>
-          <p>Interfaz optimizada y fluida</p>
-        </div>
-
-        <div class="card">
-          <h3>🎨 Diseño</h3>
-          <p>UI moderna tipo dashboard SaaS</p>
-        </div>
-
-        <div class="card">
-          <h3>📱 Responsive</h3>
-          <p>Se adapta a cualquier pantalla</p>
-        </div>
-
-        <div class="card">
-          <h3>🔐 Futuro</h3>
-          <p>Login y chat pueden agregarse</p>
-        </div>
+      <div class="card">
+        <h3>🎨 Diseño moderno</h3>
+        <p>Estilo tipo SaaS / app profesional</p>
       </div>
+
+      <div class="card">
+        <h3>📱 Responsive</h3>
+        <p>Funciona en celular y PC</p>
+      </div>
+
+      <div class="card">
+        <h3>🚀 Escalable</h3>
+        <p>Listo para chat, login o base de datos</p>
+      </div>
+
+      <!-- 🔥 espacio extra para que se note el scroll -->
+      <div style="height: 400px;"></div>
 
     </div>
 
   </div>
-
-  <script>
-    function show(page, btn) {
-      document.querySelectorAll(".menu button").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const title = document.getElementById("title");
-      const content = document.getElementById("content");
-
-      if (page === "home") {
-        title.innerText = "Inicio";
-        content.innerHTML = `
-          <div class="hero">
-            <h1>Bienvenido a BoxPixelWeb 🚀</h1>
-            <p>Tu panel moderno con diseño tipo app profesional.</p>
-          </div>
-
-          <div class="grid">
-            <div class="card"><h3>⚡ Velocidad</h3><p>Interfaz optimizada y fluida</p></div>
-            <div class="card"><h3>🎨 Diseño</h3><p>UI moderna tipo dashboard SaaS</p></div>
-            <div class="card"><h3>📱 Responsive</h3><p>Se adapta a cualquier pantalla</p></div>
-            <div class="card"><h3>🔐 Futuro</h3><p>Login y chat pueden agregarse</p></div>
-          </div>
-        `;
-      }
-
-      if (page === "panel") {
-        title.innerText = "Panel";
-        content.innerHTML = `
-          <div class="card">
-            <h3>📊 Panel de control</h3>
-            <p>Aquí podríamos agregar estadísticas reales, usuarios, logs, etc.</p>
-          </div>
-        `;
-      }
-
-      if (page === "comunidad") {
-        title.innerText = "Comunidad";
-        content.innerHTML = `
-          <div class="card">
-            <h3>💬 Chat futuro</h3>
-            <p>Aquí podemos integrar Firebase o Supabase para chat real 😏</p>
-          </div>
-        `;
-      }
-
-      if (page === "ajustes") {
-        title.innerText = "Ajustes";
-        content.innerHTML = `
-          <div class="card">
-            <h3>⚙️ Configuración</h3>
-            <p>Temas, cuenta, seguridad, etc.</p>
-          </div>
-        `;
-      }
-    }
-  </script>
 
 </body>
 </html>

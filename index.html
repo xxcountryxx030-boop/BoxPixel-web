@@ -24,7 +24,7 @@ createClient(
 
 const username =
 "User" +
-Math.floor(Math.random() * 9999);
+Math.floor(Math.random()*9999);
 
 /* =========================================
    ELEMENTOS
@@ -37,21 +37,21 @@ const statusDiv =
 document.getElementById("status");
 
 /* =========================================
-   MENSAJES MOSTRADOS
+   CONTROL DUPLICADOS
 ========================================= */
 
-const shownMessages =
+const loadedMessages =
 new Set();
 
 /* =========================================
-   AGREGAR MENSAJE
+   CREAR MENSAJE
 ========================================= */
 
-function addMessage(id, username, text){
+function createMessage(id,user,text){
 
-    if(shownMessages.has(id)) return;
+    if(loadedMessages.has(id)) return;
 
-    shownMessages.add(id);
+    loadedMessages.add(id);
 
     const div =
     document.createElement("div");
@@ -60,7 +60,7 @@ function addMessage(id, username, text){
     "message";
 
     div.innerHTML =
-    `<b>${username}:</b> ${text}`;
+    `<b>${user}:</b> ${text}`;
 
     messagesDiv.appendChild(div);
 
@@ -78,7 +78,7 @@ async function loadMessages(){
     statusDiv.innerHTML =
     "📥 Cargando chat...";
 
-    const { data, error } =
+    const { data,error } =
     await client
     .from("messages")
     .select("*")
@@ -100,11 +100,11 @@ async function loadMessages(){
 
     messagesDiv.innerHTML = "";
 
-    shownMessages.clear();
+    loadedMessages.clear();
 
     data.forEach(msg => {
 
-        addMessage(
+        createMessage(
             msg.id,
             msg.username,
             msg.text
@@ -118,7 +118,7 @@ async function loadMessages(){
 }
 
 /* =========================================
-   ENVIAR MENSAJE
+   ENVIAR
 ========================================= */
 
 async function sendMessage(){
@@ -131,18 +131,20 @@ async function sendMessage(){
     const text =
     input.value.trim();
 
-    if(!text) return;
+    if(text === "") return;
 
     statusDiv.innerHTML =
     "📤 Enviando...";
 
-    const { data, error } =
+    const { data,error } =
     await client
     .from("messages")
-    .insert({
-        username: username,
-        text: text
-    })
+    .insert([
+        {
+            username: username,
+            text: text
+        }
+    ])
     .select();
 
     if(error){
@@ -156,13 +158,17 @@ async function sendMessage(){
 
     }
 
-    if(data && data.length > 0){
+    if(data){
 
-        addMessage(
-            data[0].id,
-            data[0].username,
-            data[0].text
-        );
+        data.forEach(msg => {
+
+            createMessage(
+                msg.id,
+                msg.username,
+                msg.text
+            );
+
+        });
 
     }
 
@@ -209,7 +215,7 @@ client
 
     payload => {
 
-        addMessage(
+        createMessage(
             payload.new.id,
             payload.new.username,
             payload.new.text

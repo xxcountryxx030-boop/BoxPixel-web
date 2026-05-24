@@ -25,7 +25,7 @@ body{
     overflow-x:hidden;
 }
 
-/* Fondo */
+/* FONDO */
 
 .background{
     position:fixed;
@@ -78,7 +78,7 @@ nav{
     text-shadow:0 0 15px #3b82f6;
 }
 
-/* MENU BUTTON */
+/* MENU */
 
 .menu-btn{
     font-size:32px;
@@ -90,8 +90,6 @@ nav{
 .menu-btn:hover{
     color:#60a5fa;
 }
-
-/* SIDE MENU */
 
 .side-menu{
 
@@ -117,17 +115,32 @@ nav{
     flex-direction:column;
     gap:20px;
 
-    box-shadow:-5px 0 20px rgba(0,0,0,0.5);
-
 }
 
 .side-menu.active{
     right:0;
 }
 
+.close-btn{
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    color:white;
+
+    align-self:flex-end;
+
+    transition:0.3s;
+
+}
+
+.close-btn:hover{
+    color:#60a5fa;
+}
+
 .side-menu h2{
     color:#60a5fa;
-    margin-bottom:10px;
 }
 
 .side-menu a{
@@ -322,16 +335,25 @@ footer{
 <div class="background"></div>
 <div class="grid"></div>
 
-<!-- MENU LATERAL -->
+<!-- MENU -->
 
 <div class="side-menu" id="sideMenu">
 
+    <div
+    class="close-btn"
+    onclick="closeMenu()">
+    ✕
+    </div>
+
     <h2>BoxPixelsWeb</h2>
 
-    <a href="#">🏠 Home</a>
+    <a href="#"
+    onclick="goHome()">
+    🏠 Home
+    </a>
 
-    <a href="#communitySection"
-    onclick="closeMenu()">
+    <a href="#"
+    onclick="openCommunity()">
     💬 Comunidad
     </a>
 
@@ -353,16 +375,19 @@ footer{
         BoxPixelsWeb
     </div>
 
-    <div class="menu-btn"
+    <div
+    class="menu-btn"
     onclick="toggleMenu()">
     ☰
     </div>
 
 </nav>
 
-<!-- HERO -->
+<!-- HOME -->
 
-<section class="hero">
+<section
+class="hero"
+id="homeSection">
 
     <h1>BoxPixelsWeb</h1>
 
@@ -390,7 +415,8 @@ footer{
 
 <section
 class="section"
-id="communitySection">
+id="communitySection"
+style="display:none;">
 
     <h2 class="section-title">
         Comunidad
@@ -453,16 +479,43 @@ function closeMenu(){
 
 }
 
-/* EXPLORAR */
+/* HOME */
+
+function goHome(){
+
+    document
+    .getElementById("homeSection")
+    .style.display = "flex";
+
+    document
+    .getElementById("communitySection")
+    .style.display = "none";
+
+    closeMenu();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+/* COMUNIDAD */
 
 function openCommunity(){
 
-    const section =
-    document.getElementById(
-        "communitySection"
-    );
+    document
+    .getElementById("homeSection")
+    .style.display = "none";
 
-    section.scrollIntoView({
+    document
+    .getElementById("communitySection")
+    .style.display = "block";
+
+    closeMenu();
+
+    window.scrollTo({
+        top:0,
         behavior:"smooth"
     });
 
@@ -484,7 +537,7 @@ createClient(
     SUPABASE_KEY
 );
 
-/* USER */
+/* USERNAME */
 
 const username =
 "User" +
@@ -526,8 +579,10 @@ async function loadMessages(){
     await client
     .from("messages")
     .select("*")
-    .order("created_at",
-    { ascending:true });
+    .order(
+        "created_at",
+        { ascending:true }
+    );
 
     if(error){
 
@@ -602,15 +657,18 @@ async function sendMessage(){
 
 document
 .getElementById("messageInput")
-.addEventListener("keypress",e=>{
+.addEventListener(
+    "keypress",
+    e=>{
 
-    if(e.key === "Enter"){
+        if(e.key === "Enter"){
 
-        sendMessage();
+            sendMessage();
+
+        }
 
     }
-
-});
+);
 
 /* REALTIME */
 

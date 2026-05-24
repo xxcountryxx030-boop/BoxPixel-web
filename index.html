@@ -5,25 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoxPixelWeb</title>
     <style>
-        /* Reseteo y configuración general */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Segoe UI', sans-serif;
             color: white;
-            /* Aplicación del fondo con capa oscura para legibilidad */
             background: linear-gradient(rgba(10, 15, 30, 0.7), rgba(10, 15, 30, 0.7)), 
                         url('fondo.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* Estilo de la cabecera */
+        /* Cabecera con Logo y Título */
         header {
             display: flex;
             justify-content: space-between;
@@ -31,41 +27,49 @@
             align-items: center;
         }
 
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Estilo del logo estilo "H" */
+        .h-logo {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            clip-path: polygon(0% 0%, 30% 0%, 30% 35%, 70% 35%, 70% 0%, 100% 0%, 100% 100%, 70% 100%, 70% 65%, 30% 65%, 30% 100%, 0% 100%);
+        }
+
+        .brand-name { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+
         .pill { 
             background: rgba(255, 255, 255, 0.05); 
             padding: 8px 16px; 
             border-radius: 20px; 
             border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; 
-            align-items: center; 
-            gap: 10px;
         }
 
-        /* Contenido principal centrado */
         main {
-            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
+            padding-top: 100px;
         }
 
         h1 { font-size: 4rem; margin: 10px 0; letter-spacing: -2px; text-transform: uppercase; }
         .tagline { color: #5c85d6; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; }
         .desc { color: #bbb; max-width: 600px; line-height: 1.5; }
-
-        /* Pie de página */
-        footer { text-align: center; padding: 20px; color: #666; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="pill">
-            <span>≡ BoxPixelWeb</span>
-            <small style="opacity: 0.5;">vBeta 0.9.1</small>
+        <div class="logo-container">
+            <div class="h-logo"></div>
+            <div class="brand-name">BoxPixelWeb</div>
         </div>
         <div class="pill">C Country</div>
     </header>
@@ -74,14 +78,9 @@
         <div class="tagline">CREATIVITY & CRAFT</div>
         <h1>BoxPixelWeb</h1>
         <p class="desc">
-            A curated showcase of art and software. 
-            Currently featuring 12 unique projects.
+            A curated showcase of sound, visuals, and tools.
         </p>
     </main>
-
-    <footer>
-        &copy; 2026 BoxPixelWeb - All rights reserved.
-    </footer>
 
 </body>
 </html>

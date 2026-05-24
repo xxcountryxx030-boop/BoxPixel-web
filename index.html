@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoxPixelWeb</title>
     <style>
+        /* Reseteo y configuración general */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Segoe UI', sans-serif;
             color: white;
-            /* Configuración del fondo tecnológico */
-            background: linear-gradient(rgba(10, 15, 30, 0.8), rgba(10, 15, 30, 0.8)), 
+            /* Aplicación del fondo con capa oscura para legibilidad */
+            background: linear-gradient(rgba(10, 15, 30, 0.7), rgba(10, 15, 30, 0.7)), 
                         url('fondo.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
             display: flex;
             flex-direction: column;
         }
 
+        /* Estilo de la cabecera */
         header {
             display: flex;
             justify-content: space-between;
@@ -38,6 +41,7 @@
             gap: 10px;
         }
 
+        /* Contenido principal centrado */
         main {
             flex: 1;
             display: flex;
@@ -52,6 +56,7 @@
         .tagline { color: #5c85d6; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; }
         .desc { color: #bbb; max-width: 600px; line-height: 1.5; }
 
+        /* Pie de página */
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.8rem; }
     </style>
 </head>
@@ -69,8 +74,8 @@
         <div class="tagline">CREATIVITY & CRAFT</div>
         <h1>BoxPixelWeb</h1>
         <p class="desc">
-            A curated showcase of sound, visuals, and tools, bringing together abstract art, 
-            and Python software. Currently featuring 12 unique projects.
+            A curated showcase of art and software. 
+            Currently featuring 12 unique projects.
         </p>
     </main>
 

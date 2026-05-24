@@ -12,13 +12,11 @@
 
 :root{
     --bg:#050816;
-    --card:#0f172a;
-    --card2:#111827;
     --blue:#2563eb;
     --blue2:#60a5fa;
     --text:#ffffff;
     --muted:#94a3b8;
-    --border:rgba(96,165,250,0.25);
+    --border:rgba(96,165,250,0.2);
 }
 
 *{
@@ -33,6 +31,8 @@ body{
     overflow-x:hidden;
     font-family:'Inter',sans-serif;
 }
+
+/* FONDO */
 
 .background{
     position:fixed;
@@ -95,7 +95,7 @@ nav{
 
     backdrop-filter:blur(12px);
 
-    border-bottom:1px solid rgba(96,165,250,0.2);
+    border-bottom:1px solid var(--border);
 }
 
 .logo{
@@ -119,11 +119,19 @@ nav{
 
     background:rgba(255,255,255,0.05);
 
-    border:1px solid rgba(96,165,250,0.2);
+    border:1px solid var(--border);
 
     color:#94a3b8;
 
     font-size:14px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.user-badge:hover{
+    background:rgba(37,99,235,0.2);
 }
 
 .menu-btn{
@@ -134,7 +142,7 @@ nav{
 
     background:rgba(255,255,255,0.05);
 
-    border:1px solid rgba(96,165,250,0.2);
+    border:1px solid var(--border);
 
     display:flex;
     justify-content:center;
@@ -162,7 +170,7 @@ nav{
 
     background:#0f172a;
 
-    border-left:1px solid rgba(96,165,250,0.2);
+    border-left:1px solid var(--border);
 
     padding:30px;
 
@@ -232,7 +240,7 @@ nav{
 
     background:rgba(255,255,255,0.05);
 
-    border:1px solid rgba(96,165,250,0.2);
+    border:1px solid var(--border);
 
     backdrop-filter:blur(18px);
 }
@@ -323,7 +331,7 @@ nav{
 
     border-radius:28px;
 
-    border:1px solid rgba(96,165,250,0.2);
+    border:1px solid var(--border);
 
     overflow:hidden;
 }
@@ -355,6 +363,8 @@ nav{
     padding:14px 18px;
 
     border-radius:18px;
+
+    word-break:break-word;
 }
 
 .message b{
@@ -474,7 +484,7 @@ footer{
         <div
         class="user-badge"
         id="userBadge">
-        🔒 Invitado
+        🚀 Iniciar sesión
         </div>
 
         <div
@@ -508,12 +518,6 @@ id="homeSection">
         </div>
 
         <div class="buttons">
-
-            <button
-            class="btn"
-            onclick="googleLogin()">
-            🚀 Iniciar con Google
-            </button>
 
             <button
             class="btn"
@@ -741,7 +745,7 @@ window.logoutUser = async function(){
 
 }
 
-/* WATCH USER */
+/* AUTH STATE */
 
 onAuthStateChanged(auth, user => {
 
@@ -753,7 +757,9 @@ onAuthStateChanged(auth, user => {
         "🟢 " + user.email;
 
         userBadge.innerHTML =
-        "🟢 " + user.email;
+        "🟢 " + user.displayName;
+
+        userBadge.onclick = null;
 
     }else{
 
@@ -763,7 +769,9 @@ onAuthStateChanged(auth, user => {
         "🔒 Debes iniciar sesión";
 
         userBadge.innerHTML =
-        "🔒 Invitado";
+        "🚀 Iniciar sesión";
+
+        userBadge.onclick = googleLogin;
 
     }
 
@@ -789,7 +797,7 @@ function createMessage(user,text){
 
 }
 
-/* ENVIAR */
+/* ENVIAR MENSAJE */
 
 window.sendMessage = async function(){
 

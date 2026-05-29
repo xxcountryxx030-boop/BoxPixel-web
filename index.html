@@ -1,295 +1,150 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BoxPixel Search</title>
 
-<title>BoxPixel</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
 
-<style>
+    body{
+      background:#fff;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+    }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
+    .logo{
+      font-size:70px;
+      font-weight:bold;
+      margin-bottom:30px;
+      user-select:none;
+    }
 
-body{
-    background:#0f1117;
-    color:white;
-}
+    .logo span:nth-child(1){ color:#4285F4; }
+    .logo span:nth-child(2){ color:#EA4335; }
+    .logo span:nth-child(3){ color:#FBBC05; }
+    .logo span:nth-child(4){ color:#4285F4; }
+    .logo span:nth-child(5){ color:#34A853; }
+    .logo span:nth-child(6){ color:#EA4335; }
 
-/* ================= HOME ================= */
+    .search-box{
+      width:90%;
+      max-width:650px;
+      position:relative;
+    }
 
-.home{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    background:
-    radial-gradient(circle at top left,#2563eb33,transparent 30%),
-    radial-gradient(circle at bottom right,#7c3aed33,transparent 30%);
-}
+    .search-box input{
+      width:100%;
+      padding:16px 25px;
+      border-radius:50px;
+      border:1px solid #dcdcdc;
+      font-size:18px;
+      outline:none;
+      transition:0.2s;
+      box-shadow:0 1px 6px rgba(32,33,36,.15);
+    }
 
-.logo{
-    font-size:85px;
-    font-weight:bold;
-    margin-bottom:30px;
-    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
+    .search-box input:focus{
+      border-color:#4285F4;
+      box-shadow:0 1px 10px rgba(66,133,244,.4);
+    }
 
-.search-box{
-    width:90%;
-    max-width:700px;
-    background:#1e293b;
-    border-radius:50px;
-    padding:12px 20px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    border:2px solid transparent;
-    transition:0.3s;
-}
+    .buttons{
+      margin-top:30px;
+      display:flex;
+      gap:15px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
 
-.search-box:hover{
-    border-color:#3b82f6;
-}
+    .buttons button{
+      padding:12px 22px;
+      border:none;
+      border-radius:6px;
+      background:#f8f9fa;
+      cursor:pointer;
+      font-size:15px;
+      transition:0.2s;
+    }
 
-.search-box input{
-    flex:1;
-    background:none;
-    border:none;
-    outline:none;
-    color:white;
-    font-size:20px;
-}
+    .buttons button:hover{
+      background:#e8eaed;
+    }
 
-.search-box button{
-    border:none;
-    padding:12px 22px;
-    border-radius:30px;
-    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* ================= SEARCH PAGE ================= */
-
-.results-page{
-    display:none;
-    min-height:100vh;
-    background:#0f1117;
-}
-
-.topbar{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    padding:20px;
-    border-bottom:1px solid #1e293b;
-}
-
-.top-logo{
-    font-size:35px;
-    font-weight:bold;
-    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.top-search{
-    flex:1;
-    display:flex;
-    gap:10px;
-}
-
-.top-search input{
-    flex:1;
-    padding:14px 20px;
-    border:none;
-    border-radius:40px;
-    background:#1e293b;
-    color:white;
-    font-size:16px;
-    outline:none;
-}
-
-.top-search button{
-    padding:14px 22px;
-    border:none;
-    border-radius:30px;
-    background:#3b82f6;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.results{
-    padding:40px 80px;
-}
-
-.result{
-    margin-bottom:35px;
-}
-
-.result a{
-    color:#60a5fa;
-    font-size:22px;
-    text-decoration:none;
-}
-
-.result a:hover{
-    text-decoration:underline;
-}
-
-.result .link{
-    color:#22c55e;
-    font-size:14px;
-    margin-top:4px;
-}
-
-.result p{
-    margin-top:8px;
-    color:#cbd5e1;
-    line-height:1.5;
-}
-
-</style>
+    .footer{
+      position:absolute;
+      bottom:20px;
+      color:#777;
+      font-size:14px;
+    }
+  </style>
 </head>
 <body>
 
-<!-- HOME -->
-<div class="home" id="home">
+  <div class="logo">
+    <span>B</span>
+    <span>o</span>
+    <span>x</span>
+    <span>P</span>
+    <span>i</span>
+    <span>x</span>
+    <span>e</span>
+    <span>l</span>
+    <span style="color:#555;"> Search</span>
+  </div>
 
-    <div class="logo">BoxPixel</div>
+  <form class="search-box" onsubmit="searchGoogle(event)">
+    <input 
+      type="text" 
+      id="searchInput"
+      placeholder="Buscar en BoxPixel Search..."
+    />
+  </form>
 
-    <form class="search-box" id="searchForm">
+  <div class="buttons">
+    <button onclick="doSearch()">Buscar</button>
+    <button onclick="luckySearch()">Voy a tener suerte</button>
+  </div>
 
-        <input 
-            type="text"
-            id="searchInput"
-            placeholder="Buscar en BoxPixel..."
-        >
+  <div class="footer">
+    BoxPixel Search © 2026
+  </div>
 
-        <button type="submit">
-            Buscar
-        </button>
+  <script>
+    function doSearch() {
+      const query = document.getElementById("searchInput").value;
 
-    </form>
-
-</div>
-
-<!-- RESULTS -->
-<div class="results-page" id="resultsPage">
-
-    <div class="topbar">
-
-        <div class="top-logo">
-            BoxPixel
-        </div>
-
-        <form class="top-search" id="topSearchForm">
-
-            <input 
-                type="text"
-                id="topSearchInput"
-                placeholder="Buscar..."
-            >
-
-            <button type="submit">
-                Buscar
-            </button>
-
-        </form>
-
-    </div>
-
-    <div class="results" id="results">
-
-    </div>
-
-</div>
-
-<script>
-
-const searchForm = document.getElementById("searchForm");
-const topSearchForm = document.getElementById("topSearchForm");
-
-const searchInput = document.getElementById("searchInput");
-const topSearchInput = document.getElementById("topSearchInput");
-
-const home = document.getElementById("home");
-const resultsPage = document.getElementById("resultsPage");
-const resultsDiv = document.getElementById("results");
-
-function makeResults(query){
-
-    home.style.display = "none";
-    resultsPage.style.display = "block";
-
-    topSearchInput.value = query;
-
-    resultsDiv.innerHTML = `
-    
-    <div class="result">
-        <a href="#">${query} - Resultado principal</a>
-        <div class="link">www.boxpixel.com/${query}</div>
-        <p>
-            Resultado de búsqueda relacionado con ${query}.
-            Esta es una demo visual estilo Google creada para BoxPixel.
-        </p>
-    </div>
-
-    <div class="result">
-        <a href="#">Más información sobre ${query}</a>
-        <div class="link">info.boxpixel.com</div>
-        <p>
-            Encuentra noticias, videos, imágenes y más contenido
-            relacionado con ${query}.
-        </p>
-    </div>
-
-    <div class="result">
-        <a href="#">Comunidad BoxPixel</a>
-        <div class="link">community.boxpixel.com</div>
-        <p>
-            Usuarios hablando sobre ${query} dentro de la comunidad.
-        </p>
-    </div>
-
-    `;
-}
-
-searchForm.addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    const query = searchInput.value.trim();
-
-    if(query !== ""){
-        makeResults(query);
+      if(query.trim() !== ""){
+        window.location.href =
+          "https://www.google.com/search?q=" +
+          encodeURIComponent(query);
+      }
     }
 
-});
+    function luckySearch() {
+      const query = document.getElementById("searchInput").value;
 
-topSearchForm.addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    const query = topSearchInput.value.trim();
-
-    if(query !== ""){
-        makeResults(query);
+      if(query.trim() !== ""){
+        window.location.href =
+          "https://www.google.com/search?btnI=I&q=" +
+          encodeURIComponent(query);
+      }
     }
 
-});
-
-</script>
+    function searchGoogle(event){
+      event.preventDefault();
+      doSearch();
+    }
+  </script>
 
 </body>
 </html>

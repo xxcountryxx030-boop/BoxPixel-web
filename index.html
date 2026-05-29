@@ -1,96 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BoxPixel Search</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoxPixel</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
-    body{
-      background:#fff;
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-direction:column;
-    }
+body{
+    background:#202124;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
 
-    .logo{
-      font-size:70px;
-      font-weight:bold;
-      margin-bottom:30px;
-      user-select:none;
-    }
+.logo{
+    font-size:65px;
+    font-weight:bold;
+    margin-bottom:30px;
+    letter-spacing:2px;
+}
 
-    .logo span:nth-child(1){ color:#4285F4; }
-    .logo span:nth-child(2){ color:#EA4335; }
-    .logo span:nth-child(3){ color:#FBBC05; }
-    .logo span:nth-child(4){ color:#4285F4; }
-    .logo span:nth-child(5){ color:#34A853; }
-    .logo span:nth-child(6){ color:#EA4335; }
+.logo span:nth-child(1){color:#4ea1ff;}
+.logo span:nth-child(2){color:#ff5757;}
+.logo span:nth-child(3){color:#ffd447;}
+.logo span:nth-child(4){color:#4eff88;}
+.logo span:nth-child(5){color:#4ea1ff;}
+.logo span:nth-child(6){color:#ff7bf2;}
+.logo span:nth-child(7){color:#ffffff;}
+.logo span:nth-child(8){color:#aaaaaa;}
 
-    .search-box{
-      width:90%;
-      max-width:650px;
-      position:relative;
-    }
+.search-container{
+    width:90%;
+    max-width:650px;
+    position:relative;
+}
 
-    .search-box input{
-      width:100%;
-      padding:16px 25px;
-      border-radius:50px;
-      border:1px solid #dcdcdc;
-      font-size:18px;
-      outline:none;
-      transition:0.2s;
-      box-shadow:0 1px 6px rgba(32,33,36,.15);
-    }
+.search-box{
+    width:100%;
+    background:#303134;
+    border:1px solid #5f6368;
+    border-radius:30px;
+    padding:15px 20px;
+    color:white;
+    font-size:18px;
+    outline:none;
+    transition:0.2s;
+}
 
-    .search-box input:focus{
-      border-color:#4285F4;
-      box-shadow:0 1px 10px rgba(66,133,244,.4);
-    }
+.search-box:focus{
+    border-color:#4ea1ff;
+    box-shadow:0 0 10px rgba(78,161,255,0.4);
+}
 
-    .buttons{
-      margin-top:30px;
-      display:flex;
-      gap:15px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
+.suggestions{
+    margin-top:10px;
+    background:#303134;
+    border-radius:20px;
+    overflow:hidden;
+    display:none;
+    border:1px solid #5f6368;
+}
 
-    .buttons button{
-      padding:12px 22px;
-      border:none;
-      border-radius:6px;
-      background:#f8f9fa;
-      cursor:pointer;
-      font-size:15px;
-      transition:0.2s;
-    }
+.suggestion{
+    padding:14px 20px;
+    cursor:pointer;
+    transition:0.2s;
+    font-size:18px;
+    border-bottom:1px solid #3c4043;
+}
 
-    .buttons button:hover{
-      background:#e8eaed;
-    }
+.suggestion:last-child{
+    border-bottom:none;
+}
 
-    .footer{
-      position:absolute;
-      bottom:20px;
-      color:#777;
-      font-size:14px;
-    }
-  </style>
+.suggestion:hover{
+    background:#3c4043;
+}
+
+.footer{
+    position:absolute;
+    bottom:20px;
+    color:#9aa0a6;
+    font-size:14px;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="logo">
+<div class="logo">
     <span>B</span>
     <span>o</span>
     <span>x</span>
@@ -99,52 +107,97 @@
     <span>x</span>
     <span>e</span>
     <span>l</span>
-    <span style="color:#555;"> Search</span>
-  </div>
+</div>
 
-  <form class="search-box" onsubmit="searchGoogle(event)">
+<div class="search-container">
     <input 
-      type="text" 
-      id="searchInput"
-      placeholder="Buscar en BoxPixel Search..."
-    />
-  </form>
+        type="text" 
+        id="searchInput"
+        class="search-box"
+        placeholder="Buscar..."
+        autocomplete="off"
+    >
 
-  <div class="buttons">
-    <button onclick="doSearch()">Buscar</button>
-    <button onclick="luckySearch()">Voy a tener suerte</button>
-  </div>
+    <div class="suggestions" id="suggestions"></div>
+</div>
 
-  <div class="footer">
-    BoxPixel Search © 2026
-  </div>
+<div class="footer">
+    BoxPixel Browser
+</div>
 
-  <script>
-    function doSearch() {
-      const query = document.getElementById("searchInput").value;
+<script>
+const searchInput = document.getElementById("searchInput");
+const suggestionsBox = document.getElementById("suggestions");
 
-      if(query.trim() !== ""){
-        window.location.href =
-          "https://www.google.com/search?q=" +
-          encodeURIComponent(query);
-      }
+const fakeResults = [
+    "BoxPixel community",
+    "BoxPixel games",
+    "BoxPixel studios",
+    "web browser",
+    "weather",
+    "web app",
+    "music player",
+    "minecraft",
+    "python game",
+    "chat online",
+    "pixel art",
+    "video editor",
+    "BoxPixel engine",
+    "dark mode",
+    "javascript tutorial",
+    "free assets"
+];
+
+searchInput.addEventListener("input", function(){
+
+    const value = this.value.toLowerCase();
+
+    suggestionsBox.innerHTML = "";
+
+    if(value === ""){
+        suggestionsBox.style.display = "none";
+        return;
     }
 
-    function luckySearch() {
-      const query = document.getElementById("searchInput").value;
+    const filtered = fakeResults.filter(item =>
+        item.toLowerCase().includes(value)
+    );
 
-      if(query.trim() !== ""){
-        window.location.href =
-          "https://www.google.com/search?btnI=I&q=" +
-          encodeURIComponent(query);
-      }
-    }
+    filtered.forEach(result => {
 
-    function searchGoogle(event){
-      event.preventDefault();
-      doSearch();
+        const div = document.createElement("div");
+        div.classList.add("suggestion");
+        div.textContent = result;
+
+        div.onclick = () => {
+            searchInput.value = result;
+
+            window.location.href =
+                "https://www.google.com/search?q=" +
+                encodeURIComponent(result);
+        };
+
+        suggestionsBox.appendChild(div);
+    });
+
+    suggestionsBox.style.display =
+        filtered.length > 0 ? "block" : "none";
+});
+
+searchInput.addEventListener("keypress", function(e){
+
+    if(e.key === "Enter"){
+
+        const query = searchInput.value;
+
+        if(query.trim() !== ""){
+            window.location.href =
+                "https://www.google.com/search?q=" +
+                encodeURIComponent(query);
+        }
     }
-  </script>
+});
+</script>
 
 </body>
 </html>

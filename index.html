@@ -1,6 +1,6 @@
 # =========================================
 # BOXPIXEL BROWSER
-# Navegador simple en Python
+# Navegador con nombre personalizado
 # =========================================
 
 # INSTALAR:
@@ -31,23 +31,32 @@ class Navegador(QMainWindow):
         self.resize(1300, 750)
 
         # =========================================
-        # NAVEGADOR WEB
+        # NAVEGADOR
         # =========================================
         self.browser = QWebEngineView()
+
+        # Cambiar User-Agent para ocultar Google Chrome
+        profile = self.browser.page().profile()
+        profile.setHttpUserAgent(
+            "BoxPixelBrowser/1.0"
+        )
+
+        # Página inicial
         self.browser.setUrl(QUrl("https://boxpixel-web.vercel.app/"))
 
         # =========================================
-        # LOGO TEXTO IZQUIERDA
+        # TEXTO IZQUIERDA
         # =========================================
         self.logo = QLabel("BoxPixel")
         self.logo.setFont(QFont("Arial", 18, QFont.Bold))
+
         self.logo.setStyleSheet("""
-            color: #4285F4;
+            color: #4A8DFF;
             padding-left: 10px;
         """)
 
         # =========================================
-        # BARRA URL / BÚSQUEDA
+        # BARRA DE BÚSQUEDA
         # =========================================
         self.url_bar = QLineEdit()
         self.url_bar.setPlaceholderText("Buscar o escribir URL...")
@@ -96,7 +105,7 @@ class Navegador(QMainWindow):
 
         self.setCentralWidget(container)
 
-        # Actualizar URL automáticamente
+        # Actualizar URL
         self.browser.urlChanged.connect(self.actualizar_url)
 
     # =========================================
@@ -105,7 +114,7 @@ class Navegador(QMainWindow):
     def navegar(self):
         texto = self.url_bar.text()
 
-        # Si no tiene http -> buscar en Google
+        # Buscar si no es URL
         if "." not in texto:
             url = f"https://www.google.com/search?q={texto}"
         else:
@@ -123,12 +132,11 @@ class Navegador(QMainWindow):
 
 
 # =========================================
-# EJECUTAR APP
+# EJECUTAR
 # =========================================
 app = QApplication(sys.argv)
 
 window = Navegador()
-
 window.show()
 
 sys.exit(app.exec_())

@@ -1,142 +1,295 @@
-# =========================================
-# BOXPIXEL BROWSER
-# Navegador con nombre personalizado
-# =========================================
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-# INSTALAR:
-# pip install PyQt5 PyQtWebEngine
+<title>BoxPixel</title>
 
-import sys
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QLineEdit,
-    QLabel
-)
+<style>
 
-from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QFont
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
+body{
+    background:#0f1117;
+    color:white;
+}
 
-class Navegador(QMainWindow):
-    def __init__(self):
-        super().__init__()
+/* ================= HOME ================= */
 
-        self.setWindowTitle("BoxPixel Browser")
-        self.resize(1300, 750)
+.home{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:
+    radial-gradient(circle at top left,#2563eb33,transparent 30%),
+    radial-gradient(circle at bottom right,#7c3aed33,transparent 30%);
+}
 
-        # =========================================
-        # NAVEGADOR
-        # =========================================
-        self.browser = QWebEngineView()
+.logo{
+    font-size:85px;
+    font-weight:bold;
+    margin-bottom:30px;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-        # Cambiar User-Agent para ocultar Google Chrome
-        profile = self.browser.page().profile()
-        profile.setHttpUserAgent(
-            "BoxPixelBrowser/1.0"
-        )
+.search-box{
+    width:90%;
+    max-width:700px;
+    background:#1e293b;
+    border-radius:50px;
+    padding:12px 20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:2px solid transparent;
+    transition:0.3s;
+}
 
-        # Página inicial
-        self.browser.setUrl(QUrl("https://boxpixel-web.vercel.app/"))
+.search-box:hover{
+    border-color:#3b82f6;
+}
 
-        # =========================================
-        # TEXTO IZQUIERDA
-        # =========================================
-        self.logo = QLabel("BoxPixel")
-        self.logo.setFont(QFont("Arial", 18, QFont.Bold))
+.search-box input{
+    flex:1;
+    background:none;
+    border:none;
+    outline:none;
+    color:white;
+    font-size:20px;
+}
 
-        self.logo.setStyleSheet("""
-            color: #4A8DFF;
-            padding-left: 10px;
-        """)
+.search-box button{
+    border:none;
+    padding:12px 22px;
+    border-radius:30px;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-        # =========================================
-        # BARRA DE BÚSQUEDA
-        # =========================================
-        self.url_bar = QLineEdit()
-        self.url_bar.setPlaceholderText("Buscar o escribir URL...")
-        self.url_bar.returnPressed.connect(self.navegar)
+/* ================= SEARCH PAGE ================= */
 
-        self.url_bar.setStyleSheet("""
-            QLineEdit{
-                padding: 8px;
-                border-radius: 10px;
-                border: 1px solid gray;
-                font-size: 14px;
-            }
-        """)
+.results-page{
+    display:none;
+    min-height:100vh;
+    background:#0f1117;
+}
 
-        # =========================================
-        # BOTONES
-        # =========================================
-        self.btn_back = QPushButton("←")
-        self.btn_forward = QPushButton("→")
-        self.btn_reload = QPushButton("⟳")
+.topbar{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:20px;
+    border-bottom:1px solid #1e293b;
+}
 
-        self.btn_back.clicked.connect(self.browser.back)
-        self.btn_forward.clicked.connect(self.browser.forward)
-        self.btn_reload.clicked.connect(self.browser.reload)
+.top-logo{
+    font-size:35px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-        # =========================================
-        # BARRA SUPERIOR
-        # =========================================
-        top_bar = QHBoxLayout()
+.top-search{
+    flex:1;
+    display:flex;
+    gap:10px;
+}
 
-        top_bar.addWidget(self.logo)
-        top_bar.addWidget(self.btn_back)
-        top_bar.addWidget(self.btn_forward)
-        top_bar.addWidget(self.btn_reload)
-        top_bar.addWidget(self.url_bar)
+.top-search input{
+    flex:1;
+    padding:14px 20px;
+    border:none;
+    border-radius:40px;
+    background:#1e293b;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
 
-        # =========================================
-        # LAYOUT PRINCIPAL
-        # =========================================
-        layout = QVBoxLayout()
-        layout.addLayout(top_bar)
-        layout.addWidget(self.browser)
+.top-search button{
+    padding:14px 22px;
+    border:none;
+    border-radius:30px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
 
-        container = QWidget()
-        container.setLayout(layout)
+.results{
+    padding:40px 80px;
+}
 
-        self.setCentralWidget(container)
+.result{
+    margin-bottom:35px;
+}
 
-        # Actualizar URL
-        self.browser.urlChanged.connect(self.actualizar_url)
+.result a{
+    color:#60a5fa;
+    font-size:22px;
+    text-decoration:none;
+}
 
-    # =========================================
-    # NAVEGAR
-    # =========================================
-    def navegar(self):
-        texto = self.url_bar.text()
+.result a:hover{
+    text-decoration:underline;
+}
 
-        # Buscar si no es URL
-        if "." not in texto:
-            url = f"https://www.google.com/search?q={texto}"
-        else:
-            if not texto.startswith("http"):
-                texto = "https://" + texto
-            url = texto
+.result .link{
+    color:#22c55e;
+    font-size:14px;
+    margin-top:4px;
+}
 
-        self.browser.setUrl(QUrl(url))
+.result p{
+    margin-top:8px;
+    color:#cbd5e1;
+    line-height:1.5;
+}
 
-    # =========================================
-    # ACTUALIZAR URL
-    # =========================================
-    def actualizar_url(self, q):
-        self.url_bar.setText(q.toString())
+</style>
+</head>
+<body>
 
+<!-- HOME -->
+<div class="home" id="home">
 
-# =========================================
-# EJECUTAR
-# =========================================
-app = QApplication(sys.argv)
+    <div class="logo">BoxPixel</div>
 
-window = Navegador()
-window.show()
+    <form class="search-box" id="searchForm">
 
-sys.exit(app.exec_())
+        <input 
+            type="text"
+            id="searchInput"
+            placeholder="Buscar en BoxPixel..."
+        >
+
+        <button type="submit">
+            Buscar
+        </button>
+
+    </form>
+
+</div>
+
+<!-- RESULTS -->
+<div class="results-page" id="resultsPage">
+
+    <div class="topbar">
+
+        <div class="top-logo">
+            BoxPixel
+        </div>
+
+        <form class="top-search" id="topSearchForm">
+
+            <input 
+                type="text"
+                id="topSearchInput"
+                placeholder="Buscar..."
+            >
+
+            <button type="submit">
+                Buscar
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="results" id="results">
+
+    </div>
+
+</div>
+
+<script>
+
+const searchForm = document.getElementById("searchForm");
+const topSearchForm = document.getElementById("topSearchForm");
+
+const searchInput = document.getElementById("searchInput");
+const topSearchInput = document.getElementById("topSearchInput");
+
+const home = document.getElementById("home");
+const resultsPage = document.getElementById("resultsPage");
+const resultsDiv = document.getElementById("results");
+
+function makeResults(query){
+
+    home.style.display = "none";
+    resultsPage.style.display = "block";
+
+    topSearchInput.value = query;
+
+    resultsDiv.innerHTML = `
+    
+    <div class="result">
+        <a href="#">${query} - Resultado principal</a>
+        <div class="link">www.boxpixel.com/${query}</div>
+        <p>
+            Resultado de búsqueda relacionado con ${query}.
+            Esta es una demo visual estilo Google creada para BoxPixel.
+        </p>
+    </div>
+
+    <div class="result">
+        <a href="#">Más información sobre ${query}</a>
+        <div class="link">info.boxpixel.com</div>
+        <p>
+            Encuentra noticias, videos, imágenes y más contenido
+            relacionado con ${query}.
+        </p>
+    </div>
+
+    <div class="result">
+        <a href="#">Comunidad BoxPixel</a>
+        <div class="link">community.boxpixel.com</div>
+        <p>
+            Usuarios hablando sobre ${query} dentro de la comunidad.
+        </p>
+    </div>
+
+    `;
+}
+
+searchForm.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const query = searchInput.value.trim();
+
+    if(query !== ""){
+        makeResults(query);
+    }
+
+});
+
+topSearchForm.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const query = topSearchInput.value.trim();
+
+    if(query !== ""){
+        makeResults(query);
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,236 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pixel Movies</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Hydra Prime · Streaming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI,sans-serif;
-}
-
-body{
-    background:#0d0d0d;
-    color:white;
-}
-
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:#111;
-    padding:15px 30px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid #222;
-}
-
-.logo{
-    color:#ff2222;
-    font-size:32px;
-    font-weight:bold;
-}
-
-#search{
-    width:300px;
-    padding:10px;
-    border:none;
-    border-radius:20px;
-    background:#222;
-    color:white;
-}
-
-.banner{
-    height:70vh;
-    background:linear-gradient(to right,#000,#00000060),
-    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600");
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    align-items:center;
-    padding:60px;
-}
-
-.banner-content h1{
-    font-size:70px;
-}
-
-.banner-content p{
-    margin-top:10px;
-    color:#ddd;
-}
-
-.movies{
-    padding:30px;
-}
-
-.movies h2{
-    margin-bottom:20px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:20px;
-}
-
-.card{
-    background:#181818;
-    border-radius:10px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.card:hover{
-    transform:scale(1.05);
-}
-
-.card img{
-    width:100%;
-    height:330px;
-    object-fit:cover;
-}
-
-.card h3{
-    padding:15px;
-    text-align:center;
-}
-
-.player{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.95);
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    z-index:999;
-}
-
-iframe{
-    width:80%;
-    height:70%;
-}
-
-.close{
-    margin-top:15px;
-    padding:10px 25px;
-    border:none;
-    background:red;
-    color:white;
-    cursor:pointer;
-    border-radius:5px;
-}
-</style>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script type="module" crossorigin src="/assets/index-C-nrRry2.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-xwEd4PCL.css">
 </head>
+
 <body>
 
-<header>
-    <div class="logo">🎬 Pixel Movies</div>
-    <input type="text" id="search" placeholder="Buscar película...">
-</header>
+    <nav class="navbar" id="navbar">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-8">
+                <h1 class="navbar-brand text-2xl md:text-3xl font-black"><i class="fas fa-dragon mr-2 text-red-600"></i>HYDRA PRIME</h1>
+                <div class="hidden md:flex gap-5 nav-links">
+                    <a href="#" class="nav-link active" data-nav="home">Inicio</a>
+                    <a href="#" class="nav-link" data-nav="series">Series</a>
+                    <a href="#" class="nav-link" data-nav="movies">Películas</a>
+                    <a href="#" class="nav-link" data-nav="mylist">Mi lista</a>
+                    <a href="#" class="nav-link" data-nav="reminders">Recordatorios</a>
+                    <a href="#" class="nav-link" data-nav="history">Historial</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 navbar-right">
+                <button id="themeToggle" class="text-yellow-400 text-xl"><i class="fas fa-sun"></i></button>
+                <div class="relative search-wrapper">
+                    <input type="text" id="searchInput" placeholder="Buscar..." class="bg-black/60 border border-gray-700 rounded-full py-1.5 px-4 pl-9 text-sm focus:outline-none focus:border-red-600 w-44 md:w-64">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <button id="clearSearchBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500"><i class="fas fa-times-circle"></i></button>
+                </div>
+                <select id="yearFilter" class="bg-black/60 border border-gray-700 rounded-full text-sm py-1.5 px-2">
+                    <option value="all">Todos los años</option>
+                    <option value="2020">2020+</option>
+                    <option value="2010">2010-2019</option>
+                    <option value="2000">2000-2009</option>
+                    <option value="1990">1990-1999</option>
+                </select>
+                <button id="randomBtn" class="bg-red-700 hover:bg-red-800 text-sm rounded-full px-3 py-1.5 transition"><i class="fas fa-dice-d6"></i> <span class="hidden sm:inline">Aleatorio</span></button>
+                <!-- Badges -->
+                <div class="flex items-center gap-2">
+                    <div class="badge-nav">
+                        <i class="fas fa-hourglass-half"></i> <span id="continueCount">0</span>
+                    </div>
+                    <div class="badge-nav">
+                        <i class="fas fa-list"></i> <span id="myListBadge">0</span>
+                    </div>
+                    <div class="badge-nav">
+                        <i class="fas fa-bell"></i> <span id="remindMeBadge">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<section class="banner">
-    <div class="banner-content">
-        <h1>Pixel Movies</h1>
-        <p>Explora películas y mira sus tráilers oficiales.</p>
+    <!-- HERO -->
+    <div class="hero" id="heroSection">
+        <div class="hero__overlay"></div>
+        <div class="hero__content animate-fade-up">
+            <h1 class="hero__title" id="heroTitle">Cargando...</h1>
+            <p class="hero__description" id="heroDesc"></p>
+            <div class="hero__buttons">
+                <button class="btn-play" id="heroPlayBtn"><i class="fas fa-play mr-2"></i>Reproducir</button>
+                <button class="btn-info" id="heroInfoBtn"><i class="fas fa-info-circle mr-2"></i>Más info</button>
+                <button class="btn-info" id="heroListBtn"><i class="fas fa-plus mr-2"></i>Mi lista</button>
+            </div>
+        </div>
+        <div class="hero__rating-badge" id="heroRatingBadge"></div>
     </div>
-</section>
 
-<section class="movies">
-    <h2>Películas Populares</h2>
-
-    <div class="grid" id="movieGrid">
-
-        <div class="card" data-video="TnGl01FkMMo">
-            <img src="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg">
-            <h3>Minecraft Movie</h3>
+    <div id="skeletonLoading" class="skeleton-container">
+        <div class="skeleton-row">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-cards">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
         </div>
-
-        <div class="card" data-video="qSu6i2iFMO0">
-            <img src="https://image.tmdb.org/t/p/w500/d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg">
-            <h3>Sonic 3</h3>
+        <div class="skeleton-row">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-cards">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
         </div>
-
-        <div class="card" data-video="shW9i6k8cB0">
-            <img src="https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg">
-            <h3>Super Mario Bros</h3>
-        </div>
-
-        <div class="card" data-video="JfVOs4VSpmA">
-            <img src="https://image.tmdb.org/t/p/w500/8VG8fDNiy50H4FedGwdSVUPoaJe.jpg">
-            <h3>Spider-Verse</h3>
-        </div>
-
     </div>
-</section>
 
-<div class="player" id="player">
-    <iframe id="videoFrame"
-        src=""
-        frameborder="0"
-        allowfullscreen>
-    </iframe>
+    <main id="mainContent" class="hidden relative"></main>
 
-    <button class="close" onclick="closePlayer()">
-        Cerrar
-    </button>
-</div>
+    <!-- MODAL PRINCIPAL -->
+    <div id="movieModal" class="modal-netflix">
+        <div class="modal-container">
+            <div class="modal-banner" id="modalBanner">
+                <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
+                <div id="modalTypeBadge" class="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded-full text-xs font-bold"></div>
+                <div class="modal-rating-stars" id="modalStars"></div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle">Título</h2>
+                <div class="modal-meta">
+                    <span><i class="fas fa-calendar-alt"></i> <span id="modalYear">2024</span></span>
+                    <span><i class="fas fa-star text-yellow-400"></i> <span id="modalRating">8.5</span></span>
+                    <span><i class="fas fa-tag"></i> <span id="modalGenre">Género</span></span>
+                    <span><i class="fas fa-clock"></i> <span id="modalDuration">?</span></span>
+                    <span id="modalReleaseDate" class="hidden"><i class="fas fa-calendar-week"></i> <span></span></span>
+                </div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-buttons">
+                    <button id="modalPlayBtn" class="bg-red-600 hover:bg-red-700"><i class="fas fa-play mr-2"></i>Reproducir</button>
+                    <button id="modalTrailerBtn" class="bg-gray-700 hover:bg-gray-600"><i class="fab fa-youtube mr-2"></i>Ver tráiler</button>
+                    <button id="modalAddBtn" class="bg-gray-700 hover:bg-gray-600"><i class="fas fa-plus mr-2"></i>Mi lista</button>
+                    <button id="modalLaterBtn" class="bg-gray-700 hover:bg-gray-600"><i class="fas fa-clock mr-2"></i>Ver después</button>
+                    <button id="modalRemindBtn" class="bg-gray-700 hover:bg-gray-600"><i class="fas fa-bell mr-2"></i>Recordarme</button>
+                    <button id="modalShareBtn" class="bg-gray-700 hover:bg-gray-600"><i class="fas fa-share-alt"></i></button>
+                </div>
+                <div id="episodesList"></div>
+                <div id="userRating" class="mt-6 pt-4 border-t border-gray-700 flex items-center gap-3">
+                    <span class="text-sm font-semibold">Tu puntuación:</span>
+                    <div class="stars-input" data-id="" data-type=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<script>
+    <!-- REPRODUCTOR DE TRÁILER -->
+    <div id="trailerPlayer" class="player-overlay trailer-overlay">
+        <div class="video-wrapper">
+            <iframe id="trailerIframe" class="w-full" src="" frameborder="0" allowfullscreen allow="autoplay; fullscreen" style="aspect-ratio: 16/9;"></iframe>
+            <div class="player-controls">
+                <button id="closeTrailerBtn"><i class="fas fa-times"></i> Cerrar</button>
+                <button id="finishTrailerBtn"><i class="fas fa-check-circle"></i> Terminado</button>
+                <button id="reloadTrailerBtn"><i class="fas fa-redo-alt"></i> Recargar</button>
+            </div>
+        </div>
+    </div>
 
-const cards = document.querySelectorAll(".card");
-const player = document.getElementById("player");
-const frame = document.getElementById("videoFrame");
+    <!-- REPRODUCTOR PRINCIPAL (iframe) -->
+    <div id="netflixPlayer" class="player-overlay">
+        <div class="video-wrapper">
+            <video id="hlsVideo" class="w-full" controls autoplay playsinline style="display:none;"></video>
+            <iframe id="playerIframe" class="w-full" frameborder="0" allowfullscreen allow="autoplay; fullscreen" style="display:none; aspect-ratio:16/9;"></iframe>
+            <div class="player-controls">
+                <button id="closeVideoBtn"><i class="fas fa-times"></i> Cerrar</button>
+                <button id="finishMovieBtn"><i class="fas fa-check-circle"></i> Terminado</button>
+                <button id="switchServerBtn"><i class="fas fa-sync-alt"></i> Servidor</button>
+                <button id="reloadPlayerBtn"><i class="fas fa-redo-alt"></i> Recargar</button>
+            </div>
+        </div>
+    </div>
 
-cards.forEach(card=>{
-
-    card.addEventListener("click",()=>{
-
-        const video = card.dataset.video;
-
-        frame.src =
-        `https://www.youtube.com/embed/${video}?autoplay=1`;
-
-        player.style.display="flex";
-
-    });
-
-});
-
-function closePlayer(){
-
-    frame.src="";
-    player.style.display="none";
-
-}
-
-document.getElementById("search")
-.addEventListener("keyup",function(){
-
-    let value = this.value.toLowerCase();
-
-    document.querySelectorAll(".card")
-    .forEach(card=>{
-
-        const title =
-        card.innerText.toLowerCase();
-
-        card.style.display =
-        title.includes(value)
-        ? "block"
-        : "none";
-
-    });
-
-});
-</script>
+    <script src="./adblocker.js"></script>
 
 </body>
+
 </html>

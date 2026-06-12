@@ -3,175 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BoxBrowser</title>
-
-<!-- Logo de la pestaña -->
-<link rel="icon" type="image/png" href="logo.png">
+<title>Calculadora Totoloco</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f0f8ff;
+    margin-top: 50px;
 }
 
-body{
-    background:linear-gradient(135deg,#1f1f1f,#2a2a2a,#353535);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
+h1 {
+    color: #ff6600;
 }
 
-.bg1,.bg2{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(100px);
-    opacity:.2;
+.calculadora {
+    background: white;
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px gray;
 }
 
-.bg1{
-    width:350px;
-    height:350px;
-    background:#888;
-    top:-100px;
-    left:-100px;
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
 }
 
-.bg2{
-    width:400px;
-    height:400px;
-    background:#666;
-    bottom:-150px;
-    right:-150px;
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
-.container{
-    text-align:center;
-    z-index:1;
-    width:90%;
-}
-
-.logo{
-    font-size:72px;
-    font-weight:800;
-    color:#fff;
-    margin-bottom:35px;
-    text-shadow:0 0 20px rgba(255,255,255,.15);
-}
-
-.logo span{
-    color:#bdbdbd;
-}
-
-.search-box{
-    max-width:750px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    background:#444;
-    border-radius:50px;
-    padding:8px;
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.4),
-        inset 0 1px 0 rgba(255,255,255,.05);
-}
-
-.search-box input{
-    flex:1;
-    border:none;
-    outline:none;
-    background:none;
-    color:white;
-    font-size:18px;
-    padding:15px 20px;
-}
-
-.search-box input::placeholder{
-    color:#bfbfbf;
-}
-
-.search-btn{
-    width:55px;
-    height:55px;
-    border:none;
-    border-radius:50%;
-    background:linear-gradient(135deg,#9e9e9e,#757575);
-    color:white;
-    font-size:22px;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.search-btn:hover{
-    transform:scale(1.08);
-}
-
-.subtitle{
-    margin-top:25px;
-    color:#cfcfcf;
-    font-size:15px;
-}
-
-.shortcuts{
-    margin-top:40px;
-}
-
-.shortcuts a{
-    display:inline-block;
-    margin:8px;
-    padding:12px 18px;
-    background:#404040;
-    color:white;
-    text-decoration:none;
-    border-radius:12px;
-    transition:.25s;
-}
-
-.shortcuts a:hover{
-    background:#555;
-    transform:translateY(-2px);
+#resultado {
+    margin-top: 15px;
+    font-size: 24px;
+    font-weight: bold;
 }
 </style>
 </head>
 <body>
 
-<div class="bg1"></div>
-<div class="bg2"></div>
+<h1>🧮 Calculadora Totoloco 🧮</h1>
 
-<div class="container">
+<div class="calculadora">
+    <input type="number" id="num1" placeholder="Primer número">
+    <input type="number" id="num2" placeholder="Segundo número">
 
-    <div class="logo">
-        Box<span>Browser</span>
-    </div>
+    <br>
 
-    <form action="https://www.google.com/search" method="GET">
-        <div class="search-box">
-            <input
-                type="text"
-                name="q"
-                placeholder="Buscar en BoxBrowser..."
-                autocomplete="off"
-            >
-            <button class="search-btn" type="submit">🔍</button>
-        </div>
-    </form>
+    <button onclick="sumar()">+</button>
+    <button onclick="restar()">-</button>
+    <button onclick="multiplicar()">×</button>
+    <button onclick="dividir()">÷</button>
 
-    <div class="subtitle">
-        Búsqueda rápida impulsada por Google
-    </div>
-
-    <div class="shortcuts">
-        <a href="https://www.google.com">Google</a>
-        <a href="https://www.youtube.com">YouTube</a>
-        <a href="https://github.com">GitHub</a>
-        <a href="https://www.wikipedia.org">Wikipedia</a>
-    </div>
-
+    <div id="resultado">Resultado: 0</div>
 </div>
+
+<script>
+function obtenerNumeros() {
+    let a = Number(document.getElementById("num1").value);
+    let b = Number(document.getElementById("num2").value);
+    return [a, b];
+}
+
+function sumar() {
+    let [a, b] = obtenerNumeros();
+    document.getElementById("resultado").innerHTML =
+        "Resultado: " + (a + b);
+}
+
+function restar() {
+    let [a, b] = obtenerNumeros();
+    document.getElementById("resultado").innerHTML =
+        "Resultado: " + (a - b);
+}
+
+function multiplicar() {
+    let [a, b] = obtenerNumeros();
+    document.getElementById("resultado").innerHTML =
+        "Resultado: " + (a * b);
+}
+
+function dividir() {
+    let [a, b] = obtenerNumeros();
+
+    if (b === 0) {
+        document.getElementById("resultado").innerHTML =
+            "No se puede dividir por 0";
+    } else {
+        document.getElementById("resultado").innerHTML =
+            "Resultado: " + (a / b);
+    }
+}
+</script>
 
 </body>
 </html>

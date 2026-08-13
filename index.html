@@ -1,107 +1,1586 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora Totoloco</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Hydra AI</title>
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #f0f8ff;
-    margin-top: 50px;
-}
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Hydra AI - Asistente Inteligente">
+    <meta name="description" content="Descubre Hydra AI, el asistente avanzado creado por Hydra Software. Conversa, resuelve dudas y ejecuta código al instante.">
 
-h1 {
-    color: #ff6600;
-}
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hydra-ai-self.vercel.app/">
+    <meta property="og:title" content="Hydra AI - Asistente Inteligente">
+    <meta property="og:description" content="Descubre Hydra AI, el asistente avanzado creado por Hydra Software. Conversa, resuelve dudas y ejecuta código al instante.">
+    <meta property="og:image" content="https://hydra-ai-self.vercel.app/hydra-ai-oscura.png">
 
-.calculadora {
-    background: white;
-    width: 300px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px gray;
-}
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Hydra AI - Asistente Inteligente">
+    <meta property="twitter:description" content="Descubre Hydra AI, el asistente avanzado creado por Hydra Software. Conversa, resuelve dudas y ejecuta código al instante.">
+    <meta property="twitter:image" content="https://hydra-ai-self.vercel.app/hydra-ai-oscura.png">
 
-input {
-    width: 90%;
-    padding: 10px;
-    margin: 5px;
-    font-size: 18px;
-}
+    <!-- Canonical + descubrimiento para IA (estándar llms.txt).
+         Estos archivos viven en /public y se sirven en la raíz del sitio, para que
+         cualquier IA (ChatGPT, Claude, Gemini, Perplexity…) sepa qué es Hydra AI. -->
+    <link rel="canonical" href="https://hydra-ai-self.vercel.app/">
+    <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+    <link rel="alternate" type="text/plain" title="llms-full.txt" href="/llms-full.txt">
 
-button {
-    padding: 10px 15px;
-    margin: 5px;
-    font-size: 18px;
-    cursor: pointer;
-}
+    <!-- Datos estructurados (schema.org / JSON-LD): identidad de Hydra AI y Hydra Software.
+         Permite que buscadores y asistentes de IA entiendan la entidad, el creador,
+         los modelos YDR y la API. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://hydra-ai-self.vercel.app/#hydra-software",
+          "name": "Hydra Software",
+          "url": "https://hydra-ai-self.vercel.app/",
+          "description": "Hydra Software es el equipo creador de Hydra AI y de la familia de modelos de lenguaje propia YDR, construida desde cero.",
+          "brand": "Hydra AI"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://hydra-ai-self.vercel.app/#hydra-ai",
+          "name": "Hydra AI",
+          "applicationCategory": "AIApplication",
+          "operatingSystem": "Web",
+          "url": "https://hydra-ai-self.vercel.app/",
+          "description": "Hydra AI es un asistente de inteligencia artificial conversacional avanzado, creado desde cero por Hydra Software y potenciado por su familia de modelos propia YDR. Ofrece chat multilingüe, programación, creación de proyectos completos, generación de imágenes, dictado por voz y búsqueda web. Su plan Hydra Max incluye una API compatible con OpenAI para integrar Hydra AI en apps, bots y scripts.",
+          "creator": { "@id": "https://hydra-ai-self.vercel.app/#hydra-software" },
+          "publisher": { "@id": "https://hydra-ai-self.vercel.app/#hydra-software" },
+          "featureList": [
+            "Chat multilingüe",
+            "Programación y generación de código",
+            "Creación de proyectos completos descargables en .zip",
+            "Generación de prompts profesionales",
+            "Generación de imágenes",
+            "Dictado por voz",
+            "Búsqueda web",
+            "API compatible con OpenAI (plan Hydra Max)"
+          ],
+          "offers": [
+            { "@type": "Offer", "name": "Free" },
+            { "@type": "Offer", "name": "Plus" },
+            { "@type": "Offer", "name": "Hydra Max", "description": "Plan tope. Desbloquea API keys de desarrollador (hydra-xxxxx) con uso ilimitado; solo se contabiliza el consumo." }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://hydra-ai-self.vercel.app/#website",
+          "name": "Hydra AI",
+          "url": "https://hydra-ai-self.vercel.app/",
+          "publisher": { "@id": "https://hydra-ai-self.vercel.app/#hydra-software" }
+        }
+      ]
+    }
+    </script>
 
-#resultado {
-    margin-top: 15px;
-    font-size: 24px;
-    font-weight: bold;
-}
-</style>
+    <!-- ╔══════════════════════════════════════════════════════════╗
+         ║  HYDRA ICON SYSTEM — todo sincronizado con el tema app  ║
+         ╚══════════════════════════════════════════════════════════╝
+         Prioridad: 1) Preferencia guardada en localStorage
+                    2) Tema del sistema operativo/navegador
+         Funciona en: Chrome, Edge, Opera GX, Firefox, Safari
+    -->
+    <link rel="icon" type="image/png" id="faviconEl" href="/hydra-ai-oscura.png">
+    <link rel="apple-touch-icon" id="appleTouchIcon" href="/hydra-ai-oscura.png">
+    <!-- Bootstrap pre-paint (tema + tier de rendimiento + favicon). Externalizado a
+         /boot-head.js (public/) para poder quitar 'unsafe-inline' del script-src de la CSP.
+         SÍNCRONO a propósito (sin defer/module): corre antes del primer paint → sin FOUC. -->
+    <script src="/boot-head.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fuentes NO bloqueantes: se cargan como media="print" (el navegador no bloquea el
+         primer render por ellas) y al terminar se pasan a media="all". Fallback <noscript>
+         para quienes tengan JS desactivado. display=swap ya evita el texto invisible. -->
+    <link id="fontsCss" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" media="print">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"></noscript>
+    <link rel="preload" as="image" href="/hydra-ai-oscura.png" fetchpriority="high">
+  <script type="module" crossorigin src="/assets/main-CIJoO3QN.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/firebase-DSkWXeY8.js">
+  <link rel="modulepreload" crossorigin href="/assets/supabase-bGPVWp5W.js">
+  <link rel="modulepreload" crossorigin href="/assets/marked-DKjyhwJX.js">
+  <link rel="stylesheet" crossorigin href="/assets/main-Cc3__Ngh.css">
 </head>
+
 <body>
 
-<h1>🧮 Calculadora Totoloco 🧮</h1>
+    <!-- Login Overlay — Minimal centered card -->
+    <div id="loginOverlay" class="login-overlay" style="display:none;">
+        <div class="lp-card">
+            <img src="/hydra-ai-oscura.png" alt="Hydra AI" class="lp-card-logo" id="loginLogoImg" data-hydra-icon loading="eager" decoding="async">
+            <h1 class="lp-card-title">Hydra AI</h1>
+            <p class="lp-card-slogan" data-i18n="login.slogan">La IA que se adapta a ti, no tú a ella.</p>
+            <button id="googleLoginBtn" class="lp-google-btn">
+                <svg class="lp-google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <span data-i18n="login.google">Iniciar sesión con Google</span>
+            </button>
 
-<div class="calculadora">
-    <input type="number" id="num1" placeholder="Primer número">
-    <input type="number" id="num2" placeholder="Segundo número">
+            <button id="githubLoginBtn" class="lp-google-btn lp-github-btn">
+                <svg class="lp-google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12 1C5.92 1 1 5.92 1 12c0 4.86 3.15 8.98 7.52 10.44.55.1.75-.24.75-.53 0-.26-.01-1.13-.02-2.05-3.06.67-3.71-1.3-3.71-1.3-.5-1.27-1.22-1.61-1.22-1.61-1-.68.08-.67.08-.67 1.1.08 1.68 1.13 1.68 1.13.98 1.68 2.57 1.19 3.2.91.1-.71.38-1.19.69-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.13-2.95-.11-.28-.49-1.4.11-2.91 0 0 .92-.3 3.02 1.13a10.5 10.5 0 0 1 2.75-.37c.93 0 1.87.13 2.75.37 2.1-1.43 3.02-1.13 3.02-1.13.6 1.51.22 2.63.11 2.91.7.77 1.13 1.75 1.13 2.95 0 4.22-2.58 5.15-5.03 5.42.39.34.74 1.01.74 2.04 0 1.47-.01 2.66-.01 3.02 0 .29.2.64.76.53A11 11 0 0 0 23 12c0-6.08-4.92-11-11-11z"/>
+                </svg>
+                <span data-i18n="login.github">Iniciar sesión con GitHub</span>
+            </button>
 
-    <br>
+            <div class="lp-or"><span data-i18n="login.or">o</span></div>
 
-    <button onclick="sumar()">+</button>
-    <button onclick="restar()">-</button>
-    <button onclick="multiplicar()">×</button>
-    <button onclick="dividir()">÷</button>
+            <form id="emailAuthForm" class="lp-email-form" autocomplete="on">
+                <input type="text" id="authNameInput" class="lp-input" placeholder="Tu nombre" data-i18n-placeholder="login.name" autocomplete="name" style="display:none;">
+                <input type="email" id="authEmailInput" class="lp-input" placeholder="Correo electrónico" data-i18n-placeholder="login.email" autocomplete="email" required>
+                <input type="password" id="authPasswordInput" class="lp-input" placeholder="Contraseña" data-i18n-placeholder="login.password" autocomplete="current-password" required minlength="6">
+                <button type="submit" id="emailAuthBtn" class="lp-email-btn"><span data-i18n="login.submit">Iniciar sesión</span></button>
+            </form>
 
-    <div id="resultado">Resultado: 0</div>
-</div>
+            <div class="lp-auth-links">
+                <span class="lp-auth-toggle">
+                    <span id="authToggleText" data-i18n="login.no_account">¿No tienes cuenta?</span>
+                    <button type="button" id="authToggleBtn" class="lp-link" data-i18n="login.create_account">Crear cuenta</button>
+                </span>
+            </div>
 
-<script>
-function obtenerNumeros() {
-    let a = Number(document.getElementById("num1").value);
-    let b = Number(document.getElementById("num2").value);
-    return [a, b];
-}
+            <div id="loginError" class="login-error" style="display:none;"></div>
+        </div>
+    </div>
 
-function sumar() {
-    let [a, b] = obtenerNumeros();
-    document.getElementById("resultado").innerHTML =
-        "Resultado: " + (a + b);
-}
+    <!-- Main App -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <button class="icon-btn sidebar-logo-btn" id="sidebarLogoBtn" title="Hydra AI">
+                    <img src="/hydra-ai-oscura.png" alt="Hydra AI" class="sidebar-logo-img" id="sidebarLogoImg" data-hydra-icon loading="lazy" decoding="async">
+                </button>
+                <button class="icon-btn sidebar-collapse-btn" id="sidebarCollapseBtn" data-i18n-title="sidebar.close">
+                    <span class="ico" data-icon="sidebar"></span>
+                </button>
+            </div>
 
-function restar() {
-    let [a, b] = obtenerNumeros();
-    document.getElementById("resultado").innerHTML =
-        "Resultado: " + (a - b);
-}
+            <nav class="sidebar-nav">
+                <button class="nav-item" id="newChatBtn">
+                    <span class="ico" data-icon="compose"></span>
+                    <span class="nav-label" data-i18n="sidebar.new_chat">Nuevo chat</span>
+                </button>
+                <button class="nav-item" id="searchChatsBtn" data-auth-only>
+                    <span class="ico" data-icon="search"></span>
+                    <span class="nav-label" data-i18n="sidebar.search">Buscar</span>
+                </button>
+                <button class="nav-item" id="navBibliotecaBtn" data-auth-only>
+                    <span class="ico" data-icon="library"></span>
+                    <span class="nav-label" data-i18n="sidebar.library">Biblioteca</span>
+                </button>
+            </nav>
 
-function multiplicar() {
-    let [a, b] = obtenerNumeros();
-    document.getElementById("resultado").innerHTML =
-        "Resultado: " + (a * b);
-}
 
-function dividir() {
-    let [a, b] = obtenerNumeros();
+            <nav class="sidebar-nav sidebar-nav-secondary" data-auth-only>
+                <button class="nav-item" id="navProyectosBtn">
+                    <span class="ico" data-icon="projects"></span>
+                    <span class="nav-label" data-i18n="sidebar.projects">Proyectos</span>
+                </button>
+                <!-- Hydra API (API keys de dev): visible SOLO para Hydra Max. La visibilidad la controla
+                     updateHydraCloudButtonVisibility() en JS; arranca oculto por defecto.
+                     Va ARRIBA de Admin Panel. -->
+                <button class="nav-item" id="sidebarHydraCloudBtn" style="display: none;">
+                    <span class="ico" data-icon="codex"></span>
+                    <span class="nav-label" data-i18n="sidebar.api">Hydra API</span>
+                </button>
+                <!-- Modelos personalizados (Hydra Max): crear/usar tus propios modelos. Visible SOLO
+                     para Max (updateModelosButtonVisibility); arranca oculto. Va junto a Hydra API. -->
+                <button class="nav-item" id="sidebarModelosBtn" style="display: none;">
+                    <span class="ico" data-icon="gpts"></span>
+                    <span class="nav-label" data-i18n="sidebar.models">Modelos</span>
+                </button>
+                <!-- Planes de pago: abre la página de Planes (comprar/renovar Plus o Max). Visible para todos. -->
+                <button class="nav-item" id="sidebarPlanesBtn">
+                    <span class="ico" data-icon="card"></span>
+                    <span class="nav-label" data-i18n="sidebar.plans">Planes</span>
+                </button>
+                <!-- Solo admins: botón para abrir el panel /adminai (oculto por defecto). -->
+                <button class="nav-item" id="navAdminBtn" style="display: none;">
+                    <span class="ico" data-icon="cog"></span>
+                    <span class="nav-label" data-i18n="sidebar.admin">Admin Panel</span>
+                </button>
+            </nav>
 
-    if (b === 0) {
-        document.getElementById("resultado").innerHTML =
-            "No se puede dividir por 0";
-    } else {
-        document.getElementById("resultado").innerHTML =
-            "Resultado: " + (a / b);
+
+            <div class="sidebar-search" id="sidebarSearch" style="display: none;" data-auth-only>
+                <div class="search-box">
+                    <span class="ico" data-icon="search"></span>
+                    <input type="text" id="searchHistoryInput" placeholder="Buscar chats..." data-i18n-placeholder="sidebar.search_chats">
+                </div>
+            </div>
+
+            <div class="sidebar-section-label" data-auth-only data-i18n="sidebar.recent">Recientes</div>
+            <div class="conversations-list" id="conversationsList" data-auth-only>
+                <div class="empty-history-msg" data-i18n="sidebar.empty">Sin conversaciones. Crea una nueva.</div>
+            </div>
+
+
+            <div class="sidebar-footer">
+                <!-- Authed: user profile -->
+                <div class="user-info" id="userInfoBtn">
+                    <img id="sidebarUserAvatar" class="sidebar-avatar" src="" alt="Avatar" loading="lazy" decoding="async">
+                    <div class="user-meta">
+                        <span id="sidebarUserName" class="sidebar-username">Loading...</span>
+                        <span class="user-plan" id="userPlanBadge" data-i18n="sidebar.free">Gratis</span>
+                    </div>
+                    <span class="ico" data-icon="dots" id="userMenuArrow"></span>
+                </div>
+                <!-- Guest: actions -->
+                <div class="guest-actions-wrapper" id="guestActionsWrapper">
+                    <button class="guest-signin-btn" id="guestSigninBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                        <span data-i18n="sidebar.sign_in">Iniciar sesión</span>
+                    </button>
+                    <button class="guest-theme-btn" id="guestThemeToggleBtn" data-i18n-title="menu.dark_mode">
+                        <span class="ico" data-icon="moon"></span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+
+        <!-- Fondo oscuro al abrir la barra lateral en móvil (se cierra al tocarlo) -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <main class="chat-main">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle" data-i18n-title="sidebar.open">
+                        <span class="ico" data-icon="sidebar"></span>
+                    </button>
+                    <button class="model-switcher" id="modelSwitcherBtn">
+                        <span class="header-model">Hydra AI</span>
+                        <span class="header-model-version" id="headerModelName">YDR 2.5</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="model-chevron"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                </div>
+                <div class="current-chat-info" style="display: none;">
+                    <h2 id="currentChatTitle">New chat</h2>
+                </div>
+                <div class="chat-actions">
+                    <button class="action-btn" id="chatMenuBtn" data-i18n-title="chat_menu.options"><span class="ico" data-icon="dots"></span></button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages"></div>
+
+            <div class="composer-region">
+                <button class="scroll-to-bottom-btn" id="scrollToBottomBtn" type="button" data-i18n-title="chat.scroll_bottom" data-i18n-aria-label="chat.scroll_bottom">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                </button>
+                <div class="empty-hero" id="emptyHero">
+                    <h1 id="greetingText">¿Listo para empezar?</h1>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="composer">
+                        <div class="attachments-preview" id="attachmentsPreview"></div>
+                        <textarea id="userInput" placeholder="Preguntar lo que quieras" data-i18n-placeholder="chat.placeholder" rows="1"></textarea>
+                        <div class="composer-actions">
+                            <div class="composer-left">
+                                <button id="attachFileBtn" class="composer-btn" data-i18n-title="chat.attach">
+                                    <span class="ico" data-icon="plus"></span>
+                                </button>
+                                <!-- Selector de modelo personalizado (Hydra Max), pill compacto. Oculto para
+                                     no-Max; abre #modelPickerMenu; el activo se guarda en el servidor. -->
+                                <button id="modelPickerBtn" class="composer-pill model-picker-btn" data-i18n-title="chat.model" style="display:none;">
+                                    <span class="ico" data-icon="gpts"></span>
+                                    <span class="composer-pill-label" id="modelPickerLabel">Hydra AI</span>
+                                    <svg class="model-picker-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                            </div>
+                            <div class="composer-right">
+                                <button id="voiceRecordBtn" class="composer-btn voice-btn" data-i18n-title="chat.voice" disabled>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                                        <line x1="12" y1="19" x2="12" y2="23" />
+                                        <line x1="8" y1="23" x2="16" y2="23" />
+                                    </svg>
+                                </button>
+                                <button id="stopGenerationBtn" class="stop-btn" style="display: none;" data-i18n-title="chat.stop">
+                                    <span class="ico" data-icon="stop"></span>
+                                </button>
+                                <button id="sendBtn" class="send-btn" data-i18n-title="chat.send">
+                                    <span class="ico" data-icon="send"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" accept=".txt,.md,.json,.csv,.pdf,.doc,.docx,text/*" style="display: none;">
+
+                    <div class="input-footer">
+                        <span class="info-text" data-i18n="chat.disclaimer">Hydra AI puede cometer errores. Considera verificar la información importante.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentation: qué es Hydra AI (modelo YDR, hecho desde cero) -->
+            <section class="app-page" id="docsPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="closeDocsBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="info"></span> <span data-i18n="settings.docs">Documentación</span></h2>
+                </div>
+                <div class="app-page-body">
+                    <p class="page-intro" data-i18n="settings.docs_desc">Todo sobre <strong>Hydra AI</strong>: qué es, qué puede hacer y cómo sacarle el máximo.</p>
+
+                    <div class="cloud-card">
+                        <div class="cloud-card-head">
+                            <span class="ico card-ico" data-icon="info"></span>
+                            <div class="cloud-card-titles">
+                                <h3>¿Qué es Hydra AI?</h3>
+                                <p>Una inteligencia artificial propia, creada desde cero.</p>
+                            </div>
+                        </div>
+                        <p class="docs-text">Hydra AI es una inteligencia artificial conversacional avanzada, impulsada por el <strong>modelo YDR</strong> — diseñado, entrenado y construido <strong>desde cero</strong> por el equipo de Hydra. Es un sistema independiente y autónomo: entiende lo que pedís en lenguaje natural y responde en tu mismo idioma, con calidad profesional en texto, código, imágenes y voz.</p>
+                    </div>
+
+                    <div class="cloud-card">
+                        <div class="cloud-card-head">
+                            <span class="ico card-ico" data-icon="projects"></span>
+                            <div class="cloud-card-titles">
+                                <h3>Modelos YDR</h3>
+                                <p>La familia de modelos que mueve a Hydra.</p>
+                            </div>
+                        </div>
+                        <ul class="docs-list">
+                            <li><strong>YDR 1.5</strong> — rápido y liviano para charla y tareas cotidianas.</li>
+                            <li><strong>YDR 2.0</strong> — más equilibrado, mejor razonamiento.</li>
+                            <li><strong>YDR 2.5</strong> — el más capaz: código, proyectos y respuestas complejas. (Por defecto)</li>
+                        </ul>
+                    </div>
+
+                    <div class="cloud-card">
+                        <div class="cloud-card-head">
+                            <span class="ico card-ico" data-icon="codex"></span>
+                            <div class="cloud-card-titles">
+                                <h3>Qué puede hacer</h3>
+                                <p>Las capacidades principales de Hydra AI.</p>
+                            </div>
+                        </div>
+                        <ul class="docs-list docs-features">
+                            <li>
+                                <span class="ico feat-ico" data-icon="chat"></span>
+                                <span class="feat-text"><strong>Chat multilingüe</strong> — conversa y responde en tu mismo idioma, de forma natural.</span>
+                            </li>
+                            <li>
+                                <span class="ico feat-ico" data-icon="codex"></span>
+                                <span class="feat-text"><strong>Programación godly</strong> — genera código completo y funcional, sin recortes, con botones de copiar, ejecutar y descargar.</span>
+                            </li>
+                            <li>
+                                <span class="ico feat-ico" data-icon="projects"></span>
+                                <span class="feat-text"><strong>Arquitecto de proyectos</strong> — pedile un proyecto completo y te arma la estructura profesional (árbol de carpetas), el código de todos los archivos y cómo ejecutarlo. Podés descargar todo en un <strong>.zip con las carpetas reales</strong>.</span>
+                            </li>
+                            <li>
+                                <span class="ico feat-ico" data-icon="compose"></span>
+                                <span class="feat-text"><strong>Prompts profesionales</strong> — pedile que te cree o mejore un prompt para cualquier IA y te lo entrega estructurado y listo para copiar.</span>
+                            </li>
+                            <li>
+                                <span class="ico feat-ico" data-icon="image"></span>
+                                <span class="feat-text"><strong>Generación de imágenes</strong> — creá imágenes a partir de una descripción.</span>
+                            </li>
+                            <li>
+                                <span class="ico feat-ico" data-icon="mic"></span>
+                                <span class="feat-text"><strong>Dictado por voz</strong> — hablá y Hydra transcribe lo que decís.</span>
+                            </li>
+                            <li>
+                                <span class="ico feat-ico" data-icon="globe"></span>
+                                <span class="feat-text"><strong>Búsqueda web</strong> — complementa las respuestas con información de la web.</span>
+                            </li>
+                            <li>
+                                <span class="ico feat-ico" data-icon="memory"></span>
+                                <span class="feat-text"><strong>Memoria</strong> — Hydra recuerda cosas sobre vos entre chats para personalizar sus respuestas.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="cloud-card">
+                        <div class="cloud-card-head">
+                            <span class="ico card-ico" data-icon="codex"></span>
+                            <div class="cloud-card-titles">
+                                <h3>Hydra IDE</h3>
+                                <p>Programá con Hydra en su entorno oficial.</p>
+                            </div>
+                        </div>
+                        <p class="docs-text">Hydra AI tiene su propio entorno de desarrollo web, el <strong>Hydra IDE</strong>, donde podés programar con la ayuda de la IA directamente en el navegador.</p>
+                        <a class="docs-cta docs-ide-btn" href="https://hydra-ide-official.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            <span>Abrir Hydra IDE</span>
+                        </a>
+                    </div>
+
+                    <div class="cloud-card">
+                        <div class="cloud-card-head">
+                            <span class="ico card-ico" data-icon="info"></span>
+                            <div class="cloud-card-titles">
+                                <h3>Consejos para sacarle el máximo</h3>
+                                <p>Pequeños trucos para mejores resultados.</p>
+                            </div>
+                        </div>
+                        <ul class="docs-list">
+                            <li>Sé específico: cuanto más claro el pedido, mejor la respuesta.</li>
+                            <li>Para un proyecto entero, pedí "un proyecto completo de…" y mencioná el stack si tenés preferencia.</li>
+                            <li>Para un prompt, decí "creame un prompt profesional para…" y para qué IA es.</li>
+                            <li>Cambiá el modelo YDR según la tarea desde el selector de modelo.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Biblioteca: galería de imágenes generadas (Kloner). Cuerpo rellenado por JS. -->
+            <section class="app-page" id="bibliotecaPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="bibliotecaBackBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="library"></span> <span data-i18n="library.title">Biblioteca</span></h2>
+                </div>
+                <div class="app-page-body" id="bibliotecaBody">
+                    <div class="lib-loading" data-i18n="library.loading">Cargando…</div>
+                </div>
+            </section>
+
+            <!-- Proyectos: carpetas de chats con instrucciones. Cuerpo (lista o detalle) rellenado por JS. -->
+            <section class="app-page" id="proyectosPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="proyectosBackBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="projects"></span> <span data-i18n="sidebar.projects">Proyectos</span></h2>
+                </div>
+                <div class="app-page-body" id="proyectosBody">
+                    <div class="lib-loading" data-i18n="library.loading">Cargando…</div>
+                </div>
+            </section>
+
+            <!-- Hydra API (ex "Hydra Cloud"): página interna de API keys de desarrollador. -->
+            <section class="app-page" id="hydraCloudPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="closeHydraCloudBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="codex"></span> Hydra API <span class="cloud-max-tag">Max</span></h2>
+                </div>
+                <div class="app-page-body hapi-body">
+                    <!-- Estado bloqueado: se muestra a quien NO es Max (p. ej. entra por URL). -->
+                    <div id="hydraCloudLocked" class="hapi-locked" style="display: none;">
+                        <div class="hapi-locked-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <h3 data-i18n="api.locked_title">Solo para miembros Max</h3>
+                        <p><span data-i18n="api.locked_desc">La API de Hydra es un beneficio exclusivo de</span> <span class="plan-badge-max">Max</span>.</p>
+                        <p class="hapi-locked-sub" data-i18n="api.locked_sub">Con <strong>Hydra Max</strong> generás API keys <code>hydra-xxxxx</code> ilimitadas y usás Hydra AI desde cualquier app.</p>
+                    </div>
+
+                    <!-- Contenido real (solo miembros Max). -->
+                    <div id="hydraCloudContent">
+                        <!-- Hero -->
+                        <div class="hapi-hero">
+                            <div class="hapi-hero-main">
+                                <div class="hapi-hero-title" data-i18n="api.hero_title">Hydra API</div>
+                                <p class="hapi-hero-sub"><span data-i18n="api.hero_sub">Generá API keys y llevá Hydra AI a tus propias apps. Uso</span> <strong data-i18n="api.hero_sub">ilimitado</strong> <span data-i18n="api.hero_sub">— solo se cuenta el consumo.</span></p>
+                            </div>
+                            <span class="hapi-hero-glyph"><span class="ico" data-icon="codex"></span></span>
+                        </div>
+
+                        <!-- Uso (dashboard Max): tiles + gráfico 30 días + tabla por key.
+                             Se rellena por JS (renderHydraApiUsage). Oculta si aún no hay keys. -->
+                        <section class="hapi-card hapi-usage" id="hapiUsageCard" style="display: none;">
+                            <header class="hapi-card-head"><span class="ico" data-icon="bolt"></span><h3 data-i18n="api.usage_title">Uso de tu API</h3></header>
+                            <div class="hapi-stats" id="hapiUsageTiles"></div>
+                            <div class="hapi-usage-block">
+                                <div class="hapi-usage-cap" data-i18n="api.usage_tokens_day">Tokens por día · últimos 30 días</div>
+                                <div class="hapi-chart" id="hapiUsageChart"></div>
+                            </div>
+                            <div class="hapi-usage-block">
+                                <div class="hapi-usage-cap" data-i18n="api.usage_by_key">Uso por API key</div>
+                                <div class="hapi-usage-table" id="hapiUsageTable"></div>
+                            </div>
+                        </section>
+
+                        <!-- Crear key -->
+                        <section class="hapi-card">
+                            <header class="hapi-card-head"><span class="ico" data-icon="plus"></span><h3 data-i18n="api.create_title">Crear API key</h3></header>
+                            <div class="hapi-form">
+                                <input type="text" id="hydraApiName" data-i18n-placeholder="api.create_placeholder" placeholder="Nombre (ej. Mi App)" maxlength="50">
+                                <button id="generateHydraApiBtn" class="hapi-btn"><span class="ico" data-icon="plus"></span> <span data-i18n="api.create_btn">Generar</span></button>
+                            </div>
+                            <div id="newApiKeyDisplay" class="hapi-reveal" style="display: none;">
+                                <div class="hapi-reveal-cap"><span class="ico" data-icon="check"></span> <span data-i18n="api.reveal_hint">Copiala ahora — por seguridad no se vuelve a mostrar completa.</span></div>
+                                <div class="hapi-reveal-row">
+                                    <code id="newApiKeyValue"></code>
+                                    <button id="copyNewApiKeyBtn" class="hapi-btn ghost"><span class="ico" data-icon="copy"></span> <span data-i18n="api.copy_btn">Copiar</span></button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Tus keys -->
+                        <section class="hapi-card">
+                            <header class="hapi-card-head"><span class="ico" data-icon="link"></span><h3 data-i18n="api.keys_title">Tus API keys</h3></header>
+                            <div id="hydraApiKeysList" class="hapi-keys">
+                                <div class="hapi-empty"><span class="ico" data-icon="link"></span><span data-i18n="api.keys_empty">Todavía no creaste ninguna API key.</span></div>
+                            </div>
+                        </section>
+
+                        <!-- Documentación: vive en su PROPIA página (botón) para no alargar este menú. -->
+                        <section class="hapi-card">
+                            <header class="hapi-card-head"><span class="ico" data-icon="library"></span><h3 data-i18n="api.docs_link_title">Documentación</h3></header>
+                            <p class="hapi-hint" data-i18n="api.docs_link_desc">Endpoint, parámetros, modos, <strong>system prompt</strong>, respuesta, errores y ejemplos por plataforma (Web, Node, Python, Discord, Telegram…).</p>
+                            <button id="openApiDocsBtn" class="hapi-doc-btn">
+                                <span class="ico" data-icon="codex"></span>
+                                <span data-i18n="api.docs_link_btn">Ver documentación</span>
+                                <svg class="hapi-doc-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                            </button>
+                        </section>
+                    </div><!-- /#hydraCloudContent -->
+                </div>
+            </section>
+
+            <!-- Modelos personalizados (Hydra Max): crear/publicar/usar tus propios Hydra AI.
+                 Mismo patrón que hydraCloudPage: estado bloqueado (no-Max) + contenido real. -->
+            <section class="app-page" id="modelosPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="closeModelosBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="gpts"></span> Modelos <span class="cloud-max-tag">Max</span></h2>
+                </div>
+                <div class="app-page-body hapi-body">
+                    <!-- Estado bloqueado: se muestra a quien NO es Max (p. ej. entra por URL). -->
+                    <div id="modelosLocked" class="hapi-locked" style="display: none;">
+                        <div class="hapi-locked-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <h3>Solo para miembros Max</h3>
+                        <p>Crear tus propios modelos es un beneficio exclusivo de <span class="plan-badge-max">Max</span>.</p>
+                        <p class="hapi-locked-sub">Con <strong>Hydra Max</strong> personalizás Hydra AI con tu propio <strong>nombre</strong>, <strong>prompt</strong> y <strong>funciones</strong>, lo usás en el chat y en la API, y lo podés hacer público.</p>
+                    </div>
+
+                    <!-- Contenido real (solo miembros Max). -->
+                    <div id="modelosContent">
+                        <!-- Hero -->
+                        <div class="hapi-hero">
+                            <div class="hapi-hero-main">
+                                <div class="hapi-hero-title">Modelos personalizados</div>
+                                <p class="hapi-hero-sub">Creá tu propio Hydra AI: nombre, prompt y funciones. Usalo en el chat y en la <strong>API</strong> con <code>model: "tu modelo"</code>. Hacelo <strong>público</strong> para otros Max.</p>
+                            </div>
+                            <span class="hapi-hero-glyph"><span class="ico" data-icon="gpts"></span></span>
+                        </div>
+
+                        <!-- Documentación + Crear modelo: fila compacta (Doc arriba de Tus modelos)
+                             en una sola card para no alargar la sección. -->
+                        <section class="hapi-card model-intro">
+                            <div class="model-intro-row">
+                                <span class="model-intro-ico"><span class="ico" data-icon="library"></span></span>
+                                <div class="model-intro-text">
+                                    <strong>Documentación</strong>
+                                    <span>Cómo usar tus modelos en el chat y en la Hydra API, y qué hacen las funciones.</span>
+                                </div>
+                                <button id="openModelosDocsBtn" class="hapi-doc-btn model-intro-btn">
+                                    <span class="ico" data-icon="codex"></span>
+                                    Ver documentación
+                                    <svg class="hapi-doc-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                                </button>
+                            </div>
+                            <div class="model-intro-row">
+                                <span class="model-intro-ico"><span class="ico" data-icon="plus"></span></span>
+                                <div class="model-intro-text">
+                                    <strong>Tus modelos</strong>
+                                    <span>Diseñá un asistente a tu medida y elegí sus funciones.</span>
+                                </div>
+                                <button id="createModelBtn" class="hapi-btn model-create-btn model-intro-btn"><span class="ico" data-icon="plus"></span> Crear modelo</button>
+                            </div>
+                        </section>
+
+                        <!-- Tabs: Mis modelos / Explorar -->
+                        <div class="model-tabs">
+                            <button class="model-tab active" id="modelTabMine" data-tab="mine">Mis modelos</button>
+                            <button class="model-tab" id="modelTabPublic" data-tab="public">Explorar</button>
+                        </div>
+
+                        <!-- Lista Mis modelos -->
+                        <div id="modelosMinePane" class="model-pane">
+                            <div id="modelosMineList" class="model-grid">
+                                <div class="hapi-empty"><span class="ico" data-icon="gpts"></span><span>Cargando…</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Lista Explorar (públicos) -->
+                        <div id="modelosPublicPane" class="model-pane" style="display: none;">
+                            <div id="modelosPublicList" class="model-grid">
+                                <div class="hapi-empty"><span class="ico" data-icon="gpts"></span><span>Cargando…</span></div>
+                            </div>
+                        </div>
+                    </div><!-- /#modelosContent -->
+                </div>
+            </section>
+
+            <!-- Documentación de Modelos: página aparte (se abre con "Ver documentación"). -->
+            <section class="app-page" id="modelosDocsPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="closeModelosDocsBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="library"></span> Documentación · Modelos</h2>
+                </div>
+                <div class="app-page-body hapi-body">
+                    <!-- Cómo usar tus modelos (chat web + API) -->
+                    <section class="hapi-card model-doc-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="gpts"></span><h3>Cómo usar tus modelos</h3></header>
+                        <p class="hapi-hint">Una vez creado, tu modelo se usa en <strong>dos lugares</strong>: en el <strong>chat</strong> y desde la <strong>Hydra API</strong>. Sus funciones (ver imágenes, crear imágenes, redactar prompts, armar proyectos) se aplican según lo que hayas activado.</p>
+
+                        <div class="model-doc-steps">
+                            <div class="model-doc-step">
+                                <span class="model-doc-step-ico"><span class="ico" data-icon="compose"></span></span>
+                                <div class="model-doc-step-body">
+                                    <strong>En el chat</strong>
+                                    <p>Abrí el selector de modelo arriba del cuadro de mensaje y elegí tu modelo. Charlás con él ahí mismo; se mantiene elegido hasta que cambies a <strong>Hydra AI</strong> u otro.</p>
+                                </div>
+                            </div>
+                            <div class="model-doc-step">
+                                <span class="model-doc-step-ico"><span class="ico" data-icon="codex"></span></span>
+                                <div class="model-doc-step-body">
+                                    <strong>En la Hydra API</strong>
+                                    <p>Pasá el <strong>nombre exacto</strong> del modelo en <code>model</code>. Reemplaza al <code>system</code> (aunque podés sumar uno). El modelo debe ser <strong>tuyo</strong> o <strong>público</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">JSON del body</span></div>
+                            <pre><code>{
+  "model": "Pepe",
+  "messages": [
+    { "role": "user", "content": "Hola, ¿qué hora es?" }
+  ],
+  "mode": "balanced"
+}</code></pre>
+                        </div>
+                        <p class="hapi-tut-note">Si el <code>model</code> no existe o no es tuyo ni público, la API responde <code>404</code>. Sin <code>model</code>, responde Hydra AI por defecto. La documentación completa de la API está en <strong>Hydra API → Ver documentación</strong>.</p>
+                    </section>
+                </div>
+            </section>
+
+            <!-- Documentación de la API: página aparte (se abre con "Ver documentación"). -->
+            <section class="app-page" id="hydraApiDocsPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="closeApiDocsBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="library"></span> <span data-i18n="api.docs_title">Documentación · Hydra API</span></h2>
+                </div>
+                <div class="app-page-body hapi-body">
+                    <!-- Menú de secciones de la documentación (cabecera PEGAJOSA, mismo sistema que el admin) -->
+                    <div class="hapi-doc-stickyhead">
+                        <nav class="hapi-doc-tabs" id="hapiDocTabs">
+                            <button class="hapi-doc-tab active" data-dtab="empezar" type="button"><span class="ico" data-icon="link"></span><span data-i18n="api.docs_nav_start">Empezar</span></button>
+                            <button class="hapi-doc-tab" data-dtab="funciones" type="button"><span class="ico" data-icon="tune"></span><span data-i18n="api.docs_nav_functions">Funciones</span></button>
+                            <button class="hapi-doc-tab" data-dtab="agente" type="button"><span class="ico" data-icon="bolt"></span><span data-i18n="api.docs_nav_agent">Modo Agente</span><span class="beta-tag">Beta</span></button>
+                            <button class="hapi-doc-tab" data-dtab="respuesta" type="button"><span class="ico" data-icon="check"></span><span data-i18n="api.docs_nav_response">Respuesta</span></button>
+                            <button class="hapi-doc-tab" data-dtab="integrar" type="button"><span class="ico" data-icon="codex"></span><span data-i18n="api.docs_nav_integrate">Integrar</span></button>
+                        </nav>
+                    </div>
+
+                    <!-- ===== Sección: Empezar ===== -->
+                    <div class="hapi-doc-panel active" data-dtab="empezar">
+                    <!-- Endpoint + autenticación -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="bolt"></span><h3 data-i18n="api.docs_endpoint_title">Endpoint y autenticación</h3></header>
+                        <p class="hapi-hint" data-i18n="api.docs_endpoint_desc">Hacé un <strong>POST</strong> con tu key en <code>Authorization: Bearer &lt;key&gt;</code>. La respuesta es <strong>compatible con clientes OpenAI</strong>: el texto llega en <code>choices[0].message.content</code>.</p>
+                        <div class="hapi-endpoint">
+                            <span class="hapi-method">POST</span>
+                            <code id="apiEndpointUrl">https://ftnezbtydnviwduydqsk.supabase.co/functions/v1/hydra-chat</code>
+                            <button id="copyEndpointBtn" class="hapi-icon-btn" title="Copiar endpoint"><span class="ico" data-icon="copy"></span></button>
+                        </div>
+                    </section>
+
+                    <!-- Cuerpo de la petición: messages + mode -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="codex"></span><h3 data-i18n="api.docs_body_title">Cuerpo de la petición</h3></header>
+                        <p class="hapi-hint" data-i18n="api.docs_body_desc">El body es un JSON con dos campos:</p>
+                        <dl class="hapi-params">
+                            <dt>messages <span class="hapi-req" data-i18n="api.docs_required">requerido</span></dt>
+                            <dd>Array estilo OpenAI. Cada ítem es <code>{ "role": "system" | "user" | "assistant", "content": "..." }</code>. Se usan los últimos <strong>8</strong> mensajes del historial (los <code>system</code> no cuentan en ese tope; van aparte).</dd>
+                            <dt>mode <span class="hapi-opt" data-i18n="api.docs_optional">opcional</span></dt>
+                            <dd>Controla el largo y el estilo de la respuesta. Por defecto <code>balanced</code>.</dd>
+                            <dt>model <span class="hapi-opt" data-i18n="api.docs_optional">opcional</span></dt>
+                            <dd>Nombre <strong>exacto</strong> de uno de tus <strong>modelos personalizados</strong> (o de uno público). Ej. <code>{ "model": "Pepe" }</code>. Aplica su prompt y funciones. Si lo omitís, responde Hydra AI por defecto. Ver la sección <strong>"Modelos personalizados"</strong> abajo.</dd>
+                            <dt>image <span class="hapi-opt" data-i18n="api.docs_optional">opcional</span></dt>
+                            <dd>Poné <code>"image": true</code> (con un <code>prompt</code> o un mensaje de usuario) para <strong>generar una imagen</strong> directamente. Devuelve la URL en <code>image_url</code>. Ver la sección <strong>"Crear imágenes"</strong> abajo.</dd>
+                        </dl>
+                        <div class="hapi-modes">
+                            <div class="hapi-mode-row"><code>supergo</code><span class="hapi-mode-tok">~80 tok</span><span class="hapi-mode-desc">Una frase o palabra.</span></div>
+                            <div class="hapi-mode-row"><code>instant</code><span class="hapi-mode-tok">~150 tok</span><span class="hapi-mode-desc">Ultra conciso (máx. 2 oraciones).</span></div>
+                            <div class="hapi-mode-row"><code>turbo</code><span class="hapi-mode-tok">~300 tok</span><span class="hapi-mode-desc">Informativo (3-5 oraciones).</span></div>
+                            <div class="hapi-mode-row"><code>balanced</code><span class="hapi-mode-tok">~600 tok</span><span class="hapi-mode-desc">Estándar, tono natural. <strong>Default</strong>.</span></div>
+                            <div class="hapi-mode-row"><code>creative</code><span class="hapi-mode-tok">~700 tok</span><span class="hapi-mode-desc">Metáforas e imaginación.</span></div>
+                            <div class="hapi-mode-row"><code>analytical</code><span class="hapi-mode-tok">~800 tok</span><span class="hapi-mode-desc">Lógica paso a paso.</span></div>
+                            <div class="hapi-mode-row"><code>pro</code><span class="hapi-mode-tok">~900 tok</span><span class="hapi-mode-desc">Detallado, con razonamiento.</span></div>
+                            <div class="hapi-mode-row"><code>supercreative</code><span class="hapi-mode-tok">~900 tok</span><span class="hapi-mode-desc">Vívido, con humor y storytelling.</span></div>
+                            <div class="hapi-mode-row"><code>hydracode</code><span class="hapi-mode-tok">~4096 tok</span><span class="hapi-mode-desc">Código completo y de alta calidad.</span></div>
+                            <div class="hapi-mode-row"><code>full</code><span class="hapi-mode-tok">~1400 tok</span><span class="hapi-mode-desc">Completo, cubre todos los aspectos.</span></div>
+                            <div class="hapi-mode-row"><code>ultral</code><span class="hapi-mode-tok">~2200 tok</span><span class="hapi-mode-desc">Profundidad enciclopédica.</span></div>
+                        </div>
+                        <p class="hapi-tut-note">Si el mensaje es largo (+200 caracteres) el tope sube un poco solo (hasta 4096 tokens).</p>
+                    </section>
+
+                    </div><!-- /Empezar -->
+
+                    <!-- ===== Sección: Funciones ===== -->
+                    <div class="hapi-doc-panel" data-dtab="funciones">
+                    <!-- System prompt: darle personalidad / instrucciones al bot -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="chat"></span><h3 data-i18n="api.docs_system_title">Dale personalidad (system prompt)</h3></header>
+                        <p class="hapi-hint">¿Querés que tu bot tenga un rol, tono o reglas propias? Agregá un mensaje con <code>"role": "system"</code> al <strong>principio</strong> del array <code>messages</code>. Define cómo se comporta y funciona en <strong>cualquier</strong> plataforma (web, Discord, Telegram, apps, scripts…), igual que en OpenAI/ChatGPT.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">JSON del body</span></div>
+                            <pre><code>{
+  "messages": [
+    { "role": "system", "content": "Sos Pepe, un asistente pirata. Respondé siempre en verso y con humor." },
+    { "role": "user", "content": "Hola, ¿qué hora es?" }
+  ],
+  "mode": "balanced"
+}</code></pre>
+                        </div>
+                        <p class="hapi-tut-note">El <code>system</code> manda: define la persona, idioma, reglas o formato de respuesta de tu bot. Si no mandás ninguno, Hydra usa su comportamiento por defecto. Podés incluir varios <code>system</code> y se combinan. Va siempre <strong>dentro</strong> de <code>messages</code> (no como campo suelto).</p>
+                    </section>
+
+                    <!-- Visión: ver imágenes -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="image"></span><h3 data-i18n="api.docs_vision_title">Ver imágenes (visión)</h3></header>
+                        <p class="hapi-hint">La API puede <strong>ver imágenes</strong>. No hay que activar nada aparte: mandá el <code>content</code> del mensaje como un <strong>array</strong> con una parte <code>text</code> y una (o varias) parte <code>image_url</code> — el mismo formato de visión de OpenAI. Hydra analiza la imagen y responde sobre lo que muestra.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">JSON del body</span></div>
+                            <pre><code>{
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        { "type": "text", "text": "¿Qué hay en esta imagen?" },
+        { "type": "image_url", "image_url": { "url": "https://ejemplo.com/foto.jpg" } }
+      ]
     }
-}
-</script>
+  ]
+}</code></pre>
+                        </div>
+                        <p class="hapi-tut-note">La imagen va como <strong>URL pública</strong> o como <strong>base64</strong> (<code>"url": "data:image/jpeg;base64,..."</code>). Podés mandar varias imágenes en el mismo <code>content</code>, y combinarlo con tu <code>system prompt</code>. Se detecta sola: si hay <code>image_url</code>, Hydra la ve.</p>
+                    </section>
 
+                    <!-- Crear imágenes: generar imágenes desde la API -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="image"></span><h3 data-i18n="api.docs_images_title">Crear imágenes (generar imágenes)</h3></header>
+                        <p class="hapi-hint">Además de <strong>ver</strong> imágenes, la API puede <strong>crearlas</strong>. La forma más simple: agregá <code>"image": true</code> al body y mandá la descripción en <code>prompt</code> (o como el último mensaje <code>user</code>). Genera la imagen al toque y devuelve la <strong>URL directa</strong> en <code>image_url</code> (y la imagen en markdown dentro de <code>choices[0].message.content</code>). Funciona con <strong>cualquier</strong> API key Max, con o sin <code>model</code>.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">JSON del body</span></div>
+                            <pre><code>{
+  "image": true,
+  "prompt": "un zorro astronauta flotando sobre la Tierra, muy detallado"
+}</code></pre>
+                        </div>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">Respuesta</span></div>
+                            <pre><code>{
+  "model": "hydra-image",
+  "image_url": "https://cdn.../imagen.png",
+  "choices": [
+    { "message": { "role": "assistant", "content": "![imagen](https://cdn.../imagen.png)" } }
+  ]
+}</code></pre>
+                        </div>
+                        <p class="hapi-tut-note">También podés usar <code>"mode": "image"</code>. Y de forma <strong>natural</strong>: Hydra por defecto (y los <strong>modelos</strong> con la función <strong>“Crear imágenes”</strong> activada) detectan solos cuando pedís una imagen en el chat (“generá una imagen de…”) y la devuelven incrustada como <code>![imagen](url)</code>, sin ningún campo extra.</p>
+                        <p class="hapi-tut-note"><strong>Con tu modelo personalizado:</strong> 1) en la sección <strong>Modelos</strong> abrí (o creá) tu modelo y marcá la función <strong>“Crear imágenes”</strong>; 2) llamá a la API con <code>"model": "TuModelo"</code> y pedile la imagen en lenguaje natural — mantiene su persona y devuelve la imagen incrustada. El campo <code>"image": true</code> también funciona junto a <code>model</code> si querés forzar la generación desde el <code>prompt</code>.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">Tu modelo + imagen</span></div>
+                            <pre><code>{
+  "model": "Pepe",
+  "messages": [
+    { "role": "user", "content": "Dibujame un mapa del tesoro pirata" }
+  ]
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <!-- Mostrar las imágenes generadas en tu web / bot / app -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="image"></span><h3 data-i18n="api.docs_display_title">Mostrar las imágenes generadas (en tu web, bot o app)</h3></header>
+                        <p class="hapi-hint"><strong>Generar</strong> la imagen y <strong>mostrarla</strong> son dos cosas distintas: la API te devuelve la imagen como una <strong>URL directa</strong> lista para usar, pero sos vos quien la pinta en tu página, bot o programa. La URL viene en <code>image_url</code> (forma directa) y también dentro de <code>choices[0].message.content</code> como <code>![imagen](url)</code> (siempre). Con cualquiera de las dos te alcanza.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">Helper: sacar la URL de cualquier respuesta</span></div>
+                            <pre><code>function hydraImageUrl(resp) {
+  if (resp &amp;&amp; resp.image_url) return resp.image_url;        // forma directa
+  const md = resp?.choices?.[0]?.message?.content || "";     // forma natural (markdown)
+  const m = md.match(/!\[[^\]]*\]\(([^)\s]+)\)/);
+  return m ? m[1] : null;
+}</code></pre>
+                        </div>
+                        <p class="hapi-tut-note"><strong>En una web:</strong> poné la URL en el <code>src</code> de un <code>&lt;img&gt;</code>. No hace falta descargar nada — el CDN sirve la imagen directo.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">HTML + JS</span></div>
+                            <pre><code>&lt;img id="salida" alt="imagen generada" style="max-width:100%"&gt;
+&lt;script&gt;
+async function generar(prompt) {
+  const res = await fetch("https://ftnezbtydnviwduydqsk.supabase.co/functions/v1/hydra-chat", {
+    method: "POST",
+    headers: { "Authorization": "Bearer TU_API_KEY", "Content-Type": "application/json" },
+    body: JSON.stringify({ image: true, prompt })
+  });
+  const url = hydraImageUrl(await res.json());
+  if (url) document.getElementById("salida").src = url;   // ← acá se ve la imagen
+}
+generar("un zorro astronauta flotando sobre la Tierra");
+&lt;/script&gt;</code></pre>
+                        </div>
+                        <p class="hapi-tut-note"><strong>¿Ya renderizás Markdown?</strong> Si tu app muestra las respuestas de Hydra con un render de Markdown (como <code>marked</code>), el <code>![imagen](url)</code> del <code>content</code> se ve como imagen <strong>sin hacer nada extra</strong> — es como la web de Hydra muestra las imágenes en el chat.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">Bot de Discord (discord.js)</span></div>
+                            <pre><code>const data = await (await fetch(ENDPOINT, { method: "POST", headers, body })).json();
+const url = hydraImageUrl(data);
+await message.channel.send({ embeds: [{ image: { url } }] });  // imagen incrustada
+// o directamente: await message.channel.send(url);</code></pre>
+                        </div>
+                        <p class="hapi-tut-note"><strong>Python / otros bots (Telegram…):</strong> la URL es pública; descargala con una segunda request y guardala o reenviala. Es una foto estática — guardala si necesitás que perdure.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">Python</span></div>
+                            <pre><code>url = res.json().get("image_url")
+if url:
+    img = requests.get(url).content
+    open("hydra.png", "wb").write(img)   # lista para mostrar o subir</code></pre>
+                        </div>
+                    </section>
+
+                    <!-- Modelos personalizados: usar model:"nombre" -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="gpts"></span><h3 data-i18n="api.docs_models_title">Modelos personalizados</h3></header>
+                        <p class="hapi-hint">Creá tus modelos en la sección <strong>Modelos</strong> (nombre, prompt y funciones propias) y usalos en la API pasando su <strong>nombre exacto</strong> en <code>model</code>. Reemplaza al <code>system</code> (aunque podés sumar uno). El modelo debe ser <strong>tuyo</strong> o <strong>público</strong>.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">JSON del body</span></div>
+                            <pre><code>{
+  "model": "Pepe",
+  "messages": [
+    { "role": "user", "content": "Hola, ¿qué hora es?" }
+  ],
+  "mode": "balanced"
+}</code></pre>
+                        </div>
+                        <p class="hapi-tut-note">Las funciones (ver imágenes, crear imágenes, redactar prompts, armar proyectos, <strong>Generador de Código</strong> y <strong>Modo Agente</strong>) se aplican según lo que hayas activado en ese modelo. Si el <code>model</code> no existe o no es tuyo ni público, la API responde <code>404</code>. Sin <code>model</code>, responde Hydra AI por defecto.</p>
+                    </section>
+
+                    </div><!-- /Funciones -->
+
+                    <!-- ===== Sección: Modo Agente ===== -->
+                    <div class="hapi-doc-panel" data-dtab="agente">
+                    <!-- Modo Agente: crear archivos / ejecutar comandos desde el IDE -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="bolt"></span><h3>Modo Agente (crear archivos y ejecutar comandos)</h3><span class="beta-tag">Beta</span></header>
+                        <p class="hapi-hint">Activá la función <strong>Modo Agente</strong> en un modelo y, al usarlo por la API, el modelo deja de solo “dar el código” y se comporta como un <strong>agente autónomo</strong>: <em>planea → actúa → verifica → sigue</em> hasta terminar la tarea. Emite <strong>marcadores de acciones</strong> que tu editor (el <strong>Hydra IDE</strong>) parsea para <strong>crear, editar, borrar y leer archivos</strong> y <strong>ejecutar comandos</strong> reales en el workspace. El texto normal (explicaciones) va aparte; el contenido de cada archivo va <em>completo</em> dentro de su bloque.</p>
+                        <p class="hapi-hint">Tu IDE detecta estos bloques en <code>choices[0].message.content</code> y los ejecuta. Las rutas son siempre <strong>relativas a la raíz del workspace</strong>, que <strong>persiste</strong> entre turnos. El protocolo tiene <strong>13 marcadores</strong>: para cambios chicos el modelo usa <strong>edición quirúrgica</strong> (<code>HYDRA_EDIT</code>, buscar/reemplazar exacto) en vez de reescribir todo; para archivos nuevos o reescrituras grandes usa <code>HYDRA_FILE</code>. También puede <strong>agregar al final</strong>, <strong>mover/renombrar</strong>, <strong>crear carpetas</strong> y <strong>listar el árbol</strong> con marcadores propios; <code>HYDRA_RUN</code> sigue siendo su herramienta multiuso (instalar dependencias, scaffolding, build, tests, correr la app, git). Al estilo de un agente de codificación moderno también <strong>busca antes de editar</strong> (<code>HYDRA_GREP</code> por contenido/regex, <code>HYDRA_GLOB</code> por nombre de archivo), <strong>auto-verifica</strong> sus cambios (<code>HYDRA_VERIFY</code> declara un build/test que el IDE re-corre solo tras cada cambio) y mantiene una <strong>lista de tareas viva</strong> (<code>HYDRA_PLAN</code>).</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">Marcadores del protocolo (13)</span></div>
+                            <pre><code># Editar un archivo QUIRÚRGICAMENTE — el default para cambios chicos.
+# El SEARCH debe coincidir EXACTO (indentación incluida). Podés apilar varios
+# pares SEARCH/REPLACE en un mismo bloque; se aplican en orden.
+&lt;&lt;&lt;HYDRA_EDIT path="src/app.js"&gt;&gt;&gt;
+&lt;&lt;&lt;SEARCH&gt;&gt;&gt;
+texto viejo EXACTO
+&lt;&lt;&lt;REPLACE&gt;&gt;&gt;
+texto nuevo
+&lt;&lt;&lt;END_HYDRA_EDIT&gt;&gt;&gt;
+
+# Crear un archivo NUEVO o sobrescribir/reescribir COMPLETO (para archivos nuevos o reescrituras grandes)
+&lt;&lt;&lt;HYDRA_FILE path="src/index.html"&gt;&gt;&gt;
+&lt;contenido COMPLETO del archivo&gt;
+&lt;&lt;&lt;END_HYDRA_FILE&gt;&gt;&gt;
+
+# Agregar contenido al FINAL de un archivo (lo crea si no existe)
+&lt;&lt;&lt;HYDRA_APPEND path="log.txt"&gt;&gt;&gt;
+&lt;contenido a agregar&gt;
+&lt;&lt;&lt;END_HYDRA_APPEND&gt;&gt;&gt;
+
+# Leer un archivo antes de seguir (el IDE devuelve su contenido y el modelo continúa)
+&lt;&lt;&lt;HYDRA_READ path="src/app.js"&gt;&gt;&gt;
+
+# Listar el árbol de archivos (sin path = raíz; el IDE devuelve el árbol)
+&lt;&lt;&lt;HYDRA_LIST path="src"&gt;&gt;&gt;
+
+# Buscar en el CONTENIDO de los archivos (regex; path opcional = subcarpeta).
+# Read-only: el IDE devuelve los matches (archivo:línea) y el modelo sigue. Buscá antes de editar.
+&lt;&lt;&lt;HYDRA_GREP query="function\s+parseUser" path="src"&gt;&gt;&gt;
+
+# Buscar ARCHIVOS por patrón de nombre (glob: ** = cualquier profundidad, * = un segmento).
+# Read-only: el IDE devuelve la lista de rutas que matchean.
+&lt;&lt;&lt;HYDRA_GLOB pattern="**/*.test.js"&gt;&gt;&gt;
+
+# Mover o renombrar (crea las carpetas destino que falten)
+&lt;&lt;&lt;HYDRA_MOVE from="viejo/a.js" to="nuevo/b.js"&gt;&gt;&gt;
+
+# Crear una carpeta vacía
+&lt;&lt;&lt;HYDRA_MKDIR path="src/utils"&gt;&gt;&gt;
+
+# Borrar un archivo o carpeta
+&lt;&lt;&lt;HYDRA_DELETE path="viejo.txt"&gt;&gt;&gt;
+
+# Ejecutar un comando de terminal (uno por bloque, en orden).
+# npm/pip install, npx create-…, build, tests, correr la app, git, etc.
+&lt;&lt;&lt;HYDRA_RUN&gt;&gt;&gt;
+npm install
+&lt;&lt;&lt;END_HYDRA_RUN&gt;&gt;&gt;
+
+# Declarar el comando de VERIFICACIÓN una vez (build/test/lint). El IDE lo re-corre
+# SOLO tras cada cambio y te devuelve los errores para que los arregles y re-verifique.
+&lt;&lt;&lt;HYDRA_VERIFY&gt;&gt;&gt;
+npm test
+&lt;&lt;&lt;END_HYDRA_VERIFY&gt;&gt;&gt;
+
+# Lista de tareas VIVA para trabajos multi-paso. Se pinta como card y se actualiza
+# cada turno: [ ] pendiente, [~] en curso, [x] hecho. Re-emitir el bloque actualiza la misma card.
+&lt;&lt;&lt;HYDRA_PLAN&gt;&gt;&gt;
+[x] Explorar el código y ubicar el bug
+[~] Escribir el fix
+[ ] Correr los tests
+&lt;&lt;&lt;END_HYDRA_PLAN&gt;&gt;&gt;</code></pre>
+                        </div>
+                        <p class="hapi-tut-note">Cómo lo integrás en tu IDE (spec del parser): 1) mandás el pedido del usuario a <code>hydra-chat</code> con <code>model</code> = tu modelo con Modo Agente; 2) en la respuesta, buscás estos marcadores con regex y aplicás cada acción en orden. Reglas por marcador: <strong><code>HYDRA_EDIT</code></strong> reemplaza cada <code>SEARCH</code> por su <code>REPLACE</code> en el archivo (match EXACTO, carácter por carácter; podés tener varios pares por bloque, en orden); si un <code>SEARCH</code> no aparece, devolvé un error para que el modelo relea y reintente. <strong><code>HYDRA_FILE</code></strong> escribe/sobrescribe el archivo completo; <strong><code>HYDRA_APPEND</code></strong> agrega al final (crea si falta); <strong><code>HYDRA_MOVE</code></strong> mueve/renombra creando las carpetas destino; <strong><code>HYDRA_MKDIR</code></strong> crea carpeta vacía; <strong><code>HYDRA_DELETE</code></strong> borra; <strong><code>HYDRA_READ</code></strong> y <strong><code>HYDRA_LIST</code></strong> son de lectura (devolvés contenido / árbol); <strong><code>HYDRA_RUN</code></strong> corre un comando. Los <strong>4 marcadores estilo agente moderno</strong>: <strong><code>HYDRA_GREP</code></strong> y <strong><code>HYDRA_GLOB</code></strong> son de <strong>lectura</strong> (auto-cerrados, sin <code>END</code>) — buscás por contenido (regex sobre cada línea, devolvés <code>archivo:línea</code>) o por nombre (glob → regex, devolvés rutas) y mandás los resultados de vuelta al modelo (mismo round-trip que READ/LIST); <strong><code>HYDRA_VERIFY</code></strong> <strong>no ejecuta al vuelo</strong>: guardás su comando y lo <strong>re-corrés automáticamente tras cada turno con mutaciones</strong> (si no hay comando, un fallback tipo <code>node --check</code> por archivo <code>.js</code> editado), devolviendo la salida — con un aviso claro si el exit ≠ 0 — para que el modelo se auto-corrija; <strong><code>HYDRA_PLAN</code></strong> es de lectura y actualiza una <strong>card de tareas reusada</strong> (parseás cada línea: <code>[ ]</code> pendiente, <code>[~]</code>/<code>[-]</code>/<code>[&gt;]</code> en curso, <code>[x]</code> hecho). <strong><code>HYDRA_GREP</code></strong>, <strong><code>HYDRA_GLOB</code></strong> y <strong><code>HYDRA_PLAN</code></strong> <strong>no</strong> mutan el disco, así que no pasan por el gate de permisos. Escribir en <code>a/b/c.js</code> crea las carpetas que falten; 3) <strong>clave para el modo autónomo:</strong> después de aplicar las acciones, devolvé la salida de <code>HYDRA_RUN</code>, el contenido de <code>HYDRA_READ</code>, el árbol de <code>HYDRA_LIST</code>, los matches de <code>HYDRA_GREP</code>/<code>HYDRA_GLOB</code>, la salida de la auto-verificación y cualquier error de <code>HYDRA_EDIT</code> como un mensaje nuevo (<code>role:"user"</code>) — así el agente ve el resultado, corrige y sigue solo hasta terminar (el loop del Hydra IDE tolera hasta ~25 turnos autónomos). La función <strong>Generador de Código</strong> es la versión “solo texto”: devuelve el código completo con la ruta de cada archivo, sin ejecutar nada (ideal si no querés que toque el disco).</p>
+
+                        <p class="hapi-hint" style="margin-top:18px"><strong>¿Dónde corre el Modo Agente?</strong> El modelo solo <em>emite</em> los marcadores; quien los <strong>aplica de verdad</strong> es tu integración. Son <strong>dos capas</strong>: (1) el <strong>parser</strong> (detectar los marcadores con regex — igual en todos lados) y (2) el <strong>ejecutor</strong> (tocar archivos y correr comandos — cambia según tu plataforma). Conviene escribir el parser contra una interfaz <code>io</code> y darle una implementación distinta por plataforma.</p>
+
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">1) Parser → interfaz io (común a web y programas)</span></div>
+                            <pre><code>// Aplica cada acción parseada contra un objeto `io` (lo implementás por plataforma).
+async function applyAction(a, io) {
+  switch (a.type) {
+    case "FILE":   return io.write(a.path, a.content);      // crear/sobrescribir completo
+    case "APPEND": return io.append(a.path, a.content);     // agregar al final (crea si falta)
+    case "EDIT":   return io.edit(a.path, a.pairs);         // pairs: [{search, replace}, ...]
+    case "MOVE":   return io.move(a.from, a.to);            // mover/renombrar
+    case "MKDIR":  return io.mkdir(a.path);                 // carpeta vacía
+    case "DELETE": return io.remove(a.path);                // borrar
+    case "READ":   return io.read(a.path);                  // devolvés el contenido al modelo
+    case "LIST":   return io.list(a.path);                  // devolvés el árbol al modelo
+    case "RUN":    return io.run(a.command);                // devolvés stdout/stderr al modelo
+  }
+}
+// EDIT: por cada par, si `search` no aparece EXACTO, tirá error y devolvéselo al modelo
+// (así relee con HYDRA_READ y reintenta, o reescribe el archivo con HYDRA_FILE).</code></pre>
+                        </div>
+
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">2a) io en WEB (IDE en el navegador — solo front)</span></div>
+                            <pre><code>// Archivos: un árbol en memoria (o la File System Access API para disco real).
+const files = {}; // { "src/app.js": "..." }
+const webIO = {
+  write:  (p, c) =&gt; { files[p] = c; },
+  append: (p, c) =&gt; { files[p] = (files[p] || "") + c; },
+  read:   (p) =&gt; files[p] ?? null,
+  move:   (from, to) =&gt; { files[to] = files[from]; delete files[from]; },
+  mkdir:  ()  =&gt; {},                    // no hace falta: la ruta ya lleva la carpeta
+  remove: (p) =&gt; { delete files[p]; },
+  list:   (dir = "") =&gt; Object.keys(files).filter(p =&gt; p.startsWith(dir)),
+  edit:   (p, pairs) =&gt; {
+    let t = files[p];
+    for (const { search, replace } of pairs) {
+      if (!t.includes(search)) throw new Error("SEARCH no encontrado en " + p);
+      t = t.replace(search, replace);
+    }
+    files[p] = t;
+  },
+  // ⚠️ RUN en el navegador NO tiene terminal real:
+  //  · Web (HTML/CSS/JS): renderizá los archivos en un &lt;iframe srcdoc&gt; (preview).
+  //  · Node/JS: usá WebContainers (StackBlitz) — corre JS en el navegador, NADA más.
+  //  · Cualquier otro lenguaje (Python/Rust/…): mandá el comando a un backend tuyo.
+  run:    (cmd) =&gt; ejecutarEnIframeOWebContainerOBackend(cmd),
+};</code></pre>
+                        </div>
+
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">2b) io en PROGRAMAS (escritorio Electron / o con backend Node)</span></div>
+                            <pre><code>// Filesystem y terminal REALES → cualquier lenguaje instalado en la máquina.
+import fs from "node:fs/promises";
+import { dirname } from "node:path";
+import { exec } from "node:child_process";
+const root = "/ruta/al/workspace";
+const nodeIO = {
+  write:  async (p, c) =&gt; { await fs.mkdir(dirname(p), { recursive: true }); await fs.writeFile(p, c); },
+  append: (p, c) =&gt; fs.appendFile(p, c),
+  read:   (p) =&gt; fs.readFile(p, "utf8"),
+  move:   async (from, to) =&gt; { await fs.mkdir(dirname(to), { recursive: true }); await fs.rename(from, to); },
+  mkdir:  (p) =&gt; fs.mkdir(p, { recursive: true }),
+  remove: (p) =&gt; fs.rm(p, { recursive: true, force: true }),
+  list:   (dir = ".") =&gt; fs.readdir(dir, { recursive: true }),
+  edit:   async (p, pairs) =&gt; {
+    let t = await fs.readFile(p, "utf8");
+    for (const { search, replace } of pairs) {
+      if (!t.includes(search)) throw new Error("SEARCH no encontrado en " + p);
+      t = t.replace(search, replace);
+    }
+    await fs.writeFile(p, t);
+  },
+  // Terminal real: corre python, cargo, go, dotnet, npm… lo que haya instalado.
+  run:    (cmd) =&gt; new Promise(res =&gt; exec(cmd, { cwd: root }, (_e, so, se) =&gt; res((so || "") + (se || "")))),
+};</code></pre>
+                        </div>
+
+                        <p class="hapi-tut-note"><strong>Resumen por plataforma.</strong> En la <strong>WEB (front puro)</strong>: los marcadores de <strong>archivos</strong> (FILE/EDIT/APPEND/MOVE/MKDIR/DELETE/READ/LIST) y los de <strong>búsqueda/plan</strong> (GREP/GLOB/PLAN) funcionan perfecto con un árbol en memoria o la File System Access API; pero <code>HYDRA_RUN</code> y la auto-verificación de <code>HYDRA_VERIFY</code> <strong>no corren programas arbitrarios</strong> — solo tenés <em>preview</em> de HTML/CSS/JS en un iframe, o Node/JS vía WebContainers (o <code>node --check</code> de sintaxis), o mandás el comando a un backend. En <strong>PROGRAMAS</strong> (app de escritorio con Electron, o un IDE con backend Node): conectás <code>io</code> a <code>fs</code> y <code>child_process</code> y ahí <strong>funciona TODO, en cualquier lenguaje</strong> (Python, Rust, Go, Java, C#…), porque hay filesystem y terminal reales — el <strong>Hydra IDE</strong> lo implementa así, re-corriendo <code>HYDRA_VERIFY</code> solo tras cada cambio. En ambos casos, tras aplicar las acciones devolvés al modelo (como mensaje <code>role:"user"</code>) la salida de RUN, el contenido de READ, el árbol de LIST, los matches de GREP/GLOB, el resultado de la verificación y los errores de EDIT, y el agente sigue solo.</p>
+
+                        <div class="hapi-warn">
+                            <header class="hapi-card-head"><span class="ico" data-icon="alert"></span><h3>Si a veces “muestra el código pero no crea nada” (importante)</h3></header>
+                            <p class="hapi-hint">El modelo <strong>casi siempre</strong> emite los marcadores, pero de vez en cuando responde con el código en un bloque <code>```</code> normal y <strong>ningún</strong> marcador <code>HYDRA_*</code>. Si tu integración solo aplica marcadores, en esos casos <strong>no se crea ni un archivo</strong> y parece que “falla”. <strong>No es que el marcador esté mal parseado</strong> — es que no vino ninguno. La solución es <strong>auto-recuperarse</strong>: detectá ese caso y pedile UNA vez que reenvíe con marcadores.</p>
+                            <div class="hapi-code">
+                                <div class="hapi-code-head"><span class="hapi-code-lang">Auto-reintento cuando la respuesta no trae marcadores</span></div>
+                                <pre><code>// Tras recibir la respuesta del modelo:
+const actions = parseHydraActions(full);   // tu parser de los 13 marcadores
+
+if (actions.length === 0) {
+  const traeCodigo = /```|&lt;!DOCTYPE|&lt;html|import\s|function\s|class\s|def\s/i.test(full);
+  // ¿Escribió código pero SIN ningún marcador? → pedí que lo reenvíe como acciones.
+  if (traeCodigo &amp;&amp; !yaReintente) {
+    messages.push({ role: "assistant", content: full });
+    messages.push({ role: "user", content:
+      "ALTO: mostraste el código como texto en markdown y eso NO crea archivos. " +
+      "Reenviá la MISMA solución usando los marcadores, con el contenido COMPLETO. Ejemplo:\n" +
+      "&lt;&lt;&lt;HYDRA_FILE path=\"index.html\"&gt;&gt;&gt;\n…contenido completo…\n&lt;&lt;&lt;END_HYDRA_FILE&gt;&gt;&gt;\n" +
+      "Usá &lt;&lt;&lt;HYDRA_EDIT&gt;&gt;&gt; para cambios chicos y &lt;&lt;&lt;HYDRA_RUN&gt;&gt;&gt; para comandos. " +
+      "No expliques de nuevo ni pegues el código como texto: emití SOLO los marcadores." });
+    yaReintente = true;              // reintentá UNA sola vez (no en bucle)
+    return await otroTurno(messages); // volvés a llamar a hydra-chat con estos mensajes
+  }
+  // Si tras el reintento SIGUE sin marcadores, avisá al usuario (no te tragues el código
+  // en silencio) y revisá que el modelo tenga la función "Modo Agente" ACTIVADA.
+}</code></pre>
+                            </div>
+                            <p class="hapi-tut-note">Con ese reintento, el caso raro se corrige solo y el usuario ni se entera. Si <strong>aun tras reintentar</strong> nunca aparecen marcadores, el problema no es tu parser: es que <strong>ese modelo no tiene activada la función “Modo Agente”</strong> (entonces la API no le manda el protocolo). Activala en la sección <strong>Modelos</strong> del modelo que estés usando.</p>
+                        </div>
+                    </section>
+
+                    </div><!-- /Modo Agente -->
+
+                    <!-- ===== Sección: Respuesta ===== -->
+                    <div class="hapi-doc-panel" data-dtab="respuesta">
+                    <!-- Respuesta -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="check"></span><h3 data-i18n="api.docs_response_title">Respuesta</h3></header>
+                        <p class="hapi-hint">Formato OpenAI. El texto está en <code>choices[0].message.content</code> y el consumo en <code>usage.total_tokens</code>.</p>
+                        <div class="hapi-code">
+                            <div class="hapi-code-head"><span class="hapi-code-lang">JSON</span></div>
+                            <pre><code>{
+  "id": "chatcmpl-...",
+  "object": "chat.completion",
+  "model": "hydra",
+  "choices": [
+    {
+      "index": 0,
+      "message": { "role": "assistant", "content": "¡Hola! Son las..." },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": { "total_tokens": 42 }
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <!-- Errores -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="info"></span><h3 data-i18n="api.docs_errors_title">Errores</h3></header>
+                        <p class="hapi-hint">Cada error llega como JSON <code>{ "error": "..." }</code> con su código HTTP:</p>
+                        <ul class="hapi-errs">
+                            <li><span class="hapi-code-badge">400</span><span>JSON inválido (<code>Invalid JSON body</code>) o falta el array <code>messages</code> (<code>'messages' array required</code>).</span></li>
+                            <li><span class="hapi-code-badge">401</span><span>Falta el header <code>Authorization</code> (<code>Missing Authorization header</code>) o la API key es inválida (<code>Invalid Hydra API key</code>).</span></li>
+                            <li><span class="hapi-code-badge">403</span><span>La API es exclusiva del plan <strong>Hydra Max</strong>. Conseguí Hydra Max para usar tus keys.</span></li>
+                            <li><span class="hapi-code-badge">404</span><span>El <code>model</code> pedido no existe o no es tuyo ni público. Revisá el nombre exacto.</span></li>
+                            <li><span class="hapi-code-badge">405</span><span>Método no permitido: la API solo acepta <strong>POST</strong>.</span></li>
+                            <li><span class="hapi-code-badge">500</span><span>Error interno del servidor. Reintentá con backoff.</span></li>
+                            <li><span class="hapi-code-badge">503</span><span>Hydra AI está saturado o en mantenimiento. Reintentá en unos segundos con backoff exponencial.</span></li>
+                        </ul>
+                        <p class="hapi-tut-note">Regla general: si el status es <strong>2xx</strong>, leé <code>choices[0].message.content</code>; si no, leé el campo <code>error</code> del JSON y reintentá solo en <strong>500/503</strong>. Si mandás demasiados mensajes muy rápido o repetidos, la API puede frenarte unos segundos (rate-limit).</p>
+                    </section>
+
+                    </div><!-- /Respuesta -->
+
+                    <!-- ===== Sección: Integrar ===== -->
+                    <div class="hapi-doc-panel" data-dtab="integrar">
+                    <!-- Prompts listos para pegarle a una IA: copian todo lo que necesita para escribir la integración. -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="bolt"></span><h3 data-i18n="api.docs_ai_title">Que una IA lo integre por vos</h3></header>
+                        <p class="hapi-hint" data-i18n="api.docs_ai_desc">Copiá un prompt listo y pegáselo a <strong>ChatGPT</strong>, <strong>Claude</strong> o a tu propio <strong>Hydra AI</strong>: te devuelve el código para conectar la API a tu proyecto. Elegí dónde la querés:</p>
+                        <div class="hapi-prompt-btns">
+                            <button class="hapi-prompt-btn" data-prompt="web" type="button"><span class="ico" data-icon="link"></span><span class="hapi-prompt-lbl" data-i18n="api.docs_prompt_for_web">Para una web</span></button>
+                            <button class="hapi-prompt-btn" data-prompt="program" type="button"><span class="ico" data-icon="codex"></span><span class="hapi-prompt-lbl" data-i18n="api.docs_prompt_for_program">Para un programa</span></button>
+                            <button class="hapi-prompt-btn" data-prompt="bot" type="button"><span class="ico" data-icon="bolt"></span><span class="hapi-prompt-lbl" data-i18n="api.docs_prompt_for_bot">Para un bot</span></button>
+                            <button class="hapi-prompt-btn" data-prompt="agent" type="button"><span class="ico" data-icon="tune"></span><span class="hapi-prompt-lbl" data-i18n="api.docs_prompt_for_agent">Para el Modo Agente</span></button>
+                        </div>
+                        <p class="hapi-tut-note" data-i18n="api.docs_prompt_hint">El prompt ya incluye el <strong>endpoint</strong>, el formato del <strong>body</strong>, los <strong>modes</strong> y dónde va tu <strong>API key</strong> (<code>hydra-xxxxx</code>). Solo reemplazá tu key por la tuya y mandalo.</p>
+                    </section>
+                    <!-- Tutorial multi-plataforma: pestañas por lenguaje/plataforma + animación de swap. -->
+                    <section class="hapi-card">
+                        <header class="hapi-card-head"><span class="ico" data-icon="codex"></span><h3 data-i18n="api.docs_integrate_title">Agregá Hydra a tu proyecto</h3></header>
+                        <p class="hapi-hint" data-i18n="api.docs_integrate_desc">Funciona en cualquier lado: webs, bots de <strong>Discord</strong>/<strong>Telegram</strong>, programas, scripts y más. Elegí tu plataforma:</p>
+                        <div class="hapi-tabs" id="hapiTabs"></div>
+                        <div class="hapi-code hapi-tut">
+                            <div class="hapi-code-head">
+                                <span class="hapi-code-lang" id="hapiTutLang">JavaScript</span>
+                                <button id="hapiTutCopy" class="hapi-icon-btn" title="Copiar código"><span class="ico" data-icon="copy"></span></button>
+                            </div>
+                            <pre><code id="hapiTutCode"></code></pre>
+                        </div>
+                        <p class="hapi-tut-note" id="hapiTutNote"></p>
+                    </section>
+                    </div><!-- /Integrar -->
+                </div>
+            </section>
+
+            <!-- Planes de pago como página interna (NO modal flotante): elegir/renovar Plus o Max. -->
+            <section class="app-page" id="planesPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="planesBackBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="card"></span> <span data-i18n="sidebar.plans">Planes</span></h2>
+                </div>
+                <div class="app-page-body planes-body">
+                    <div class="planes-top">
+                        <h3 class="planes-title" data-i18n="plans.title">Elegí tu plan</h3>
+                        <p class="planes-sub" id="planesCurrent"></p>
+                        <div class="pricing-cycle" id="pricingCycle">
+                            <button data-cycle="monthly" class="active" type="button" data-i18n="plans.monthly">Mensual</button>
+                            <button data-cycle="annual" type="button"><span data-i18n="plans.annual">Anual</span> <span class="pricing-save" data-i18n="plans.free_months">2 meses gratis</span></button>
+                        </div>
+                        <div class="pricing-currency" id="pricingCurrency">
+                            <button data-cur="MXN" type="button">MXN</button>
+                            <button data-cur="USD" type="button">USD</button>
+                        </div>
+                    </div>
+
+                    <div class="pricing-cards" id="pricingCards"><div class="pricing-loading" data-i18n="plans.loading">Cargando precios…</div></div>
+
+                    <!-- Panel de pago INLINE (no flotante): se muestra acá mismo al tocar Pagar -->
+                    <div class="planes-pay" id="planesPayPanel" style="display: none;"></div>
+
+                    <div class="planes-foot">
+                        <details class="pricing-coupon-wrap">
+                            <summary><span class="ico" data-icon="gift"></span><span data-i18n="plans.coupon">¿Tenés un cupón?</span><span class="ico chev" data-icon="chevron"></span></summary>
+                            <div class="pricing-coupon">
+                                <div class="pricing-coupon-row">
+                                    <input id="pricingCoupon" type="text" data-i18n-placeholder="plans.coupon_placeholder" placeholder="Ingresá tu código" autocomplete="off" spellcheck="false">
+                                </div>
+                                <div id="pricingCouponMsg" class="pricing-coupon-msg"></div>
+                            </div>
+                        </details>
+                        <div class="planes-trust">
+                            <span class="ico" data-icon="shield"></span>
+                            <span data-i18n="plans.trust">Pago seguro · nunca guardamos tu tarjeta</span>
+                        </div>
+                    </div>
+
+                    <details class="planes-faq-wrap">
+                        <summary class="planes-faq-sum"><span data-i18n="plans.faq">Preguntas frecuentes</span><span class="ico chev" data-icon="chevron"></span></summary>
+                        <div class="planes-faq">
+                            <div class="planes-faq-item">
+                                <strong data-i18n="plans.faq_how">¿Cómo se cobra?</strong>
+                                <span data-i18n="plans.faq_how_a">Un pago único por el período elegido. No se renueva solo ni guardamos tu tarjeta.</span>
+                            </div>
+                            <div class="planes-faq-item">
+                                <strong data-i18n="plans.faq_expiry">¿Qué pasa al vencer?</strong>
+                                <span data-i18n="plans.faq_expiry_a">Tu cuenta vuelve a Gratis automáticamente. Renovás cuando quieras.</span>
+                            </div>
+                            <div class="planes-faq-item">
+                                <strong data-i18n="plans.faq_change">¿Puedo cambiar o renovar antes?</strong>
+                                <span data-i18n="plans.faq_change_a">Sí, el nuevo período se suma al tiempo que te quede: no perdés días.</span>
+                            </div>
+                            <div class="planes-faq-item">
+                                <strong data-i18n="plans.faq_payment">¿Qué medios aceptan?</strong>
+                                <span data-i18n="plans.faq_payment_a">Tarjeta de crédito o débito vía Stripe.</span>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Configuración como página interna (no flotante) -->
+            <section class="app-page" id="settingsPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="settingsBackBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="cog"></span> <span data-i18n="settings.title">Configuración</span></h2>
+                </div>
+                <div class="app-page-body">
+                    <p class="page-intro" data-i18n="settings.intro">Personaliza cómo se comporta Hydra AI. Tus ajustes se guardan en tu cuenta.</p>
+
+                    <div class="settings-tabs" id="settingsTabs">
+                        <button class="settings-tab-btn active" data-stab="general" type="button"><span class="ico" data-icon="tune"></span><span data-i18n="settings.general">General</span></button>
+                        <button class="settings-tab-btn" data-stab="instrucciones" type="button"><span class="ico" data-icon="pen"></span><span data-i18n="settings.instructions">Instrucciones</span></button>
+                        <button class="settings-tab-btn" data-stab="cuenta" type="button"><span class="ico" data-icon="user"></span><span data-i18n="settings.account">Cuenta</span></button>
+                    </div>
+
+                    <div class="settings-tab-panel" data-stab="instrucciones">
+                    <div class="settings-card">
+                        <div class="setting-block">
+                            <span class="setting-title" data-i18n="settings.custom_instructions">Instrucciones personalizadas</span>
+                            <span class="setting-desc" data-i18n="settings.custom_instructions_desc">Decile a Hydra AI cómo debe comportarse y responder. Se aplica a todos tus chats.</span>
+                            <textarea id="settingsSystemPrompt" class="settings-textarea" rows="5"
+                                data-i18n-placeholder="settings.custom_instructions_placeholder" placeholder="Ej: Respondé siempre en español, de forma breve y con ejemplos. Sos experto en programación."></textarea>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="settings-tab-panel active" data-stab="general">
+                    <div class="settings-card">
+                        <div class="setting-block">
+                            <span class="setting-title" data-i18n="settings.response_mode">Modo de respuesta</span>
+                            <span class="setting-desc" data-i18n="settings.response_mode_desc">El estilo con el que responde la IA.</span>
+                            <div class="mode-options" id="settingsMode" role="radiogroup" aria-label="Modo de respuesta">
+
+                                <label class="mode-option">
+                                    <input type="radio" name="settingsMode" value="balanced">
+                                    <span class="mode-ico">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="m5 7-3 6h6z"/><path d="m19 7-3 6h6z"/><path d="M8 21h8"/></svg>
+                                    </span>
+                                    <span class="mode-text">
+                                        <span class="mode-name" data-i18n="settings.balanced">Equilibrado</span>
+                                        <span class="mode-sub" data-i18n="settings.balanced_sub">Detalle medio, tono natural</span>
+                                    </span>
+                                    <span class="mode-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                                </label>
+
+                                <label class="mode-option">
+                                    <input type="radio" name="settingsMode" value="instant">
+                                    <span class="mode-ico">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+                                    </span>
+                                    <span class="mode-text">
+                                        <span class="mode-name" data-i18n="settings.concise">Conciso</span>
+                                        <span class="mode-sub" data-i18n="settings.concise_sub">Respuestas cortas y directas</span>
+                                    </span>
+                                    <span class="mode-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                                </label>
+
+                                <label class="mode-option">
+                                    <input type="radio" name="settingsMode" value="full">
+                                    <span class="mode-ico">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3.5" y1="6" x2="3.51" y2="6"/><line x1="3.5" y1="12" x2="3.51" y2="12"/><line x1="3.5" y1="18" x2="3.51" y2="18"/></svg>
+                                    </span>
+                                    <span class="mode-text">
+                                        <span class="mode-name" data-i18n="settings.detailed">Detallado</span>
+                                        <span class="mode-sub" data-i18n="settings.detailed_sub">Respuestas completas y amplias</span>
+                                    </span>
+                                    <span class="mode-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                                </label>
+
+                                <label class="mode-option">
+                                    <input type="radio" name="settingsMode" value="creative">
+                                    <span class="mode-ico">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M5 20h.01"/><path d="M19 18h.01"/></svg>
+                                    </span>
+                                    <span class="mode-text">
+                                        <span class="mode-name" data-i18n="settings.creative">Creativo</span>
+                                        <span class="mode-sub" data-i18n="settings.creative_sub">Imaginativo, con analogías</span>
+                                    </span>
+                                    <span class="mode-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                                </label>
+
+                                <label class="mode-option">
+                                    <input type="radio" name="settingsMode" value="analytical">
+                                    <span class="mode-ico">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                    </span>
+                                    <span class="mode-text">
+                                        <span class="mode-name" data-i18n="settings.analytical">Analítico</span>
+                                        <span class="mode-sub" data-i18n="settings.analytical_sub">Lógica paso a paso</span>
+                                    </span>
+                                    <span class="mode-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                                </label>
+
+                                <label class="mode-option">
+                                    <input type="radio" name="settingsMode" value="pro">
+                                    <span class="mode-ico">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                                    </span>
+                                    <span class="mode-text">
+                                        <span class="mode-name" data-i18n="settings.pro">Pro</span>
+                                        <span class="mode-sub" data-i18n="settings.pro_sub">Profesional y a fondo</span>
+                                    </span>
+                                    <span class="mode-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="settings-tab-panel" data-stab="cuenta">
+                        <div class="settings-card">
+                            <div class="setting-block">
+                                <span class="setting-title" data-i18n="settings.your_account">Tu cuenta</span>
+                                <span class="setting-desc" data-i18n="settings.account_desc">Resumen de tu uso en Hydra AI.</span>
+                                <div class="account-stats">
+                                    <div class="account-stat">
+                                        <span class="account-stat-num" id="settingsTokens">—</span>
+                                        <span class="account-stat-lbl" data-i18n="settings.tokens_used">Tokens gastados en total</span>
+                                    </div>
+                                    <div class="account-stat">
+                                        <span class="account-stat-num" id="settingsPlan">—</span>
+                                        <span class="account-stat-lbl" data-i18n="settings.current_plan">Plan actual</span>
+                                    </div>
+                                </div>
+                                <div class="account-id-row">
+                                    <span class="account-id-lbl" data-i18n="settings.user_id">ID de usuario</span>
+                                    <div class="account-id-box">
+                                        <code class="account-id-val" id="settingsUserId">—</code>
+                                        <button class="account-id-copy" id="settingsUserIdCopy" type="button" title="Copiar ID">
+                                            <span class="ico" data-icon="copy"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-card-row">
+                            <div class="settings-card">
+                                <div class="setting-block account-plan-block">
+                                    <span class="setting-title" data-i18n="settings.your_plan">Tu plan</span>
+                                    <span class="setting-desc account-plan-expiry" id="accountPlanExpiry">—</span>
+                                    <button class="account-upgrade-btn" id="accountUpgradeBtn" type="button"><span class="ico"></span><span data-i18n="settings.upgrade_btn">Mejorar mi plan</span></button>
+                                </div>
+                            </div>
+                            <div class="settings-card">
+                                <div class="setting-block">
+                                    <span class="setting-title" data-i18n="settings.docs">Documentación</span>
+                                    <span class="setting-desc" data-i18n="settings.docs_desc">Todo sobre Hydra AI: qué es, qué puede hacer y cómo sacarle el máximo.</span>
+                                    <button class="hapi-doc-btn" id="settingsDocsBtn" type="button">
+                                        <span class="ico" data-icon="info"></span>
+                                        <span data-i18n="settings.open_docs">Abrir documentación</span>
+                                        <svg class="hapi-doc-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="app-page-actions">
+                        <button class="dialog-cancel" id="settingsCancelBtn" data-i18n="settings.cancel">Cancelar</button>
+                        <button class="dialog-confirm" id="settingsSaveBtn" data-i18n="settings.save">Guardar</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Página genérica "aún sin soporte" (Biblioteca, Proyectos) -->
+            <section class="app-page" id="comingSoonPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="comingSoonBackBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" id="comingSoonIcon" data-icon="library"></span> <span id="comingSoonTitle" data-i18n="coming.title">Biblioteca</span></h2>
+                </div>
+                <div class="app-page-body coming-soon-body">
+                    <div class="coming-soon-state">
+                        <svg class="sad-face" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+                            <circle cx="60" cy="60" r="50" stroke="currentColor" stroke-width="5"/>
+                            <circle cx="44" cy="50" r="5.5" fill="currentColor"/>
+                            <circle cx="76" cy="50" r="5.5" fill="currentColor"/>
+                            <path d="M42 82 Q60 66 78 82" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                            <path d="M86 55 C86 55 80 66 80 71 a6 6 0 0 0 12 0 C92 66 86 55 86 55 Z" fill="currentColor" opacity="0.5"/>
+                        </svg>
+                        <h3 data-i18n="coming.title">Lo sentimos</h3>
+                        <p data-i18n="coming.desc">Aún no tenemos soporte en este servicio.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel de administración (/adminai) -->
+            <section class="app-page" id="adminPage" style="display: none;">
+                <div class="app-page-header">
+                    <button class="app-page-back" id="adminBackBtn" title="Volver"><span class="ico" data-icon="back"></span></button>
+                    <h2><span class="ico" data-icon="cog"></span> <span data-i18n="admin.title">Panel de administración</span></h2>
+                </div>
+                <div class="app-page-body" id="adminPageBody">
+                    <!-- Relleno por JS: renderAdminPanel() -->
+                    <div class="admin-loading" data-i18n="admin.loading">Cargando panel…</div>
+                </div>
+            </section>
+
+            <!-- Pantalla "servicio descontinuado" para no-admins que abren /adminai -->
+            <section class="app-page" id="discontinuedPage" style="display: none;">
+                <div class="app-page-body coming-soon-body">
+                    <div class="coming-soon-state">
+                        <svg class="sad-face" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+                            <circle cx="60" cy="60" r="50" stroke="currentColor" stroke-width="5"/>
+                            <circle cx="44" cy="50" r="5.5" fill="currentColor"/>
+                            <circle cx="76" cy="50" r="5.5" fill="currentColor"/>
+                            <path d="M42 82 Q60 66 78 82" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                            <path d="M86 55 C86 55 80 66 80 71 a6 6 0 0 0 12 0 C92 66 86 55 86 55 Z" fill="currentColor" opacity="0.5"/>
+                        </svg>
+                        <h3 data-i18n="coming.title">Lo sentimos</h3>
+                        <p data-i18n="discontinued.desc">Este servicio dejó de tener soporte.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Floating User Menu -->
+    <div id="userMenu" class="user-menu" style="display: none;">
+        <button class="user-menu-item" id="menuDeleteAllBtn">
+            <span class="ico" data-icon="trash"></span> <span data-i18n="menu.delete_all">Eliminar todos los chats</span>
+        </button>
+        <button class="user-menu-item" id="menuExportAllBtn">
+            <span class="ico" data-icon="download"></span> <span data-i18n="menu.export">Exportar todo</span>
+        </button>
+        <button class="user-menu-item" id="menuThemeToggle">
+            <span class="ico" id="themeToggleIcon" data-icon="moon"></span> <span id="themeToggleLabel" data-i18n="menu.dark_mode">Modo oscuro</span>
+        </button>
+        <button class="user-menu-item" id="menuSettingsBtn">
+            <span class="ico" data-icon="cog"></span> <span data-i18n="menu.settings">Configuración</span>
+        </button>
+        <hr class="menu-divider">
+        <button class="user-menu-item" id="menuLogoutBtn">
+            <span class="ico" data-icon="logout"></span> <span data-i18n="menu.logout">Cerrar sesión</span>
+        </button>
+    </div>
+
+    <!-- Menú de opciones del chat (3 puntitos) -->
+    <div id="chatMenu" class="user-menu chat-menu" style="display: none;">
+        <button class="user-menu-item" id="renameChatBtn">
+            <span class="ico" data-icon="pen"></span> <span data-i18n="chat_menu.rename">Renombrar</span>
+        </button>
+        <button class="user-menu-item" id="exportChatBtn">
+            <span class="ico" data-icon="export"></span> <span data-i18n="chat_menu.export">Exportar</span>
+        </button>
+        <button class="user-menu-item" id="shareChatBtn">
+            <span class="ico" data-icon="share"></span> <span data-i18n="chat_menu.share">Compartir</span>
+        </button>
+        <hr class="menu-divider">
+        <button class="user-menu-item chat-menu-danger" id="deleteChatBtn">
+            <span class="ico" data-icon="trash"></span> <span data-i18n="chat_menu.delete">Eliminar</span>
+        </button>
+    </div>
+
+    <!-- Dialogs -->
+    <dialog id="systemPromptDialog">
+        <div class="dialog-content">
+            <h3 data-i18n="dialog.system_prompt">Instrucciones del sistema</h3>
+            <textarea id="systemPromptInput" rows="4"
+                data-i18n-placeholder="dialog.system_prompt_placeholder" placeholder="Ej: &quot;Sos un asistente experto. Respondé con ejemplos.&quot;"></textarea>
+            <div class="dialog-buttons">
+                <button class="dialog-cancel" data-i18n="dialog.cancel">Cancelar</button>
+                <button class="dialog-confirm" data-i18n="dialog.save">Guardar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="renameDialog">
+        <div class="dialog-content">
+            <h3 data-i18n="dialog.rename">Renombrar conversación</h3>
+            <input type="text" id="renameDialogInput" data-i18n-placeholder="dialog.rename_placeholder" placeholder="Nuevo nombre">
+            <div class="dialog-buttons">
+                <button class="dialog-cancel" data-i18n="dialog.cancel">Cancelar</button>
+                <button class="dialog-confirm" data-i18n="dialog.save">Guardar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="deleteConfirmDialog">
+        <div class="dialog-content">
+            <h3 data-i18n="dialog.delete_title">¿Eliminar conversación?</h3>
+            <p data-i18n="dialog.delete_desc">Esta acción no se puede deshacer.</p>
+            <div class="dialog-buttons">
+                <button class="dialog-cancel" data-i18n="dialog.cancel">Cancelar</button>
+                <button class="dialog-confirm" data-i18n="dialog.delete">Eliminar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Editor de modelos personalizados (Hydra Max). Lo abre createModelBtn / editar tarjeta.
+         Se rellena y guarda desde script.js (openModelEditor / saveCustomModel). -->
+    <dialog id="modelEditorDialog" class="model-editor-dialog">
+        <div class="dialog-content model-editor">
+            <div class="model-editor-header">
+                <h3 id="modelEditorTitle" data-i18n="models.create">Crear modelo</h3>
+                <p class="model-editor-sub" data-i18n="models.create_desc">Diseñá tu propio Hydra AI: nombre, personalidad y funciones.</p>
+            </div>
+            <input type="hidden" id="modelEditId" value="">
+
+            <div class="model-editor-identity">
+                <button type="button" id="modelIconPreview" class="model-icon-preview" data-i18n-title="models.icon_hint" title="Tocá para cambiar el ícono" aria-label="Cambiar ícono"></button>
+                <div class="model-identity-field">
+                    <input type="text" id="modelNameInput" class="model-name-input" data-i18n-placeholder="models.name_placeholder" placeholder="Nombre del modelo (ej. Pepe)" maxlength="40">
+                    <span class="model-identity-hint" data-i18n="models.icon_hint">Tocá el ícono para cambiarlo</span>
+                </div>
+            </div>
+
+            <div class="model-field">
+                <label class="model-field-label" for="modelDescInput"><span data-i18n="models.description">Descripción</span> <span class="model-field-opt" data-i18n="models.optional">opcional</span></label>
+                <input type="text" id="modelDescInput" data-i18n-placeholder="models.desc_placeholder" placeholder="Una línea sobre qué hace" maxlength="120">
+            </div>
+
+            <div class="model-field">
+                <label class="model-field-label" for="modelPromptInput"><span data-i18n="models.prompt">Prompt del modelo</span> <span class="model-field-opt" data-i18n="models.prompt_hint">define su personalidad</span></label>
+                <textarea id="modelPromptInput" rows="5" data-i18n-placeholder="models.prompt_placeholder" placeholder="Ej.: Sos Pepe, un asistente pirata. Respondés con humor y en verso."></textarea>
+            </div>
+
+            <div class="model-field">
+                <div class="model-field-label"><span data-i18n="models.functions">Funciones activas</span> <span class="model-field-opt" data-i18n="models.functions_hint">qué puede hacer tu modelo</span></div>
+                <div class="model-fn-toggles">
+                    <label class="model-fn-toggle"><input type="checkbox" id="modelFnVision" value="vision" checked><span class="model-fn-face"><span class="ico" data-icon="image"></span> <span data-i18n="fn.vision">Ver imágenes</span></span></label>
+                    <label class="model-fn-toggle"><input type="checkbox" id="modelFnImage" value="image_gen" checked><span class="model-fn-face"><span class="ico" data-icon="image"></span> <span data-i18n="fn.image_gen">Crear imágenes</span></span></label>
+                    <label class="model-fn-toggle"><input type="checkbox" id="modelFnPrompts" value="prompts" checked><span class="model-fn-face"><span class="ico" data-icon="compose"></span> <span data-i18n="fn.prompts">Redactar prompts</span></span></label>
+                    <label class="model-fn-toggle"><input type="checkbox" id="modelFnProjects" value="projects" checked><span class="model-fn-face"><span class="ico" data-icon="projects"></span> <span data-i18n="fn.projects">Armar proyectos</span></span></label>
+                    <label class="model-fn-toggle"><input type="checkbox" id="modelFnCode" value="code"><span class="model-fn-face"><span class="ico" data-icon="codex"></span> <span data-i18n="fn.code">Generador de Código</span></span></label>
+                    <label class="model-fn-toggle"><input type="checkbox" id="modelFnAgent" value="agent"><span class="model-fn-face"><span class="ico" data-icon="bolt"></span> <span data-i18n="fn.agent">Modo Agente</span> <span class="beta-tag">Beta</span></span></label>
+                </div>
+                <p class="model-field-opt" style="margin-top:6px"><span data-i18n="models.agent_desc">El <strong>Modo Agente</strong> deja que el modelo cree y edite archivos y ejecute comandos desde el <strong>Hydra IDE</strong> (vía la Hydra API). Mirá cómo funciona en la <strong>Documentación · Hydra API</strong>.</span></p>
+            </div>
+
+            <label class="model-public-row">
+                <span class="model-public-ico"><span class="ico" data-icon="link"></span></span>
+                <span class="model-public-text"><strong data-i18n="models.make_public">Hacer público</strong><span class="model-public-sub" data-i18n="models.make_public_desc">Otros miembros Max podrán usarlo</span></span>
+                <span class="model-switch"><input type="checkbox" id="modelPublicToggle"><span class="model-switch-slider"></span></span>
+            </label>
+
+            <div id="modelEditorError" class="model-editor-error" style="display:none;"></div>
+
+            <div class="dialog-buttons">
+                <button class="dialog-cancel" id="modelEditorCancel" data-i18n="dialog.cancel">Cancelar</button>
+                <button class="dialog-confirm" id="modelEditorSave" data-i18n="dialog.save">Guardar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Menú del selector de modelo personalizado (composer). Lo rellena renderModelPickerMenu(). -->
+    <div id="modelPickerMenu" class="model-picker-menu" style="display:none;">
+        <div class="model-picker-menu-head" data-i18n="model_picker.title">Elegí un modelo</div>
+        <div id="modelPickerMenuList" class="model-picker-menu-list"></div>
+        <button id="modelPickerManageBtn" class="model-picker-manage"><span class="ico" data-icon="cog"></span> <span data-i18n="model_picker.manage">Gestionar modelos</span></button>
+    </div>
+
+    <!-- Model Selector Menu -->
+    <div id="modelMenu" class="model-menu" style="display:none;">
+        <div class="model-menu-item" data-ydr="ydr-15">
+            <div class="model-menu-info">
+                <span class="model-menu-name">YDR 1.5</span>
+                <span class="model-menu-desc" data-i18n="model.ydr15">Rápido · Optimizado para el día a día</span>
+            </div>
+            <span class="model-menu-check" id="check-ydr-15" style="visibility:hidden;"><img src="/Verificado.png" alt="Seleccionado" class="ydr-check-icon" loading="lazy" decoding="async"></span>
+        </div>
+        <div class="model-menu-item" data-ydr="ydr-20">
+            <div class="model-menu-info">
+                <span class="model-menu-name">YDR 2.0</span>
+                <span class="model-menu-desc" data-i18n="model.ydr20">Equilibrado · Mayor capacidad y velocidad</span>
+            </div>
+            <span class="model-menu-check" id="check-ydr-20" style="visibility:hidden;"><img src="/Verificado.png" alt="Seleccionado" class="ydr-check-icon" loading="lazy" decoding="async"></span>
+        </div>
+        <div class="model-menu-item" data-ydr="ydr-25">
+            <div class="model-menu-info">
+                <span class="model-menu-name">YDR 2.5</span>
+                <span class="model-menu-desc" data-i18n="model.ydr25">El más inteligente · Razonamiento y código</span>
+            </div>
+            <span class="model-menu-check" id="check-ydr-25"><img src="/Verificado.png" alt="Seleccionado" class="ydr-check-icon" loading="lazy" decoding="async"></span>
+        </div>
+    </div>
+
+    <!-- Toast (avisos "SOON") -->
+    <div id="hydraToast" class="hydra-toast" role="status" aria-live="polite"></div>
+
+    <!-- Bootstrap fin-de-body (fuentes + sesion/perfil/chats desde cache + tema). Externalizado
+         a /boot-app.js para poder quitar 'unsafe-inline' del script-src de la CSP. SINCRONO. -->
+    <script src="/boot-app.js"></script>
+
+
+    <script src="/i18n.js"></script>
 </body>
+
 </html>
